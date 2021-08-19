@@ -4,8 +4,8 @@
 
     <side-bar
       :background-color="sidebarBackground"
-      short-title="GL"
-      title="IoTicos GL"
+      short-title="SER"
+      title="IoT SER"
     >
       <template slot-scope="props" slot="links">
         <sidebar-item

@@ -44,6 +44,13 @@
                 value="button"
                 label="Button OUTPUT ->"
               ></el-option>
+
+              <el-option
+                class="text-dark"
+                value="simple"   
+                label="Number Input <-"
+              ></el-option>
+
             </el-select>
 
             <br />
@@ -183,6 +190,141 @@
               <br /><br />
             </div>
 
+
+    <!-- FORM SIMPLE NUMBER TYPE -->
+
+             <div v-if="widgetType == 'simple'">
+              <base-input
+                v-model="iotSimpleConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="iotSimpleConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+          <!--    <base-input -->
+          <!--      v-model="iotSimpleConfig.icon" -->
+          <!--      label="Icon" --> 
+           <!--     type="text" -->
+           <!--   ></base-input> -->
+
+              <br />
+
+              <base-input
+                v-model.number="iotSimpleConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+           <!--     <base-input -->
+          <!--       v-model.number="iotSimpleConfig.chartTimeAgo" -->
+          <!--       label="Chart Back Time (mins)" -->
+          <!--       type="number" -->
+          <!--     ></base-input>  -->
+
+              <br />
+
+              <el-select
+                v-model="iotSimpleConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="iotSimpleConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
               <base-input
@@ -549,6 +691,10 @@
               v-if="widgetType == 'indicator'"
               :config="iotIndicatorConfig"
             ></Iotindicator>
+            <Simple
+              v-if="widgetType == 'simple'"
+              :config="iotSimpleConfig"
+            ></Simple>
           </div>
         </div>
 
@@ -602,6 +748,11 @@
           v-if="widget.widget == 'indicator'"
           :config="widget"
         ></Iotindicator>
+
+        <Simple
+         v-if="widget.widget == 'simple'"
+          :config="widget"
+          ></Simple>
       </div>
     </div>
 
@@ -799,7 +950,25 @@ export default {
         class: "danger",
         message: "{'fanstatus': 'stop'}"
       },
-
+      
+       iotSimpleConfig: {       //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",
+        unit: "Watts",
+        variableType: "input",
+        variableSendFreq: "30",
+        class: "success",
+        decimalPlaces: 2,
+        widget: "simplenumber",
+        //icon: "fa-bath",
+        chartTimeAgo: 60,
+        column: "col-3"
+      },
 
     };
   },
@@ -949,6 +1118,11 @@ export default {
       if (this.widgetType == "indicator") {
         this.iotIndicatorConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotIndicatorConfig)));
+      }
+
+       if (this.widgetType == "simple") {
+        this.iotSimpleConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig)));
       }
 
     },

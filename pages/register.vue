@@ -4,7 +4,7 @@
       <card class="card-login card-white">
         <template slot="header">
           <img src="img//card-primary.png" alt="" />
-          <h1 class="card-title">IoT GL</h1>
+          <h1 class="card-title">IoT SER</h1>
         </template>
 
         <div>
@@ -43,19 +43,19 @@
             @click="register()"
             block
           >
-            Register
+            Registrarse
           </base-button>
 
           <div class="pull-left">
             <h6>
               <nuxt-link class="link footer-link" to="/login">
-                login
+                Entrar
               </nuxt-link>
             </h6>
           </div>
 
           <div class="pull-right">
-            <h6><a href="#help!!!" class="link footer-link">Need Help?</a></h6>
+            <h6><a href="#help!!!" class="link footer-link">Necesitas ayuda?</a></h6>
           </div>
         </div>
       </card>
