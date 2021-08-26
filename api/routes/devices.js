@@ -250,9 +250,6 @@ async function selectDevice(userId, dId) {
   }
 }
 
-/*
- SAVER RULES FUNCTIONS
-*/
 
 //get templates
 async function getTemplates(userId) {
@@ -430,10 +427,4 @@ function makeid(length) {
 
 module.exports = router;
 
-/*
-userId/dId/temperature -> 
-{
-  value: 21,
-  save: 1
-}
-*/
+
