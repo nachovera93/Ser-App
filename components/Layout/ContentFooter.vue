@@ -1,38 +1,6 @@
 <template>
   <footer class="footer">
     <div class="container-fluid">
-     <!--  <ul class="nav">
-        <li class="nav-item">
-          <a
-            href="https://iotser.cl"
-            target="_blank"
-            rel="noopener"
-            class="nav-link"
-          >
-            IotSER.cl
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            href="https://iotser.cl"
-            target="_blank"
-            rel="noopener"
-            class="nav-link"
-          >
-            Sobre Nosotros
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            href="hhttps://ioticos.org"
-            target="_blank"
-            rel="noopener"
-            class="nav-link"
-          >
-            Blog
-          </a>
-        </li>
-      </ul> -->
       <div class="copyright">
         &copy; {{ year }}, Hecho con <i class="tim-icons icon-heart-2"></i> por
         
