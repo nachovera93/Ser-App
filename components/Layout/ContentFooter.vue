@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container-fluid">
-      <ul class="nav">
+     <!--  <ul class="nav">
         <li class="nav-item">
           <a
             href="https://iotser.cl"
@@ -32,12 +32,12 @@
             Blog
           </a>
         </li>
-      </ul>
+      </ul> -->
       <div class="copyright">
         &copy; {{ year }}, Hecho con <i class="tim-icons icon-heart-2"></i> por
         
         <a
-          href="https://ioticos.org"
+          href="https://iotser.cl"
           target="_blank"
           rel="noopener"
           >IoT SER</a

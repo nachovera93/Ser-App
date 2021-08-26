@@ -81,6 +81,7 @@ router.post("/getdevicecredentials", async (req, res) => {
 //SAVER WEBHOOK
 router.post("/saver-webhook", async (req, res) => {
   try {
+    console.log("Estamos en Try con emqx api token ");
     if (req.headers.token != process.env.EMQX_API_TOKEN) {
       res.status(404).json();
       return;
@@ -93,7 +94,7 @@ router.post("/saver-webhook", async (req, res) => {
     const variable = splittedTopic[2];
 
     var result = await Device.find({ dId: dId, userId: data.userId });
-
+    console.log("Estamos en Saver-Webhook")
     if (result.length == 1) {
       Data.create({
         userId: data.userId,
@@ -103,6 +104,9 @@ router.post("/saver-webhook", async (req, res) => {
         time: Date.now()
       });
       console.log("Data created");
+    }
+    else{
+      console.log("No creo data");
     }
 
     return res.status(200).json();
