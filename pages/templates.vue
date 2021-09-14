@@ -580,6 +580,26 @@
               ></base-input>
 
               <br />
+              
+              <el-select
+                v-model="iotIndicatorConfig.width"
+                class="select-success"
+                placeholder="Select Width"
+                width="50"
+              >
+                <el-option
+                  class="text-dark"
+                  width="100"
+                  label="100%"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  width="50"
+                  label="50%"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
 
               <el-select
                 v-model="iotIndicatorConfig.class"
@@ -926,6 +946,7 @@ export default {
         variable: "varname",
         variableType: "input",
         variableSendFreq: "30",
+        style:"50",
         class: "success",
         widget: "indicator",
         icon: "fa-bath",
@@ -966,7 +987,7 @@ export default {
         decimalPlaces: 2,
         widget: "simplenumber",
         //icon: "fa-bath",
-        chartTimeAgo: 60,
+        //chartTimeAgo: 60,
         column: "col-3"
       },
 

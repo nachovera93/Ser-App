@@ -103,7 +103,8 @@
                   }"
                 ></i>
               </el-tooltip>
-
+              <!-- el tooltip es el contenido de una celda -->
+<!-- ctrl k+c --> 
               <el-tooltip content="Database Saver">
                 <base-switch
                   @click="updateSaverRuleStatus(row.saverRule)"
@@ -272,7 +273,7 @@ export default {
         this.$notify({
           type: "warning",
           icon: "tim-icons icon-alert-circle-exc",
-          message: " Tempalte must be selected"
+          message: " Template must be selected"
         });
         return;
       }

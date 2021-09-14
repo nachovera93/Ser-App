@@ -7,9 +7,8 @@
     </div>
 
     <i
-      class="fa "
-      :class="[config.icon, getIconColorClass()]"
-      style="font-size: 30px"
+      class="fa " :class="[config.icon, getIconColorClass()]"
+      style="font-size: 20px"
     ></i>
   </card>
 </template>
