@@ -25,6 +25,12 @@
               </el-option>
               <el-option
                 class="text-dark"
+                value="barchart"
+                label="Bar Chart INPUT <-"
+              >
+              </el-option>
+              <el-option
+                class="text-dark"
                 value="indicator"
                 label="Boolean Indicator INPUT <-"
               >
@@ -49,6 +55,12 @@
                 class="text-dark"
                 value="simple"   
                 label="Number Input <-"
+              ></el-option>
+
+              <el-option
+                class="text-dark"
+                value="simple2"   
+                label="Number Input 2<-"
               ></el-option>
 
             </el-select>
@@ -191,52 +203,51 @@
             </div>
 
 
-    <!-- FORM SIMPLE NUMBER TYPE -->
-
-             <div v-if="widgetType == 'simple'">
+ <!-- FORMS NUMBER CHART TYPE -->
+            <div v-if="widgetType == 'barchart'">
               <base-input
-                v-model="iotSimpleConfig.variableFullName"
+                v-model="BarConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
 
-              <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
+              <base-input v-model="BarConfig.unit" label="Unit" type="text">
               </base-input>
 
               <base-input
-                v-model.number="iotSimpleConfig.decimalPlaces"
+                v-model.number="BarConfig.decimalPlaces"
                 label="Decimal Places"
                 type="number"
               >
               </base-input>
 
-          <!--    <base-input -->
-          <!--      v-model="iotSimpleConfig.icon" -->
-          <!--      label="Icon" --> 
-           <!--     type="text" -->
-           <!--   ></base-input> -->
+              <base-input
+                v-model="BarConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
 
               <br />
 
               <base-input
-                v-model.number="iotSimpleConfig.variableSendFreq"
+                v-model.number="BarConfig.variableSendFreq"
                 label="Send Freq"
                 type="number"
               ></base-input>
 
               <br />
 
-           <!--     <base-input -->
-          <!--       v-model.number="iotSimpleConfig.chartTimeAgo" -->
-          <!--       label="Chart Back Time (mins)" -->
-          <!--       type="number" -->
-          <!--     ></base-input>  -->
+              <base-input
+                v-model.number="BarConfig.chartTimeAgo"
+                label="Chart Back Time (mins)"
+                type="number"
+              ></base-input>
 
               <br />
 
               <el-select
-                v-model="iotSimpleConfig.class"
+                v-model="BarConfig.class"
                 class="select-success"
                 placeholder="Select Class"
                 style="width: 100%;"
@@ -264,6 +275,98 @@
               </el-select>
 
               <br /><br /><br />
+
+              <el-select
+                v-model="BarConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+
+    <!-- FORM SIMPLE NUMBER TYPE -->
+
+             <div v-if="widgetType == 'simple'">
+              <base-input
+                v-model="iotSimpleConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="iotSimpleConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="iotSimpleConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
 
               <el-select
                 v-model="iotSimpleConfig.column"
@@ -325,6 +428,105 @@
 
               <br /><br />
             </div>
+
+             <!-- FORM SIMPLE NUMBER TYPE  2 -->
+
+             <div v-if="widgetType == 'simple2'">
+              <base-input
+                v-model="iotSimpleConfig2.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotSimpleConfig2.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="iotSimpleConfig2.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="iotSimpleConfig2.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+
+              <br />
+
+              <el-select
+                v-model="iotSimpleConfig2.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              > 
+               <el-option
+                  class="text-dark"
+                  value="col-2"
+                  label="col-2"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
               <base-input
@@ -699,6 +901,10 @@
               v-if="widgetType == 'numberchart'"
               :config="ncConfig"
             ></Rtnumberchart>
+            <RTBarChart
+              v-if="widgetType == 'barchart'"
+              :config="BarConfig"
+            ></RTBarChart>
             <Iotswitch
               v-if="widgetType == 'switch'"
               :config="iotSwitchConfig"
@@ -715,6 +921,10 @@
               v-if="widgetType == 'simple'"
               :config="iotSimpleConfig"
             ></Simple>
+            <Simple2
+              v-if="widgetType == 'simple2'"
+              :config="iotSimpleConfig2"
+            ></Simple2>
           </div>
         </div>
 
@@ -753,6 +963,10 @@
           v-if="widget.widget == 'numberchart'"
           :config="widget"
         ></Rtnumberchart>
+        <RTBarChart
+          v-if="widget.widget == 'barchart'"
+          :config="widget"
+        ></RTBarChart>
 
         <Iotswitch
           v-if="widget.widget == 'switch'"
@@ -773,6 +987,10 @@
          v-if="widget.widget == 'simple'"
           :config="widget"
           ></Simple>
+        <Simple2
+        v-if="widget.widget == 'simple2'"
+        :config="widget"
+        ></Simple2>
       </div>
     </div>
 
@@ -915,7 +1133,27 @@ export default {
         column: "col-12",
         decimalPlaces: 2,
         widget: "numberchart",
-        icon: "fa-sun",
+        icon: "",
+        chartTimeAgo: 60,
+        demo: true
+      },
+
+      BarConfig: {
+        userId: "sampleuserid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",
+        variableType: "input",
+        variableSendFreq: "30",
+        unit: "Watts",
+        class: "success",
+        column: "col-12",
+        decimalPlaces: 2,
+        widget: "barchart",
+        icon: "",
         chartTimeAgo: 60,
         demo: true
       },
@@ -931,7 +1169,7 @@ export default {
         variableType: "output",
         class: "danger",
         widget: "switch",
-        icon: "fa-bath",
+        icon: "",
         column: "col-6"
       },
 
@@ -949,7 +1187,7 @@ export default {
         style:"50",
         class: "success",
         widget: "indicator",
-        icon: "fa-bath",
+        icon: "",
         column: "col-6"
       },
 
@@ -965,7 +1203,7 @@ export default {
         variableFullName: "Pump",
         variable: "var1",
         variableType: "output",
-        icon: "fa-sun",
+        icon: "",
         column: "col-4",
         widget: "button",
         class: "danger",
@@ -983,12 +1221,25 @@ export default {
         unit: "Watts",
         variableType: "input",
         variableSendFreq: "30",
-        class: "success",
         decimalPlaces: 2,
         widget: "simplenumber",
-        //icon: "fa-bath",
-        //chartTimeAgo: 60,
         column: "col-3"
+      },
+
+      iotSimpleConfig2: {       //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",
+        unit: "Watts",
+        variableType: "input",
+        variableSendFreq: "30",
+        decimalPlaces: 2,
+        widget: "simplenumber2",
+        column: "col-2"
       },
 
     };
@@ -1126,6 +1377,11 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig)));
       }
 
+      if (this.widgetType == "barchart") {
+        this.BarConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.BarConfig)));
+      }
+
       if (this.widgetType == "switch") {
         this.iotSwitchConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSwitchConfig)));
@@ -1144,6 +1400,11 @@ export default {
        if (this.widgetType == "simple") {
         this.iotSimpleConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig)));
+      }
+
+      if (this.widgetType == "simple2") {
+        this.iotSimpleConfig2.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig2)));
       }
 
     },

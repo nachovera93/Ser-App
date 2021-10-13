@@ -94,7 +94,7 @@ router.post("/saver-webhook", async (req, res) => {
     const variable = splittedTopic[2];
 
     var result = await Device.find({ dId: dId, userId: data.userId });
-    console.log("Estamos en Saver-Webhook")
+    //console.log("Estamos en Saver-Webhook")
     if (result.length == 1) {
       Data.create({
         userId: data.userId,

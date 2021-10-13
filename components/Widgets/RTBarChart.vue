@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: "rtnumberchart",
+  name: "barchart",
   props: ["config"],
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
         },
         chart: {
           renderTo: "container",
-          defaultSeriesType: "line",
+          defaultSeriesType: "column",
           backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
@@ -54,6 +54,7 @@ export default {
         },
         xAxis: {
           type: "datetime",
+          //tickInterval:3600 * 1000,
           labels: {
             style: {
               color: "#d4d2d2"
@@ -77,7 +78,8 @@ export default {
             label: {
               connectorAllowed: false
             },
-            pointStart: 2010
+            pointStart: Date.UTC(2010, 0, 1),
+            pointInterval: 3600 * 1000 // one day
           }
         },
         series: [

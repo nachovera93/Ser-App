@@ -16,6 +16,11 @@
         :config="fixWidget(widget)"
       ></Rtnumberchart>
 
+      <RTBarChart
+        v-if="widget.widget == 'barchart'"
+        :config="fixWidget(widget)"
+      ></RTBarChart>
+
       <Iotswitch
         v-if="widget.widget == 'switch'"
         :config="fixWidget(widget)"
@@ -35,6 +40,11 @@
         v-if="widget.widget == 'simplenumber'"
         :config="fixWidget(widget)"
       ></Simple>
+
+      <Simple2
+        v-if="widget.widget == 'simplenumber2'"
+        :config="fixWidget(widget)"
+      ></Simple2>
     </div>
   </div>
 
@@ -69,6 +79,9 @@ export default {
       widgetCopy.userId = this.$store.state.selectedDevice.userId;
 
       if (widget.widget =="numberchart"){
+        widgetCopy.demo = false;
+      }
+      if (widget.widget =="barchart"){
         widgetCopy.demo = false;
       }
       

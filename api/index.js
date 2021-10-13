@@ -9,7 +9,7 @@ const colors = require("colors");
 
 require('dotenv').config();
 
-//instances
+//instancia de express
 const app = express();
 
 //express config
@@ -62,19 +62,9 @@ const mongoHost = process.env.MONGO_HOST;
 const mongoPort = process.env.MONGO_PORT;
 const mongoDatabase = process.env.MONGO_DATABASE;
 
-var uri =
-  "mongodb://" +
-  mongoUserName +
-  ":" +
-  mongoPassword +
-  "@" +
-  mongoHost +
-  ":" +
-  mongoPort +
-  "/" +
-  mongoDatabase;
+var uri ="mongodb://" +mongoUserName +":" +mongoPassword +"@" +mongoHost +":" +mongoPort +"/" +mongoDatabase;
 
-  console.log(uri);
+console.log(uri);
 
 const options = {
   useNewUrlParser: true,

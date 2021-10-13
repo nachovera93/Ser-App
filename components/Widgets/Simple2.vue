@@ -1,20 +1,16 @@
 <template>
   <div>
-    <card>
-      <template slot="header">
-        <h5 class="card-category pull-right">
-          {{ getTimeAgo((nowTime - time) / 1000) }} ago
-        </h5>
-        <h2 class="card-category">
-          {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-        </h2>
-        <h3 class="card-title">
-          <span
-            >{{ value.toFixed(config.decimalPlaces) }} {{ config.unit }}</span
-          >
-        </h3>
-      </template>
-    </card>
+    <template>
+      <h5 class="card-category">
+        {{ getTimeAgo((nowTime - time) / 1000) }} ago
+      </h5>
+      <h5 class="card-category">
+        {{ config.selectedDevice.name }} - {{ config.variableFullName }}
+      </h5>
+      <h4 >
+        <span>{{ value.toFixed(config.decimalPlaces) }} {{ config.unit }}</span>
+      </h4>
+    </template>
   </div>
 </template>
 
