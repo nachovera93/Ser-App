@@ -11,7 +11,7 @@ const userSchema = new Schema({
 
 
 //Validator
-userSchema.plugin(uniqueValidator, { message: 'Error, email already exists.'});
+userSchema.plugin(uniqueValidator, { message: 'Lo siento, el email ya existe!'});
 
 
 // convert to model
