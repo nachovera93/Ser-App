@@ -63,6 +63,12 @@
                 label="Number Input 2<-"
               ></el-option>
 
+              <el-option
+                class="text-dark"
+                value="onevaluecard"   
+                label="One Value Input <-"
+              ></el-option>
+
             </el-select>
 
             <br />
@@ -143,6 +149,140 @@
 
               <el-select
                 v-model="ncConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+          <!-- FORMS Options CHART TYPE -->
+          <div v-if="widgetType == 'optionscharts'">
+              <base-input
+                v-model="OptionsChartsConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="OptionsChartsConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="OptionsChartsConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <base-input
+                v-model="OptionsChartsConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="OptionsChartsConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="OptionsChartsConfig.chartTimeAgo"
+                label="Chart Back Time (mins)"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="OptionsChartsConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="OptionsChartsConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -526,6 +666,102 @@
               <br /><br />
             </div>
 
+            <!-- One Value Card-->
+
+             <div v-if="widgetType == 'OneValueCard'">
+              <base-input
+                v-model="OneValueCardConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="OneValueCardConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="OneValueCardConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="OneValueCardConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+
+              <br />
+
+              <el-select
+                v-model="OneValueCardConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              > 
+               <el-option
+                  class="text-dark"
+                  value="col-2"
+                  label="col-2"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
 
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
@@ -925,6 +1161,10 @@
               v-if="widgetType == 'simple2'"
               :config="iotSimpleConfig2"
             ></Simple2>
+            <OneValueCard
+              v-if="widgetType == 'onevaluecard'"
+              :config="OneValueCardConfig"
+            ></OneValueCard>
           </div>
         </div>
 
@@ -991,6 +1231,10 @@
         v-if="widget.widget == 'simple2'"
         :config="widget"
         ></Simple2>
+        <OneValueCard
+        v-if="widget.widget == 'onevaluecard'"
+        :config="widget"
+        ></OneValueCard>
       </div>
     </div>
 
@@ -1242,6 +1486,22 @@ export default {
         column: "col-2"
       },
 
+      OneValueCardConfig: {       //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",
+        unit: "Watts",
+        variableType: "input",
+        variableSendFreq: "30",
+        decimalPlaces: 2,
+        widget: "onevaluecard",
+        column: "col-2"
+      },
+
     };
   },
 
@@ -1377,6 +1637,7 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig)));
       }
 
+  
       if (this.widgetType == "barchart") {
         this.BarConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.BarConfig)));
@@ -1406,6 +1667,12 @@ export default {
         this.iotSimpleConfig2.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig2)));
       }
+       
+      if (this.widgetType == "onevaluecard") {
+        this.OneValueCardConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.OneValueCardConfig)));
+      }
+      
 
     },
 

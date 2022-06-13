@@ -10,7 +10,7 @@
         </h2>
         <h3 class="card-title">
           <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
+            >{{ value.toFixed(config.decimalPlaces) }} {{ config.unit }}</span
           >
         </h3>
       </template>
