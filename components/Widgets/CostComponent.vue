@@ -1,31 +1,28 @@
 <template>
   <div>
-    <card>
-      <template slot="header">
-        <h5 class="card-category pull-right">
-          {{ getTimeAgo((nowTime - time) / 1000) }} ago
-        </h5>
-        <h2 class="card-category">
+    <b-card :bg-variant="config.class"  text-variant="dark" :header="config.selectedDevice.name" class="text-center"> 
+         <b-card-text> 
           {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-        </h2>
-        <h3 class="card-title">
+        </b-card-text> 
+        
+        <h3 >
           <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
+            >{{ value.toFixed(config.decimalPlaces) }} {{ config.unit }}</span
           >
         </h3>
-      </template>
-    </card>
+        
+    </b-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'simple',
   props: ["config"],
   data() {
     return {
       receivedTime: 0,
       value: 0,
+      value2: false,
       time: Date.now(),
       nowTime: Date.now(),
       topic: ""
@@ -57,19 +54,12 @@ export default {
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
   },
-
-  methods: {
-
-    processReceivedData(data){
-      try {
-        console.log("RECEIVED");
-        console.log(data);
-        this.value = data.value;
-      } catch (error) {
-        console.log(error);
-      }
+  computed: {
+    foo() {
+      return this.value2 ? "success" : "warning"; //<--- define condition/s
     },
-    
+  },
+  methods: {
     processReceivedData(data) {
       try {
         this.time = Date.now();
@@ -110,6 +100,7 @@ export default {
         return seconds.toFixed() + " day";
       }
     }
+   
   }
 };
 </script>

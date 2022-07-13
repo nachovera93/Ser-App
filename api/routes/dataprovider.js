@@ -14,16 +14,19 @@ router.get('/get-last-data', checkAuth, async (req, res) => {
     const chartTimeAgo = req.query.chartTimeAgo;
     const dId = req.query.dId;
     const variable = req.query.variable;
+    const variable2 = req.query.variable2;
 
     const timeAgoMs = Date.now() - (chartTimeAgo * 60 * 1000 );
 
 
     const data =  await Data.find({userId: userId, dId:dId, variable: variable}).sort({"time":-1}).limit(1);
+    const data2 =  await Data.find({userId: userId, dId:dId, variable2: variable2}).sort({"time":-1}).limit(1);
 
 
     const response = {
       status: "success",
-      data: data
+      data: data,
+      data2: data2
     }
 
     return res.json(response)
@@ -52,16 +55,19 @@ router.get('/get-small-charts-data', checkAuth, async (req, res) => {
     const chartTimeAgo = req.query.chartTimeAgo;
     const dId = req.query.dId;
     const variable = req.query.variable;
+    const variable2 = req.query.variable2;
 
     const timeAgoMs = Date.now() - (chartTimeAgo * 60 * 1000 );
 
 
     const data =  await Data.find({userId: userId, dId:dId, variable: variable, "time": {$gt: timeAgoMs}}).sort({"time":1});
+    const data2 =  await Data.find({userId: userId, dId:dId, variable2: variable2, "time": {$gt: timeAgoMs}}).sort({"time":1});
 
 
     const response = {
       status: "success",
-      data: data
+      data: data,
+      data2: data2
     }
 
     return res.json(response)

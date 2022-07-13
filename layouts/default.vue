@@ -10,13 +10,21 @@
       <template slot-scope="props" slot="links">
         <sidebar-item
           :link="{
-            name: 'Dashboard',
+            name: 'Reportes',
             icon: 'tim-icons icon-laptop',
             path: '/dashboard'
           }"
         >
         </sidebar-item>
-
+        <sidebar-item
+          :link="{
+            name: 'Historicos',
+            icon: 'tim-icons icon-calendar-60',
+            path: '/historical'
+          }"
+        >
+        </sidebar-item>
+      <!--
         <sidebar-item
           :link="{
             name: 'Devices',
@@ -41,8 +49,8 @@
             icon: 'tim-icons icon-atom',
             path: '/templates'
           }"
-        >
-        </sidebar-item>
+        > 
+        </sidebar-item> -->
       </template>
     </side-bar>
 
@@ -104,8 +112,8 @@ export default {
       sidebarBackground: "primary", //vue|blue|orange|green|red|primary
       client: null,
       options: {
-        host: process.env.mqtt_host,
-        port: process.env.mqtt_port,
+        host: process.env.mqtt_host, //Red local o vps
+        port: process.env.mqtt_port,  //puertos de mqtt
         endpoint: "/mqtt",
         clean: true,
         connectTimeout: 5000,
@@ -213,7 +221,7 @@ export default {
     async startMqttClient() {
       await this.getMqttCredentials();
 
-      //ex topic: "userid/did/variableId/sdata"
+      //ejemplo topic: "userid/did/variableId/sdata"
       const deviceSubscribeTopic =
         this.$store.state.auth.userData._id + "/+/+/sdata";
       const notifSubscribeTopic =

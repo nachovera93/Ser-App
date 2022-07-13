@@ -72,6 +72,7 @@
         </div>
 
         <el-table :data="$store.state.devices">
+          <!-- imprimir el indice del device -->
           <el-table-column label="#" min-width="50" align="center">
             <div slot-scope="{ row, $index }">
               {{ $index + 1 }}
@@ -84,14 +85,14 @@
 
           <el-table-column prop="password" label="Password"></el-table-column>
 
-          <el-table-column
-            prop="templateName"
-            label="Template"
-          ></el-table-column>
+          <el-table-column prop="templateName" label="Template"></el-table-column>
 
           <el-table-column label="Actions">
             <div slot-scope="{ row, $index }">
-              <el-tooltip
+              <!-- El tooltip sirve para guardar todo el contenido en una celda, 
+              row trae toda el objeto y el index es el indice, se pueden imprimir {{row}} {{$index}}   -->
+             <!-- content es el cartelito que aparece -->
+              <el-tooltip                            
                 content="Saver Status Indicator"
                 style="margin-right:10px"
               >

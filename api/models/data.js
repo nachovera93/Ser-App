@@ -1,3 +1,5 @@
+//Para guardar datos en DB
+
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -6,6 +8,7 @@ const dataSchema = new Schema({
   userId: { type: String, required: [true] },
   dId: { type: String, required: [true] },
   variable: { type: String, required: [true] },
+  variable2: { type: String },
   value: { type: Number, required: [true] },
   time: { type: Number, required: [true] }
 });

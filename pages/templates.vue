@@ -25,8 +25,28 @@
               </el-option>
               <el-option
                 class="text-dark"
-                value="barchart"
-                label="Bar Chart INPUT <-"
+                value="doblechart"
+                label="Doble Chart INPUT <-"
+              >
+              </el-option>
+              <el-option
+                class="text-dark"
+                value="smoothchart"
+                label="Smooth Chart INPUT <-"
+              >
+              </el-option>
+
+
+              <el-option
+                class="text-dark"
+                value="doblevalue"
+                label="Doble Value INPUT <-"
+              >
+              </el-option>
+              <el-option
+                class="text-dark"
+                value="costcomponent"
+                label="Cost Component INPUT <-"
               >
               </el-option>
               <el-option
@@ -146,7 +166,70 @@
               </el-select>
 
               <br /><br /><br />
+               
+              <el-select
+                v-model="ncConfig.tipo"
+                label="Animacion"
+                class="select-success"
+                placeholder="Select type "
+                style="width: 100%;"
+              >
+                <el-option
+                  value="column"
+                  label="Tipo Columna"
+                ></el-option>
+                <el-option
+                  value="spline"
+                  label="Tipo Linea Suave"
+                ></el-option>
+                <el-option
+                  value="line"
+                  label="Tipo Linea"
+                ></el-option>
+                <el-option
+                  value="scatter"
+                  label="Tipo Puntos"
+                ></el-option>
+                <el-option
+                  value="areaspline"
+                  label="Tipo Area"
+                ></el-option>
+                <el-option
+                  value="area"
+                  label="Tipo Linea Area"
+                ></el-option>
+                </el-select>
 
+              <br /><br /><br />
+
+              <el-select
+                v-model="ncConfig.animacion"
+                label="Tipo Grafico"
+                class="select-success"
+                placeholder="Select Animation Duration"
+                style="width: 100%;"
+              >
+                <el-option
+                  value=0
+                  label="0"
+                ></el-option>
+                <el-option
+                  value=500
+                  label="500"
+                ></el-option>
+                
+                <el-option
+                  value=1000
+                  label="1000"
+                ></el-option>
+                
+                <el-option
+                  value=2000
+                  label="2000"
+                ></el-option>
+                </el-select>
+
+              <br /><br /><br />
               <el-select
                 v-model="ncConfig.column"
                 class="select-success"
@@ -207,6 +290,152 @@
 
               <br /><br />
             </div>
+
+
+             <div v-if="widgetType == 'doblechart'">
+              <base-input
+                v-model="DobleChartConfig.variableFullName"
+                label="Var Name 1"
+                type="text"
+              >
+              </base-input>
+              
+              <base-input v-model="DobleChartConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model="DobleChartConfig.variableFullName2"
+                label="Var Name 2"
+                type="text"
+              >
+              </base-input>
+            
+              <base-input v-model="DobleChartConfig.unit2" label="Unit 2" type="text">
+              </base-input>
+              
+
+              <base-input
+                v-model.number="DobleChartConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <base-input
+                v-model="DobleChartConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="DobleChartConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="DobleChartConfig.chartTimeAgo"
+                label="Chart Back Time (mins)"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="DobleChartConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="DobleChartConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
 
           <!-- FORMS Options CHART TYPE -->
           <div v-if="widgetType == 'optionscharts'">
@@ -344,26 +573,27 @@
 
 
  <!-- FORMS NUMBER CHART TYPE -->
-            <div v-if="widgetType == 'barchart'">
+            <div v-if="widgetType == 'smoothchart'">
               <base-input
-                v-model="BarConfig.variableFullName"
+                v-model="SmoothChartConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
 
-              <base-input v-model="BarConfig.unit" label="Unit" type="text">
+              <base-input v-model="SmoothChartConfig.unit" label="Unit" type="text">
               </base-input>
 
               <base-input
-                v-model.number="BarConfig.decimalPlaces"
+                v-model.number="SmoothChartConfig.decimalPlaces"
                 label="Decimal Places"
                 type="number"
               >
               </base-input>
+              <br />
 
               <base-input
-                v-model="BarConfig.icon"
+                v-model="SmoothChartConfig.icon"
                 label="Icon"
                 type="text"
               ></base-input>
@@ -371,7 +601,7 @@
               <br />
 
               <base-input
-                v-model.number="BarConfig.variableSendFreq"
+                v-model.number="SmoothChartConfig.variableSendFreq"
                 label="Send Freq"
                 type="number"
               ></base-input>
@@ -379,7 +609,7 @@
               <br />
 
               <base-input
-                v-model.number="BarConfig.chartTimeAgo"
+                v-model.number="SmoothChartConfig.chartTimeAgo"
                 label="Chart Back Time (mins)"
                 type="number"
               ></base-input>
@@ -387,7 +617,7 @@
               <br />
 
               <el-select
-                v-model="BarConfig.class"
+                v-model="SmoothChartConfig.class"
                 class="select-success"
                 placeholder="Select Class"
                 style="width: 100%;"
@@ -417,7 +647,7 @@
               <br /><br /><br />
 
               <el-select
-                v-model="BarConfig.column"
+                v-model="SmoothChartConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -510,6 +740,206 @@
 
               <el-select
                 v-model="iotSimpleConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+           <!-- COST COMPONENT TYPE -->
+
+             <div v-if="widgetType == 'costcomponent'">
+              <base-input
+                v-model="CostComponentConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+               </base-input>
+
+               <base-input v-model="CostComponentConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="CostComponentConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <base-input
+                v-model.number="CostComponentConfig.class"
+                label="Color"
+                type="text"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="CostComponentConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="CostComponentConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+
+            <!-- FORM SIMPLE DOBLE NUMBER TYPE -->
+
+             <div v-if="widgetType == 'doblevalue'">
+              <base-input
+                v-model="iotDobleValueConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+               </base-input>
+
+               <base-input v-model="iotDobleValueConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model="iotDobleValueConfig.variableFullName2"
+                label="Var Name 2"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotDobleValueConfig.unit2" label="Unit2" type="text">
+              </base-input>
+
+              <base-input
+                v-model.number="iotDobleValueConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="iotDobleValueConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="iotDobleValueConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -1137,10 +1567,22 @@
               v-if="widgetType == 'numberchart'"
               :config="ncConfig"
             ></Rtnumberchart>
-            <RTBarChart
-              v-if="widgetType == 'barchart'"
-              :config="BarConfig"
-            ></RTBarChart>
+            <RTDoblechart
+              v-if="widgetType == 'doblechart'"
+              :config="DobleChartConfig"
+            ></RTDoblechart>
+            <CostComponent
+              v-if="widgetType == 'costcomponent'"
+              :config="CostComponentConfig"
+            ></CostComponent>
+            <DobleValue
+              v-if="widgetType == 'doblevalue'"
+              :config="iotDobleValueConfig"
+            ></DobleValue>
+            <SmoothChart
+              v-if="widgetType == 'smoothchart'"
+              :config="SmoothChartConfig"
+            ></SmoothChart>
             <Iotswitch
               v-if="widgetType == 'switch'"
               :config="iotSwitchConfig"
@@ -1198,15 +1640,26 @@
           @click="deleteWidget(index)"
           style="margin-bottom: 10px;"
         ></i>
-
         <Rtnumberchart
           v-if="widget.widget == 'numberchart'"
           :config="widget"
         ></Rtnumberchart>
-        <RTBarChart
-          v-if="widget.widget == 'barchart'"
+        <RTDoblechart
+          v-if="widget.widget == 'doblechart'"
           :config="widget"
-        ></RTBarChart>
+        ></RTDoblechart>
+        <DobleValue
+          v-if="widget.widget == 'doblevalue'"
+          :config="widget"
+        ></DobleValue>
+        <CostComponent
+          v-if="widget.widget == 'costcomponent'"
+          :config="widget"
+        ></CostComponent>
+        <SmoothChart
+          v-if="widget.widget == 'smoothchart'"
+          :config="widget"
+        ></SmoothChart>
 
         <Iotswitch
           v-if="widget.widget == 'switch'"
@@ -1224,11 +1677,11 @@
         ></Iotindicator>
 
         <Simple
-         v-if="widget.widget == 'simple'"
+         v-if="widget.widget == 'simplenumber'"
           :config="widget"
           ></Simple>
         <Simple2
-        v-if="widget.widget == 'simple2'"
+        v-if="widget.widget == 'simplenumber2'"
         :config="widget"
         ></Simple2>
         <OneValueCard
@@ -1281,6 +1734,7 @@
         </div>
       </card>
     </div>
+
 
     <!-- TEMPLATES TABLE -->
     <div class="row">
@@ -1369,7 +1823,7 @@ export default {
           dId: "8888"
         },
         variableFullName: "temperature",
-        variable: "varname",
+        variable: "varname",   //variable es la var name interna 
         variableType: "input",
         variableSendFreq: "30",
         unit: "Watts",
@@ -1379,28 +1833,55 @@ export default {
         widget: "numberchart",
         icon: "",
         chartTimeAgo: 60,
-        demo: true
+        demo: true,
+        tipo:"",
+        animacion:2000
       },
 
-      BarConfig: {
+      DobleChartConfig: {
         userId: "sampleuserid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
         variableFullName: "temperature",
-        variable: "varname",
+        variableFullName2: "Humedad",
+        variable: "varname",   //variable es la var name interna 
+        variable2: "varname2",
         variableType: "input",
         variableSendFreq: "30",
-        unit: "Watts",
+        unit: "C",
+        unit2: "%",
         class: "success",
         column: "col-12",
         decimalPlaces: 2,
-        widget: "barchart",
+        widget: "doblechart",
         icon: "",
         chartTimeAgo: 60,
         demo: true
       },
+      
+      SmoothChartConfig: {
+        userId: "sampleuserid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",   //variable es la var name interna 
+        variableType: "input",
+        variableSendFreq: "30",
+        unit: "C",
+        unit2: "%",
+        class: "success",
+        column: "col-12",
+        decimalPlaces: 2,
+        widget: "smoothchart",
+        icon: "",
+        chartTimeAgo: 60,
+        demo: true
+      },
+
 
       iotSwitchConfig: {
         userId: "userid",
@@ -1454,6 +1935,42 @@ export default {
         message: "{'fanstatus': 'stop'}"
       },
       
+      CostComponentConfig: {       //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variable: "varname",
+        unit: "$",
+        variableType: "input",
+        variableSendFreq: "30",
+        decimalPlaces: 2,
+        widget: "costcomponent",
+        column: "col-3",
+        class: "info"
+      },
+
+       iotDobleValueConfig: {       //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        variableFullName2: "light",
+        variable: "varname",
+        variable2: "varname2",
+        unit: "Watts",
+        unit2: "",
+        variableType: "input",
+        variableSendFreq: "30",
+        decimalPlaces: 2,
+        widget: "doblevalue",
+        column: "col-3"
+      },
+
        iotSimpleConfig: {       //mio
         userId: "userid",
         selectedDevice: {
@@ -1478,6 +1995,7 @@ export default {
         },
         variableFullName: "temperature",
         variable: "varname",
+        variable2: "varname2",
         unit: "Watts",
         variableType: "input",
         variableSendFreq: "30",
@@ -1507,6 +2025,7 @@ export default {
 
   mounted() {
     this.getTemplates();
+   
   },
 
   methods: {
@@ -1637,10 +2156,14 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig)));
       }
 
+      if (this.widgetType == "doblechart") {
+        this.DobleChartConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.DobleChartConfig)));
+      }
   
-      if (this.widgetType == "barchart") {
-        this.BarConfig.variable = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.BarConfig)));
+      if (this.widgetType == "smoothchart") {
+        this.SmoothChartConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.SmoothChartConfig)));
       }
 
       if (this.widgetType == "switch") {
@@ -1661,6 +2184,16 @@ export default {
        if (this.widgetType == "simple") {
         this.iotSimpleConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig)));
+      }
+
+      if (this.widgetType == "doblevalue") {
+        this.iotDobleValueConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.iotDobleValueConfig)));
+      }
+
+      if (this.widgetType == "costcomponent") {
+        this.CostComponentConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.CostComponentConfig)));
       }
 
       if (this.widgetType == "simple2") {

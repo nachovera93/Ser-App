@@ -45,11 +45,13 @@ router.post("/getdevicecredentials", async (req, res) => {
     template.widgets.forEach(widget => {
       var v = (({
         variable,
+        variable2,
         variableFullName,
         variableType,
         variableSendFreq
       }) => ({
         variable,
+        variable2,
         variableFullName,
         variableType,
         variableSendFreq
@@ -81,7 +83,7 @@ router.post("/getdevicecredentials", async (req, res) => {
 //SAVER WEBHOOK
 router.post("/saver-webhook", async (req, res) => {
   try {
-    console.log("Estamos en Try con emqx api token ");
+     //console.log("Estamos en Try con emqx api token ");
     if (req.headers.token != process.env.EMQX_API_TOKEN) {
       res.status(404).json();
       return;

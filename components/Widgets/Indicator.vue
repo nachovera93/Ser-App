@@ -1,5 +1,5 @@
 <template>
-  <card>
+  <card class="col-lg-3">
     <div slot="header">
       <h4 class="card-title">
         {{ config.selectedDevice.name }} - {{ config.variableFullName }}
@@ -7,66 +7,90 @@
     </div>
 
     <i
-      class="fa " :class="[config.icon, getIconColorClass()]"
-      style="font-size: 20px"
+      class="fa "
+      :class="[config.icon, getIconColorClass()]"
+      style="font-size: 30px"
     ></i>
+
+    <base-button  @click="sendValue()" :type="config.class" class="mb-3 pull-right" size="lg">{{config.text}}</base-button>
   </card>
 </template>
 
 <script>
 export default {
-  props: ['config'],  // parametro que recibira algo llamado config, en este caso un objeto
-  data() {   //en data las variables del widget
+  props: ['config'],
+  data() {
     return {
+      //sending: false,
       value: false,
       topic: "",
-      props: ['config']      
+      topic1: "",
+      props: ['config'] 
     };
   },
-  watch:  {
+
+   /*watch:  {
+            
             config: {
                 immediate: true,
                 deep: true,
                 handler() {
                     setTimeout(() => {
                         this.value = false;
-
+                        console.log("watch")
                         this.$nuxt.$off(this.topic);
                         //Message from topic 6141e806a12fd20015e25c68/123454321/2EBl7kjdW3/sdata
                         // -----------------> userId/dId/uniquestr/sdata
                         const topic = this.config.userId + "/" + this.config.selectedDevice.dId + "/" + this.config.variable + "/sdata";
                         this.$nuxt.$on(topic, this.processReceivedData);
-
+                        //se suscribe a userid/8888/var11/actdata
                     }, 300);
                 }
             }
         },
+   */
   mounted(){
-    // this.$nuxt.on es un listener que se puede suscribir a un topico interno de nuxt
+      //userId/dId/uniquestr/sdata
     const topic = this.config.userId + "/" + this.config.selectedDevice.dId + "/" + this.config.variable + "/sdata";
-    this.$nuxt.$on(topic, this.processReceivedData);
+    console.log("mounted");
+    console.log(topic);
+    console.log("value", this.value);
+    this.$nuxt.$on(topic, this.processReceivedData)
   },
   beforeDestroy(){
-    this.$nuxt.$off(this.topic);
+    this.$nuxt.$off(this.topic1);
   },
   methods: {
 
+    sendValue() {
+        
+        this.value = !this.value;
+        const toSend = {
+            topic1: this.config.userId + "/" + this.config.selectedDevice.dId + "/" + this.config.variable + "/actdata",
+            msg: {
+                value: this.config.message
+            }
+        };
+        //enviamos a userid/8888/var11/actdata
+        console.log(toSend);
+        this.$nuxt.$emit('mqtt-sender', toSend);
+        //this.getIconColorClass()
+    },
     processReceivedData(data){
-      try {
         console.log("received");
         console.log(data);
         this.value = data.value;
-      } catch (error) {
-        console.log(error);
-      }
     },
       
     getIconColorClass() {
+      console.log("received 2");
+      console.log("value", this.value);
       if (!this.value) {
+        console.log("apagado");
         return "text-dark";
       }
-
       if (this.config.class == "success") {
+        console.log("prendido success");
         return "text-success";
       }
       if (this.config.class == "primary") {
@@ -79,9 +103,6 @@ export default {
         return "text-danger";
       }
     }
-
   }
 };
-
-
 </script>

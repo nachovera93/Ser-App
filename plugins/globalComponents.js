@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import BaseInput from '@/components/Inputs/BaseInput.vue';
 import BaseDropdown from '@/components/BaseDropdown.vue';
 import Card from '@/components/Cards/Card.vue';

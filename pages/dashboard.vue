@@ -16,6 +16,16 @@
         :config="fixWidget(widget)"
       ></Rtnumberchart>
 
+      <DobleValue
+        v-if="widget.widget == 'doblevalue'"
+        :config="fixWidget(widget)"
+      ></DobleValue>
+
+      <RTDoblechart
+        v-if="widget.widget == 'doblechart'"
+        :config="fixWidget(widget)"
+      ></RTDoblechart>
+
       <RTBarChart
         v-if="widget.widget == 'barchart'"
         :config="fixWidget(widget)"
@@ -82,6 +92,9 @@ export default {
         widgetCopy.demo = false;
       }
       if (widget.widget =="barchart"){
+        widgetCopy.demo = false;
+      }
+      if (widget.widget =="doblechart"){
         widgetCopy.demo = false;
       }
       

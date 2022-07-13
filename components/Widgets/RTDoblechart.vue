@@ -1,58 +1,80 @@
 <template>
-  <card type="chart">
-    <template slot="header">
-      <div class="card-category pull-right">
-        <label>Tiempo Atrás</label>
-        <b-form-select v-model="selected" :options="timeback" />
-      </div>
-      <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
+  <b-card>
+    <b-tabs card>
+      <b-tab :title="config.variableFullName" active>
+        <h5 class="card-category pull-right">
+          {{ getTimeAgo((nowTime - time) / 1000) }} ago
+        </h5>
 
-      <h5 class="card-category">
-        {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-      </h5>
+        <h5 class=" mt-3 card-category">
+          {{ config.selectedDevice.name }}
+        </h5>
 
-      <h3 class="card-title">
-        <i
-          class="fa "
-          :class="[config.icon, getIconColorClass()]"
-          aria-hidden="true"
-          style="font-size: 30px;"
-        ></i>
-        <span
-          >{{ Number(value).toFixed(config.decimalPlaces) }}
-          {{ config.unit }}</span
-        >
-      </h3>
-    </template>
+        <h3 class="card-title">
+          <i
+            class="fa "
+            :class="[config.icon, getIconColorClass()]"
+            aria-hidden="true"
+            style="font-size: 30px;"
+          ></i>
+          <span
+            >{{ Number(value).toFixed(config.decimalPlaces) }}
+            {{ config.unit }}</span
+          >
+        </h3>
+        <div class="chart-area" style="height: 300px">
+          <highchart
+            style="height: 100%"
+            v-if="isMounted"
+            :options="chartOptions"
+          />
+        </div>
+      </b-tab>
 
-    <div class="chart-area" style="height: 300px">
-      <highchart
-        :animation="{ duration: config.animacion }"
-        :exporting="true"
-        style="height: 100%"
-        v-if="isMounted"
-        :options="chartOptions"
-        :update="watchers"
-      />
-    </div>
+      <b-tab :title="config.variableFullName2">
+        <h5 class="card-category pull-right">
+          {{ getTimeAgo((nowTime - time) / 1000) }} ago
+        </h5>
+
+        <h5 class=" mt-3 card-category">
+          {{ config.selectedDevice.name }}
+        </h5>
+
+        <h3 class="card-title">
+          <i
+            class="fa "
+            :class="[config.icon, getIconColorClass()]"
+            aria-hidden="true"
+            style="font-size: 30px;"
+          ></i>
+          <span
+            >{{ Number(value2).toFixed(config.decimalPlaces) }}
+            {{ config.unit2 }}</span
+          >
+        </h3>
+        <div class="chart-area" style="height: 300px">
+          <highchart
+            style="height: 100%"
+            v-if="isMounted"
+            :options="chartOptions2"
+          />
+        </div>
+      </b-tab>
+    </b-tabs>
 
     <h5>{{ config }}</h5>
-  </card>
+  </b-card>
 </template>
 
 <script>
-import("highcharts/highcharts").Options;
 export default {
-  name: "rtnumberchart",
+  name: "doblechart",
   props: ["config"],
   data() {
     return {
-      watchers: undefined,
-      selected: 60,
-      timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
       receivedTime: 0,
       value: 0,
-      timeago: this.config.chartTimeAgo,
+      value2: 0,
       time: Date.now(),
       nowTime: Date.now(),
       isMounted: false,
@@ -63,7 +85,75 @@ export default {
         },
         chart: {
           renderTo: "container",
-          defaultSeriesType: "areaspline",
+          defaultSeriesType: "spline",
+          backgroundColor: "rgba(0,0,0,0)"
+        },
+        title: {
+          text: ""
+        },
+        xAxis: {
+          type: "datetime",
+          labels: {
+            style: {
+              color: "#d4d2d2"
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: ""
+          },
+          labels: {
+            style: {
+              color: "#d4d2d2",
+              font: "11px Trebuchet MS, Verdana, sans-serif"
+            }
+          }
+        },
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: 2010
+          }
+        },
+        series: [
+          {
+            name: "",
+            data: [],
+            color: "#e14eca"
+          }
+        ],
+        legend: {
+          itemStyle: {
+            color: "#d4d2d2"
+          }
+        },
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom"
+                }
+              }
+            }
+          ]
+        }
+      },
+      chartOptions2: {
+        credits: {
+          enabled: false
+        },
+        chart: {
+          renderTo: "container",
+          defaultSeriesType: "spline",
           backgroundColor: "rgba(0,0,0,0)"
         },
         title: {
@@ -128,10 +218,6 @@ export default {
     };
   },
   watch: {
-    selected(newVal) {
-      this.config.chartTimeAgo = newVal;
-      this.getChartData();
-    },
     config: {
       immediate: true,
       deep: true,
@@ -152,11 +238,26 @@ export default {
             this.config.variableFullName + " " + this.config.unit;
           this.updateColorClass();
           window.dispatchEvent(new Event("resize"));
+
+          this.value2 = 0;
+          //this.$nuxt.$off(this.topic + "/sdata");
+          this.topic =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable2;
+          this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData2);
+          this.chartOptions2.series[0].data = [];
+          this.getChartData();
+          this.chartOptions2.series[0].name =
+            this.config.variableFullName2 + " " + this.config.unit2;
+          this.updateColorClass();
+          window.dispatchEvent(new Event("resize"));
         }, 300);
       }
     }
   },
-
   mounted() {
     this.getNow();
     this.updateColorClass();
@@ -164,32 +265,10 @@ export default {
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
   },
-
   methods: {
     updateColorClass() {
       console.log("update" + this.config.class);
       var c = this.config.class;
-
-      var types = this.config.tipo;
-      if (types == "column") {
-        this.chartOptions.chart.defaultSeriesType = "column";
-      }
-      if (types == "line") {
-        this.chartOptions.chart.defaultSeriesType = "line";
-      }
-      if (types == "spline") {
-        this.chartOptions.chart.defaultSeriesType = "column";
-      }
-      if (types == "area") {
-        this.chartOptions.chart.defaultSeriesType = "area";
-      }
-      if (types == "scatter") {
-        this.chartOptions.chart.defaultSeriesType = "scatter";
-      }
-      if (types == "areaspline") {
-        this.chartOptions.chart.defaultSeriesType = "areaspline";
-      }
-
       if (c == "success") {
         this.chartOptions.series[0].color = "#00f2c3";
       }
@@ -204,6 +283,8 @@ export default {
       }
       this.chartOptions.series[0].name =
         this.config.variableFullName + " " + this.config.unit;
+      this.chartOptions.series[0].name =
+        this.config.variableFullName2 + " " + this.config.unit2;
     },
     getChartData() {
       if (this.config.demo) {
@@ -212,6 +293,12 @@ export default {
           [1606659072668, 27],
           [1606659073668, 32],
           [1606659074668, 7]
+        ];
+        this.chartOptions2.series[0].data = [
+          [1606659071668, 10],
+          [1606659072668, 27],
+          [1606659073668, 32],
+          [1606659074668, 10]
         ];
         this.isMounted = true;
         return;
@@ -227,12 +314,23 @@ export default {
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
+      const axiosHeaders2 = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable2,
+          chartTimeAgo: this.config.chartTimeAgo
+        }
+      };
       this.$axios
         .get("/get-small-charts-data", axiosHeaders)
         .then(res => {
           this.chartOptions.series[0].data = [];
           const data = res.data.data;
-          console.log(res.data);
+          console.log("Data1 ",res.data.data);
+          
           data.forEach(element => {
             var aux = [];
             aux.push(
@@ -242,11 +340,32 @@ export default {
             this.chartOptions.series[0].data.push(aux);
           });
           this.isMounted = true;
-          return;
+          //return;
         })
         .catch(e => {
           console.log(e);
-          return;
+          //return;
+        });
+        this.$axios
+        .get("/get-small-charts-data", axiosHeaders2)
+        .then(res => {
+          this.chartOptions2.series[0].data = [];
+          const data2 = res.data.data;
+          console.log("Data2 ",res.data.data);
+          data2.forEach(element => {
+            var aux2 = [];
+            aux2.push(
+              element.time + new Date().getTimezoneOffset() * 60 * 1000 * -1
+            );
+            aux2.push(element.value);
+            this.chartOptions2.series[0].data.push(aux2);
+          });
+          this.isMounted = true;
+          //return;
+        })
+        .catch(e => {
+          console.log(e);
+          //return;
         });
     },
     getIconColorClass() {
@@ -276,6 +395,22 @@ export default {
         console.log(error);
       }
     },
+
+    procesReceivedData2(data) {
+      try {
+        console.log("Llego data", data);
+        this.time = Date.now();
+        this.value2 = data.value;
+        setTimeout(() => {
+          if (data.save == 1) {
+            this.getChartData();
+          }
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     getNow() {
       this.nowTime = Date.now();
       setTimeout(() => {

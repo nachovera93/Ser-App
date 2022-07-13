@@ -132,12 +132,14 @@ export default {
           this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData);
 
           this.chartOptions.series[0].data = [];
-
-          this.getChartData();
-
+          
+          
+          console.log("wathc" ,this.chartOptions.chart.defaultSeriesType)
+          console.log("wathc" ,this.chartOptions.series[0].color)
           this.chartOptions.series[0].name =
             this.config.variableFullName + " " + this.config.unit;
           this.updateColorClass();
+          this.getChartData();
           window.dispatchEvent(new Event("resize"));
         }, 300);
       }
@@ -147,14 +149,26 @@ export default {
     this.getNow();
     this.updateColorClass();
   },
+  
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
   },
   methods: {
     updateColorClass() {
-      console.log("update" + this.config.class);
+      
 
       var c = this.config.class;
+      var types = this.config.tipo;
+      if (types == "column") {
+        console.log("tipo column")
+        this.chartOptions.chart.defaultSeriesType = "column";
+        console.log(" en types ", this.chartOptions.chart.defaultSeriesType )
+      }
+      if (types == "line") {
+        console.log("tipo linea")
+        this.chartOptions.chart.defaultSeriesType = "line";
+        console.log(" en types ", this.chartOptions.chart.defaultSeriesType )
+      }
 
       if (c == "success") {
         this.chartOptions.series[0].color = "#00f2c3";
@@ -164,6 +178,7 @@ export default {
       }
       if (c == "warning") {
         this.chartOptions.series[0].color = "#ff8d72";
+        console.log("color" , this.chartOptions.series[0].color)
       }
       if (c == "danger") {
         this.chartOptions.series[0].color = "#fd5d93";
@@ -181,6 +196,9 @@ export default {
           [1606659073668, 32],
           [1606659074668, 7]
         ];
+        this.chartOptions.chart.defaultSeriesType =
+            this.config.tipo;
+            console.log(" en demo ", this.chartOptions.chart.defaultSeriesType )
         this.isMounted = true;
         return;
       }
@@ -237,6 +255,7 @@ export default {
       if (this.config.class == "danger") {
         return "text-danger";
       }
+
     },
 
     procesReceivedData(data) {

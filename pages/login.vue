@@ -46,7 +46,7 @@
           </div>
 
           <div class="pull-right">
-            <h6><a href="#help!!!" class="link footer-link">Necesitas ayuda?</a></h6>
+            <h6><a href="/home" class="link footer-link">Home</a></h6>
           </div>
         </div>
       </card>
