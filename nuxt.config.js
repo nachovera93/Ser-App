@@ -80,7 +80,7 @@ export default {
     host: '0.0.0.0', // default: localhost
   },
 
-  serverMiddleware: {
+  serverMiddleware: {    //Sirve para levantar la api junto con el el front
     '/api': '~/api'
   },
 
