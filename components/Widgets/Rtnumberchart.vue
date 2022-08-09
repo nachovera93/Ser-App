@@ -1,5 +1,5 @@
 <template>
-  <card type="chart">
+  <b-card type="chart">
     <template slot="header">
       <div class="card-category pull-right">
         <label>Tiempo Atrás</label>
@@ -36,8 +36,8 @@
       />
     </div>
 
-    <h5>{{ config }}</h5>
-  </card>
+    <!-- <h5>{{ config }}</h5> -->
+  </b-card>
 </template>
 
 <script>

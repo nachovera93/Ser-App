@@ -1,80 +1,153 @@
 <template>
-  <b-card>
-    <b-tabs card>
+  <!-- <b-card> -->
+  <div>
+    <b-tabs>
       <b-tab :title="config.variableFullName" active>
-        <h5 class="card-category pull-right">
-          {{ getTimeAgo((nowTime - time) / 1000) }} ago
-        </h5>
+        <b-card type="chart">
+          <template slot="header">
+            <div class="card-category pull-right">
+              <label>Tiempo Atrás</label>
+              <b-form-select v-model="selected" :options="timeback" />
+            </div>
+            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-        <h5 class=" mt-3 card-category">
-          {{ config.selectedDevice.name }}
-        </h5>
+            <h5 class="card-category">
+              {{ config.selectedDevice.name }} - {{ config.variableFullName }}
+            </h5>
 
-        <h3 class="card-title">
-          <i
-            class="fa "
-            :class="[config.icon, getIconColorClass()]"
-            aria-hidden="true"
-            style="font-size: 30px;"
-          ></i>
-          <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }}
-            {{ config.unit }}</span
-          >
-        </h3>
-        <div class="chart-area" style="height: 300px">
-          <highchart
-            style="height: 100%"
-            v-if="isMounted"
-            :options="chartOptions"
-          />
-        </div>
+            <h3 class="card-title">
+              <i
+                class="fa "
+                :class="[config.icon, getIconColorClass()]"
+                aria-hidden="true"
+                style="font-size: 30px;"
+              ></i>
+              <span
+                >{{ Number(value).toFixed(config.decimalPlaces) }}
+                {{ config.unit }}</span
+              >
+            </h3>
+          </template>
+
+          <div class="chart-area" style="height: 300px">
+            <highchart
+              :animation="{ duration: config.animacion }"
+              :exporting="true"
+              style="height: 100%"
+              v-if="isMounted"
+              :options="chartOptions"
+              :update="watchers"
+            />
+          </div>
+
+          <!-- <h5>{{ config }}</h5> -->
+        </b-card>
       </b-tab>
 
       <b-tab :title="config.variableFullName2">
-        <h5 class="card-category pull-right">
-          {{ getTimeAgo((nowTime - time) / 1000) }} ago
-        </h5>
+        <b-card type="chart">
+          <template slot="header">
+            <div class="card-category pull-right">
+              <label>Tiempo Atrás</label>
+              <b-form-select v-model="selected" :options="timeback" />
+            </div>
+            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-        <h5 class=" mt-3 card-category">
-          {{ config.selectedDevice.name }}
-        </h5>
+            <h5 class="card-category">
+              {{ config.selectedDevice.name }} - {{ config.variableFullName2 }}
+            </h5>
 
-        <h3 class="card-title">
-          <i
-            class="fa "
-            :class="[config.icon, getIconColorClass()]"
-            aria-hidden="true"
-            style="font-size: 30px;"
-          ></i>
-          <span
-            >{{ Number(value2).toFixed(config.decimalPlaces) }}
-            {{ config.unit2 }}</span
-          >
-        </h3>
-        <div class="chart-area" style="height: 300px">
-          <highchart
-            style="height: 100%"
-            v-if="isMounted"
-            :options="chartOptions2"
-          />
-        </div>
+            <h3 class="card-title">
+              <i
+                class="fa "
+                :class="[config.icon, getIconColorClass()]"
+                aria-hidden="true"
+                style="font-size: 30px;"
+              ></i>
+              <span
+                >{{ Number(value2).toFixed(config.decimalPlaces) }}
+                {{ config.unit2 }}</span
+              >
+            </h3>
+          </template>
+
+          <div class="chart-area" style="height: 300px">
+            <highchart
+              :animation="{ duration: config.animacion }"
+              :exporting="true"
+              style="height: 100%"
+              v-if="isMounted"
+              :options="chartOptions2"
+              :update="watchers"
+            />
+          </div>
+
+          <!-- <h5>{{ config }}</h5> -->
+        </b-card>
+      </b-tab>
+      <b-tab :title="config.variableFullName3">
+        <b-card type="chart">
+          <template slot="header">
+            <div class="card-category pull-right">
+              <label>Tiempo Atrás</label>
+              <b-form-select v-model="selected" :options="timeback" />
+            </div>
+            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
+
+            <h5 class="card-category">
+              {{ config.selectedDevice.name }} - {{ config.variableFullName3 }}
+            </h5>
+
+            <h3 class="card-title">
+              <i
+                class="fa "
+                :class="[config.icon, getIconColorClass()]"
+                aria-hidden="true"
+                style="font-size: 30px;"
+              ></i>
+              <span
+                >{{ Number(value3).toFixed(config.decimalPlaces) }}
+                {{ config.unit3 }}</span
+              >
+            </h3>
+          </template>
+
+          <div class="chart-area" style="height: 300px">
+            <highchart
+              :animation="{ duration: config.animacion }"
+              :exporting="true"
+              style="height: 100%"
+              v-if="isMounted"
+              :options="chartOptions3"
+              :update="watchers"
+            />
+          </div>
+
+          <!-- <h5>{{ config }}</h5> -->
+        </b-card>
       </b-tab>
     </b-tabs>
-
-    <h5>{{ config }}</h5>
-  </b-card>
+    <!-- <h5>{{ config }}</h5> -->
+  </div>
+  
+  <!-- </b-card> -->
 </template>
 
 <script>
+import("highcharts/highcharts").Options;
 export default {
   name: "doblechart",
   props: ["config"],
   data() {
     return {
+      watchers: undefined,
+      selected: 60,
+      timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
       receivedTime: 0,
       value: 0,
       value2: 0,
+      value3: 0,
+      timeago: this.config.chartTimeAgo,
       time: Date.now(),
       nowTime: Date.now(),
       isMounted: false,
@@ -214,10 +287,82 @@ export default {
             }
           ]
         }
+      },
+      chartOptions3: {
+        credits: {
+          enabled: false
+        },
+        chart: {
+          renderTo: "container",
+          defaultSeriesType: "spline",
+          backgroundColor: "rgba(0,0,0,0)"
+        },
+        title: {
+          text: ""
+        },
+        xAxis: {
+          type: "datetime",
+          labels: {
+            style: {
+              color: "#d4d2d2"
+            }
+          }
+        },
+        yAxis: {
+          title: {
+            text: ""
+          },
+          labels: {
+            style: {
+              color: "#d4d2d2",
+              font: "11px Trebuchet MS, Verdana, sans-serif"
+            }
+          }
+        },
+        plotOptions: {
+          series: {
+            label: {
+              connectorAllowed: false
+            },
+            pointStart: 2010
+          }
+        },
+        series: [
+          {
+            name: "",
+            data: [],
+            color: "#e14eca"
+          }
+        ],
+        legend: {
+          itemStyle: {
+            color: "#d4d2d2"
+          }
+        },
+        responsive: {
+          rules: [
+            {
+              condition: {
+                maxWidth: 500
+              },
+              chartOptions: {
+                legend: {
+                  layout: "horizontal",
+                  align: "center",
+                  verticalAlign: "bottom"
+                }
+              }
+            }
+          ]
+        }
       }
     };
   },
   watch: {
+    selected(newVal) {
+      this.config.chartTimeAgo = newVal;
+      this.getChartData();
+    },
     config: {
       immediate: true,
       deep: true,
@@ -254,6 +399,23 @@ export default {
             this.config.variableFullName2 + " " + this.config.unit2;
           this.updateColorClass();
           window.dispatchEvent(new Event("resize"));
+
+          this.value3 = 0;
+          //this.$nuxt.$off(this.topic + "/sdata");
+          this.topic =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable3;
+          this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData3);
+          this.chartOptions3.series[0].data = [];
+          this.getChartData();
+          this.chartOptions3.series[0].name =
+            this.config.variableFullName3 + " " + this.config.unit3;
+          this.updateColorClass();
+          window.dispatchEvent(new Event("resize"));
+
         }, 300);
       }
     }
@@ -269,22 +431,86 @@ export default {
     updateColorClass() {
       console.log("update" + this.config.class);
       var c = this.config.class;
+      var c2 = this.config.class2;
+      var c3 = this.config.class3;
+
+      var types = this.config.tipo;
+      if (types == "column") {
+        this.chartOptions.chart.defaultSeriesType = "column";
+        this.chartOptions2.chart.defaultSeriesType = "column";
+        this.chartOptions3.chart.defaultSeriesType = "column";
+      }
+      if (types == "line") {
+        this.chartOptions.chart.defaultSeriesType = "line";
+        this.chartOptions2.chart.defaultSeriesType = "line";
+        this.chartOptions3.chart.defaultSeriesType = "line";
+      }
+      if (types == "spline") {
+        this.chartOptions.chart.defaultSeriesType = "column";
+        this.chartOptions2.chart.defaultSeriesType = "column";
+        this.chartOptions3.chart.defaultSeriesType = "column";
+      }
+      if (types == "area") {
+        this.chartOptions.chart.defaultSeriesType = "area";
+        this.chartOptions2.chart.defaultSeriesType = "area";
+        this.chartOptions3.chart.defaultSeriesType = "area";
+      }
+      if (types == "scatter") {
+        this.chartOptions.chart.defaultSeriesType = "scatter";
+        this.chartOptions2.chart.defaultSeriesType = "scatter";
+        this.chartOptions3.chart.defaultSeriesType = "scatter";
+      }
+      if (types == "areaspline") {
+        this.chartOptions.chart.defaultSeriesType = "areaspline";
+        this.chartOptions2.chart.defaultSeriesType = "areaspline";
+        this.chartOptions3.chart.defaultSeriesType = "areaspline";
+      }
+
       if (c == "success") {
         this.chartOptions.series[0].color = "#00f2c3";
       }
+      if (c2 == "success") {
+        this.chartOptions2.series[0].color = "#00f2c3";
+      }
+      if (c3 == "success") {
+        this.chartOptions3.series[0].color = "#00f2c3";
+      }
+
       if (c == "primary") {
         this.chartOptions.series[0].color = "#e14eca";
       }
+      if (c2 == "primary") {
+        this.chartOptions2.series[0].color = "#e14eca";
+      }
+      if (c3 == "primary") {
+        this.chartOptions3.series[0].color = "#e14eca";
+      }
+
       if (c == "warning") {
         this.chartOptions.series[0].color = "#ff8d72";
       }
+      if (c2 == "warning") {
+        this.chartOptions2.series[0].color = "#ff8d72";
+      }
+      if (c3 == "warning") {
+        this.chartOptions3.series[0].color = "#ff8d72";
+      }
+
       if (c == "danger") {
         this.chartOptions.series[0].color = "#fd5d93";
       }
+      if (c2 == "danger") {
+        this.chartOptions2.series[0].color = "#fd5d93";
+      }
+      if (c3 == "danger") {
+        this.chartOptions3.series[0].color = "#fd5d93";
+      }
       this.chartOptions.series[0].name =
         this.config.variableFullName + " " + this.config.unit;
-      this.chartOptions.series[0].name =
+      this.chartOptions2.series[0].name =
         this.config.variableFullName2 + " " + this.config.unit2;
+      this.chartOptions2.series[0].name =
+        this.config.variableFullName3 + " " + this.config.unit3;
     },
     getChartData() {
       if (this.config.demo) {
@@ -298,6 +524,12 @@ export default {
           [1606659071668, 10],
           [1606659072668, 27],
           [1606659073668, 32],
+          [1606659074668, 10]
+        ];
+        this.chartOptions3.series[0].data = [
+          [1606659071668, 0],
+          [1606659072668, 7],
+          [1606659073668, 22],
           [1606659074668, 10]
         ];
         this.isMounted = true;
@@ -324,13 +556,23 @@ export default {
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
+      const axiosHeaders3 = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable3,
+          chartTimeAgo: this.config.chartTimeAgo
+        }
+      };
       this.$axios
         .get("/get-small-charts-data", axiosHeaders)
         .then(res => {
           this.chartOptions.series[0].data = [];
           const data = res.data.data;
-          console.log("Data1 ",res.data.data);
-          
+          console.log("Data1 ", res.data.data);
+
           data.forEach(element => {
             var aux = [];
             aux.push(
@@ -346,12 +588,12 @@ export default {
           console.log(e);
           //return;
         });
-        this.$axios
+      this.$axios
         .get("/get-small-charts-data", axiosHeaders2)
         .then(res => {
           this.chartOptions2.series[0].data = [];
           const data2 = res.data.data;
-          console.log("Data2 ",res.data.data);
+          console.log("Data2 ", res.data.data);
           data2.forEach(element => {
             var aux2 = [];
             aux2.push(
@@ -359,6 +601,27 @@ export default {
             );
             aux2.push(element.value);
             this.chartOptions2.series[0].data.push(aux2);
+          });
+          this.isMounted = true;
+          //return;
+        })
+        .catch(e => {
+          console.log(e);
+          //return;
+        });
+        this.$axios
+        .get("/get-small-charts-data", axiosHeaders3)
+        .then(res => {
+          this.chartOptions3.series[0].data = [];
+          const data3 = res.data.data;
+          console.log("Data3 ", res.data.data);
+          data3.forEach(element => {
+            var aux3 = [];
+            aux3.push(
+              element.time + new Date().getTimezoneOffset() * 60 * 1000 * -1
+            );
+            aux3.push(element.value);
+            this.chartOptions3.series[0].data.push(aux3);
           });
           this.isMounted = true;
           //return;
@@ -401,6 +664,21 @@ export default {
         console.log("Llego data", data);
         this.time = Date.now();
         this.value2 = data.value;
+        setTimeout(() => {
+          if (data.save == 1) {
+            this.getChartData();
+          }
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    procesReceivedData3(data) {
+      try {
+        console.log("Llego data", data);
+        this.time = Date.now();
+        this.value3 = data.value;
         setTimeout(() => {
           if (data.save == 1) {
             this.getChartData();

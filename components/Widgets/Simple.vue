@@ -1,6 +1,6 @@
 <template>
   <div>
-    <card>
+    <b-card>
       <template slot="header">
         <h5 class="card-category pull-right">
           {{ getTimeAgo((nowTime - time) / 1000) }} ago
@@ -14,7 +14,7 @@
           >
         </h3>
       </template>
-    </card>
+    </b-card>
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
 
     processReceivedData(data){
       try {
-        console.log("RECEIVED");
+        //console.log("RECEIVED");
         console.log(data);
         this.value = data.value;
       } catch (error) {

@@ -312,6 +312,17 @@
             
               <base-input v-model="DobleChartConfig.unit2" label="Unit 2" type="text">
               </base-input>
+
+
+              <base-input
+                v-model="DobleChartConfig.variableFullName3"
+                label="Var Name 3"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="DobleChartConfig.unit3" label="Unit 3" type="text">
+              </base-input>
               
 
               <base-input
@@ -372,6 +383,131 @@
                   label="Danger"
                 ></el-option>
               </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="DobleChartConfig.class2"
+                class="select-success"
+                placeholder="Select Class 2"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="DobleChartConfig.class3"
+                class="select-success"
+                placeholder="Select Class 3"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+               
+               
+              <el-select
+                v-model="DobleChartConfig.tipo"
+                label="Animacion"
+                class="select-success"
+                placeholder="Select type "
+                style="width: 100%;"
+              >
+                <el-option
+                  value="column"
+                  label="Tipo Columna"
+                ></el-option>
+                <el-option
+                  value="spline"
+                  label="Tipo Linea Suave"
+                ></el-option>
+                <el-option
+                  value="line"
+                  label="Tipo Linea"
+                ></el-option>
+                <el-option
+                  value="scatter"
+                  label="Tipo Puntos"
+                ></el-option>
+                <el-option
+                  value="areaspline"
+                  label="Tipo Area"
+                ></el-option>
+                <el-option
+                  value="area"
+                  label="Tipo Linea Area"
+                ></el-option>
+                </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="DobleChartConfig.animacion"
+                label="Tipo Grafico"
+                class="select-success"
+                placeholder="Select Animation Duration"
+                style="width: 100%;"
+              >
+                <el-option
+                  value=0
+                  label="0"
+                ></el-option>
+                <el-option
+                  value=500
+                  label="500"
+                ></el-option>
+                
+                <el-option
+                  value=1000
+                  label="1000"
+                ></el-option>
+                
+                <el-option
+                  value=2000
+                  label="2000"
+                ></el-option>
+                </el-select>
 
               <br /><br /><br />
 
@@ -819,12 +955,57 @@
               >
               </base-input>
 
-              <base-input
-                v-model.number="CostComponentConfig.class"
-                label="Color"
-                type="text"
+  
+              <br />
+              <el-select
+                v-model="CostComponentConfig.class"
+                label="Color Fondo"
+                class="select-success"
+                placeholder="Seleccionar color"
+                style="width: 100%;"
               >
-              </base-input>
+                <el-option
+                  value="success"
+                  label="success"
+                ></el-option>
+                <el-option
+                  value="primary"
+                  label="primary"
+                ></el-option>
+                <el-option
+                  value="secondary"
+                  label="secondary"
+                ></el-option>
+                <el-option
+                  value="info"
+                  label="info"
+                ></el-option>
+                <el-option
+                  value="warning"
+                  label="warning"
+                ></el-option>
+                <el-option
+                  value="danger"
+                  label="danger"
+                ></el-option>
+               <el-option
+                  value="light"
+                  label="light"
+                ></el-option>
+                <el-option
+                  value="dark"
+                  label="dark"
+                ></el-option>
+                <el-option
+                  value="Default"
+                  label="Default"
+                ></el-option>
+                <el-option
+                  value=""
+                  label="Nada"
+                ></el-option>
+                
+              </el-select>
 
               <br />
 
@@ -1846,19 +2027,26 @@ export default {
         },
         variableFullName: "temperature",
         variableFullName2: "Humedad",
+        variableFullName3: "Presión",
         variable: "varname",   //variable es la var name interna 
         variable2: "varname2",
+        variable3: "varname3",
         variableType: "input",
         variableSendFreq: "30",
         unit: "C",
         unit2: "%",
+        unit3: "#",
         class: "success",
+        class2: "success",
+        class3: "success",
         column: "col-12",
         decimalPlaces: 2,
         widget: "doblechart",
         icon: "",
         chartTimeAgo: 60,
-        demo: true
+        demo: true,
+        tipo:"",
+        animacion:2000
       },
       
       SmoothChartConfig: {
@@ -1949,7 +2137,9 @@ export default {
         decimalPlaces: 2,
         widget: "costcomponent",
         column: "col-3",
-        class: "info"
+        class: "info",
+        textvariant: "white",
+        header:"Primary"
       },
 
        iotDobleValueConfig: {       //mio
