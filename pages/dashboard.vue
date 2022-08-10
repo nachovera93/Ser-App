@@ -20,7 +20,12 @@
         v-if="widget.widget == 'doblevalue'"
         :config="fixWidget(widget)"
       ></DobleValue>
-
+      
+      <CostComponent
+          v-if="widget.widget == 'costcomponent'"
+          :config="widget"
+        ></CostComponent>
+        
       <RTDoblechart
         v-if="widget.widget == 'doblechart'"
         :config="fixWidget(widget)"

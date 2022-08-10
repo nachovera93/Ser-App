@@ -178,7 +178,7 @@ export default {
         this.chartOptions.chart.defaultSeriesType = "line";
       }
       if (types == "spline") {
-        this.chartOptions.chart.defaultSeriesType = "column";
+        this.chartOptions.chart.defaultSeriesType = "spline";
       }
       if (types == "area") {
         this.chartOptions.chart.defaultSeriesType = "area";

@@ -11,9 +11,9 @@
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-            <h5 class="card-category">
-              {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-            </h5>
+            <!-- <h5 class="card-category"> -->
+              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName }} -->
+            <!-- </h5> -->
 
             <h3 class="card-title">
               <i
@@ -53,9 +53,9 @@
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-            <h5 class="card-category">
-              {{ config.selectedDevice.name }} - {{ config.variableFullName2 }}
-            </h5>
+            <!-- <h5 class="card-category"> -->
+              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName2 }} -->
+            <!-- </h5> -->
 
             <h3 class="card-title">
               <i
@@ -94,9 +94,9 @@
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-            <h5 class="card-category">
-              {{ config.selectedDevice.name }} - {{ config.variableFullName3 }}
-            </h5>
+            <!-- <h5 class="card-category"> -->
+              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName3 }} -->
+            <!-- </h5> -->
 
             <h3 class="card-title">
               <i
