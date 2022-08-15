@@ -2,6 +2,10 @@
   <b-card type="chart">
     <template slot="header">
       <div class="card-category pull-right">
+        <label>Color</label>
+        <b-form-select v-model="selected2" :options="colores" />
+      </div>
+      <div class="card-category pull-right">
         <label>Tiempo Atrás</label>
         <b-form-select v-model="selected" :options="timeback" />
       </div>
@@ -36,7 +40,7 @@
       />
     </div>
 
-    <!-- <h5>{{ config }}</h5> -->
+    <h5>{{ config }}</h5>
   </b-card>
 </template>
 
@@ -49,7 +53,9 @@ export default {
     return {
       watchers: undefined,
       selected: 60,
+      selected2:this.config.class,
       timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
+      colores:["success","primary","warning","danger"],
       receivedTime: 0,
       value: 0,
       timeago: this.config.chartTimeAgo,
@@ -131,6 +137,10 @@ export default {
     selected(newVal) {
       this.config.chartTimeAgo = newVal;
       this.getChartData();
+    },
+    selected2(newVal2) {
+      this.config.class = newVal2;
+      this.updateColorClass();
     },
     config: {
       immediate: true,

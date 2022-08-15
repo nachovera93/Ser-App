@@ -857,6 +857,8 @@
               <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
               </base-input>
 
+
+
               <base-input
                 v-model.number="iotSimpleConfig.decimalPlaces"
                 label="Decimal Places"
@@ -872,14 +874,72 @@
                 type="number"
               ></base-input>
 
+
               <br />
+              
+              <el-select
+                v-model="iotSimpleConfig.class"
+                label="Color Fondo"
+                class="select-success"
+                placeholder="Seleccionar color"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="success"
+                  label="success"
+                ></el-option>
+                <el-option
+                  value="primary"
+                  label="primary"
+                ></el-option>
+                <el-option
+                  value="secondary"
+                  label="secondary"
+                ></el-option>
+                <el-option
+                  value="info"
+                  label="info"
+                ></el-option>
+                <el-option
+                  value="warning"
+                  label="warning"
+                ></el-option>
+                <el-option
+                  value="danger"
+                  label="danger"
+                ></el-option>
+               <el-option
+                  value="light"
+                  label="light"
+                ></el-option>
+                <el-option
+                  value="dark"
+                  label="dark"
+                ></el-option>
+                <el-option
+                  value="Default"
+                  label="Default"
+                ></el-option>
+                <el-option
+                  value=""
+                  label="Nada"
+                ></el-option>
+                
+              </el-select>
+
+              <br>
 
               <el-select
                 v-model="iotSimpleConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
-              >
+              > 
+               <el-option
+                  class="text-dark"
+                  value="col-2"
+                  label="col-2"
+                ></el-option>
                 <el-option
                   class="text-dark"
                   value="col-3"
@@ -934,6 +994,7 @@
 
               <br /><br />
             </div>
+
 
            <!-- COST COMPONENT TYPE -->
 
@@ -1194,6 +1255,28 @@
               </base-input>
 
               <base-input
+                v-model="iotSimpleConfig2.variableFullName2"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotSimpleConfig2.unit2" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model="iotSimpleConfig2.variableFullName3"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <base-input v-model="iotSimpleConfig2.unit3" label="Unit" type="text">
+              </base-input>
+
+
+
+              <base-input
                 v-model.number="iotSimpleConfig2.decimalPlaces"
                 label="Decimal Places"
                 type="number"
@@ -1210,6 +1293,58 @@
 
 
               <br />
+              
+              <el-select
+                v-model="iotSimpleConfig2.class"
+                label="Color Fondo"
+                class="select-success"
+                placeholder="Seleccionar color"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="success"
+                  label="success"
+                ></el-option>
+                <el-option
+                  value="primary"
+                  label="primary"
+                ></el-option>
+                <el-option
+                  value="secondary"
+                  label="secondary"
+                ></el-option>
+                <el-option
+                  value="info"
+                  label="info"
+                ></el-option>
+                <el-option
+                  value="warning"
+                  label="warning"
+                ></el-option>
+                <el-option
+                  value="danger"
+                  label="danger"
+                ></el-option>
+               <el-option
+                  value="light"
+                  label="light"
+                ></el-option>
+                <el-option
+                  value="dark"
+                  label="dark"
+                ></el-option>
+                <el-option
+                  value="Default"
+                  label="Default"
+                ></el-option>
+                <el-option
+                  value=""
+                  label="Nada"
+                ></el-option>
+                
+              </el-select>
+
+              <br>
 
               <el-select
                 v-model="iotSimpleConfig2.column"
@@ -1858,7 +1993,7 @@
         ></Iotindicator>
 
         <Simple
-         v-if="widget.widget == 'simplenumber'"
+         v-if="widget.widget == 'simple'"
           :config="widget"
           ></Simple>
         <Simple2
@@ -2173,8 +2308,11 @@ export default {
         variableType: "input",
         variableSendFreq: "30",
         decimalPlaces: 2,
-        widget: "simplenumber",
-        column: "col-3"
+        class: "info",
+        widget: "simple",
+        column: "col-4",
+        textvariant: "white",
+        header:"Primary"
       },
 
       iotSimpleConfig2: {       //mio
@@ -2184,14 +2322,20 @@ export default {
           dId: "8888"
         },
         variableFullName: "temperature",
+        variableFullName2: "temperature",
+        variableFullName3: "temperature",
         variable: "varname",
         variable2: "varname2",
+        variable3: "varname3",
         unit: "Watts",
         variableType: "input",
         variableSendFreq: "30",
         decimalPlaces: 2,
+        class: "info",
         widget: "simplenumber2",
-        column: "col-2"
+        column: "col-4",
+        textvariant: "white",
+        header:"Primary"
       },
 
       OneValueCardConfig: {       //mio
@@ -2348,6 +2492,8 @@ export default {
 
       if (this.widgetType == "doblechart") {
         this.DobleChartConfig.variable = this.makeid(10);
+        this.DobleChartConfig.variable2 = this.makeid(10);
+        this.DobleChartConfig.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.DobleChartConfig)));
       }
   
@@ -2388,6 +2534,8 @@ export default {
 
       if (this.widgetType == "simple2") {
         this.iotSimpleConfig2.variable = this.makeid(10);
+        this.iotSimpleConfig2.variable2 = this.makeid(10);
+        this.iotSimpleConfig2.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig2)));
       }
        

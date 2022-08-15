@@ -256,7 +256,7 @@ export default {
         this.$notify({
           type: "warning",
           icon: "tim-icons icon-alert-circle-exc",
-          message: " Tempalte must be selected"
+          message: " Template must be selected"
         });
         return;
       }

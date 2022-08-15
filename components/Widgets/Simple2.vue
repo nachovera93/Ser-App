@@ -1,23 +1,46 @@
 <template>
   <div>
-    <card :class="classes.p">
-    <template>
-      <h4 >
-        {{ getTimeAgo((nowTime - time) / 1000) }} ago
-      </h4>
-      <h4>
-         {{ config.variableFullName }}
-      </h4>
-      <div class="row ">
-      <h4 >
-        <span>{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span>
-      </h4>
-      <!-- <h4 :class="classes.h3"> -->
-        <!-- <span>{{ Number(value2).toFixed(config.decimalPlaces) }} {{ config.unit }}</span> -->
-      <!-- </h4> -->
-      </div>
-    </template>
-    </card>
+    
+    <b-card :bg-variant="config.class">
+      <b-tabs pills fill justified vertical>
+        <b-tab class="text-center" :title="config.variableFullName" active>
+          <b-card-text>
+            {{ config.variableFullName }}
+          </b-card-text>
+          <h3>
+            <span
+              >{{ Number(value).toFixed(config.decimalPlaces) }}
+              {{ config.unit }}</span
+            >
+          </h3>
+        </b-tab>
+
+        <b-tab class="text-center" :title="config.variableFullName2">
+          <b-card-text>
+            {{ config.variableFullName2 }}
+          </b-card-text>
+          <h3>
+            <span
+              >{{ Number(value).toFixed(config.decimalPlaces) }}
+              {{ config.unit }}</span
+            >
+          </h3>
+        </b-tab>
+
+        <b-tab class="text-center" :title="config.variableFullName3">
+          <b-card-text>
+            {{ config.variableFullName3 }}
+          </b-card-text>
+
+          <h3>
+            <span
+              >{{ Number(value3).toFixed(config.decimalPlaces) }}
+              {{ config.unit3 }}</span
+            >
+          </h3>
+        </b-tab>
+      </b-tabs>
+    </b-card>
   </div>
 </template>
 
@@ -26,15 +49,16 @@ export default {
   props: ["config"],
   data() {
     return {
-      activeColor: 'red',
+      activeColor: "red",
       fontSize: 30,
-      color: 'red',
+      color: "red",
       font: {
-       weight: 200
+        weight: 200
       },
       receivedTime: 0,
       value: 0,
-      value2: 1,
+      value2: 0,
+      value3: 0,
       time: Date.now(),
       nowTime: Date.now(),
       topic: ""
@@ -55,7 +79,8 @@ export default {
             "/" +
             this.config.variable;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
-          
+
+          this.value2 = 0;
           this.topic =
             this.config.userId +
             "/" +
@@ -63,6 +88,15 @@ export default {
             "/" +
             this.config.variable2;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData2);
+
+          this.value3 = 0;
+          this.topic =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable3;
+          this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData3);
         }, 300);
       }
     }
@@ -88,6 +122,17 @@ export default {
       try {
         this.time = Date.now();
         this.value2 = data.value;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    processReceivedData3(data) {
+      try {
+        this.time = Date.now();
+        //console.log(data.value)
+        this.value3 = data.value;
+        //console.log("Llego value 2")
       } catch (error) {
         console.log(error);
       }
@@ -127,27 +172,10 @@ export default {
   }
 };
 </script>
-<style module="classes">
-.red {
-  color: red;
-}
-.h2 {
-  
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-.h3 {
-  
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding: 10px;
-    margin-right: 150px;
-  }
-  .p {
-  border: 5px solid red; 
-  padding-left: 15px;
+
+<style>
+.tabs-container {
+  height: 400px;
+  background: #d8d8d8;
 }
 </style>

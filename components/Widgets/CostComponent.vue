@@ -8,11 +8,12 @@
         
         <h3 >
           <span
-            >{{ value.toFixed(config.decimalPlaces) }} {{ config.unit }}</span
+            >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
           >
         </h3>
         
     </b-card>
+    <h5>{{ config }}</h5>
   </div>
 </template>
 
@@ -23,7 +24,6 @@ export default {
     return {
       receivedTime: 0,
       value: 0,
-      value2: false,
       time: Date.now(),
       nowTime: Date.now(),
       topic: ""

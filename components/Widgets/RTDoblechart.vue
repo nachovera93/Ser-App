@@ -1,18 +1,22 @@
 <template>
   <!-- <b-card> -->
   <div>
-    <b-tabs>
+    <b-tabs fill justified>
       <b-tab :title="config.variableFullName" active>
         <b-card type="chart">
           <template slot="header">
+            <div class="card-category pull-right px-2">
+              <label>Color Grafico</label>
+              <b-form-select v-model="selected2" :options="colores" />
+            </div>
             <div class="card-category pull-right">
-              <label>Tiempo Atrás</label>
+              <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
             <!-- <h5 class="card-category"> -->
-              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName }} -->
+            <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName }} -->
             <!-- </h5> -->
 
             <h3 class="card-title">
@@ -48,13 +52,17 @@
         <b-card type="chart">
           <template slot="header">
             <div class="card-category pull-right">
+              <label>Color</label>
+              <b-form-select v-model="selected3" :options="colores" />
+            </div>
+            <div class="card-category pull-right">
               <label>Tiempo Atrás</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
             <!-- <h5 class="card-category"> -->
-              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName2 }} -->
+            <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName2 }} -->
             <!-- </h5> -->
 
             <h3 class="card-title">
@@ -89,13 +97,17 @@
         <b-card type="chart">
           <template slot="header">
             <div class="card-category pull-right">
+              <label>Color</label>
+              <b-form-select v-model="selected4" :options="colores" />
+            </div>
+            <div class="card-category pull-right">
               <label>Tiempo Atrás</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
             <!-- <h5 class="card-category"> -->
-              <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName3 }} -->
+            <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName3 }} -->
             <!-- </h5> -->
 
             <h3 class="card-title">
@@ -129,7 +141,7 @@
     </b-tabs>
     <!-- <h5>{{ config }}</h5> -->
   </div>
-  
+
   <!-- </b-card> -->
 </template>
 
@@ -142,7 +154,11 @@ export default {
     return {
       watchers: undefined,
       selected: 60,
+      selected2:this.config.class,
+      selected3:this.config.class2,
+      selected4:this.config.class3,
       timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
+      colores:["success","primary","warning","danger"],
       receivedTime: 0,
       value: 0,
       value2: 0,
@@ -363,6 +379,18 @@ export default {
       this.config.chartTimeAgo = newVal;
       this.getChartData();
     },
+    selected2(newVal2) {
+      this.config.class = newVal2;
+      this.updateColorClass();
+    },
+    selected3(newVal3) {
+      this.config.class2 = newVal3;
+      this.updateColorClass();
+    },
+    selected4(newVal4) {
+      this.config.class3 = newVal4;
+      this.updateColorClass();
+    },
     config: {
       immediate: true,
       deep: true,
@@ -415,7 +443,6 @@ export default {
             this.config.variableFullName3 + " " + this.config.unit3;
           this.updateColorClass();
           window.dispatchEvent(new Event("resize"));
-
         }, 300);
       }
     }
@@ -609,7 +636,7 @@ export default {
           console.log(e);
           //return;
         });
-        this.$axios
+      this.$axios
         .get("/get-small-charts-data", axiosHeaders3)
         .then(res => {
           this.chartOptions3.series[0].data = [];

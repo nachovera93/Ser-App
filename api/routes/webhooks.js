@@ -46,13 +46,19 @@ router.post("/getdevicecredentials", async (req, res) => {
       var v = (({
         variable,
         variable2,
+        variable3,
         variableFullName,
+        variableFullName2,
+        variableFullName3,
         variableType,
         variableSendFreq
       }) => ({
         variable,
         variable2,
+        variable3,
         variableFullName,
+        variableFullName2,
+        variableFullName3,
         variableType,
         variableSendFreq
       }))(widget);

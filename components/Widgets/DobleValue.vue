@@ -42,7 +42,7 @@
                 {{ config.unit2 }}</span
               >
             </h3>
-            <h4>{{config}}</h4>
+            <!-- <h4>{{config}}</h4> -->
           </template>
            </card>
       </b-tab>

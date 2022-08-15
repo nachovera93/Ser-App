@@ -3,14 +3,14 @@
 
     
   <div class="row" v-if="$store.state.devices.length > 0">
-
+   
     <div
       v-for="(widget, index) in $store.state.selectedDevice.template.widgets"
       :key="index"
       :class="[widget.column]"
       
     >
-
+         <!-- <h5>{{widget}}</h5> -->
       <Rtnumberchart
         v-if="widget.widget == 'numberchart'"
         :config="fixWidget(widget)"
@@ -52,7 +52,7 @@
       ></Iotindicator>
 
       <Simple
-        v-if="widget.widget == 'simplenumber'"
+        v-if="widget.widget == 'simple'"
         :config="fixWidget(widget)"
       ></Simple>
 
@@ -60,6 +60,8 @@
         v-if="widget.widget == 'simplenumber2'"
         :config="fixWidget(widget)"
       ></Simple2>
+
+     
     </div>
   </div>
 

@@ -1,20 +1,19 @@
 <template>
   <div>
-    <b-card>
-      <template slot="header">
-        <h5 class="card-category pull-right">
-          {{ getTimeAgo((nowTime - time) / 1000) }} ago
-        </h5>
-        <h2 class="card-category">
-          {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-        </h2>
-        <h3 class="card-title">
+    <b-card :bg-variant="config.class"  text-variant="dark"  class="text-center"> 
+      <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
+         <b-card-text> 
+        {{ config.variableFullName }}
+        </b-card-text> 
+        
+        <h3 >
           <span
             >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
           >
         </h3>
-      </template>
+        
     </b-card>
+    <!-- <h5>{{ config }}</h5> -->
   </div>
 </template>
 

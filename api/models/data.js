@@ -9,6 +9,7 @@ const dataSchema = new Schema({
   dId: { type: String, required: [true] },
   variable: { type: String, required: [true] },
   variable2: { type: String },
+  variable3: { type: String },
   value: { type: Number, required: [true] },
   time: { type: Number, required: [true] }
 });
