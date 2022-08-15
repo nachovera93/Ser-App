@@ -2,7 +2,7 @@
   <!-- <b-card> -->
   <div>
     <b-tabs fill justified>
-      <b-tab :title="config.variableFullName" active>
+      <b-tab :title="config.nombre" active>
         <b-card type="chart">
           <template slot="header">
             <div class="card-category pull-right px-2">
@@ -48,7 +48,7 @@
         </b-card>
       </b-tab>
 
-      <b-tab :title="config.variableFullName2">
+      <b-tab :title="config.nombre2">
         <b-card type="chart">
           <template slot="header">
             <div class="card-category pull-right">
@@ -93,7 +93,7 @@
           <!-- <h5>{{ config }}</h5> -->
         </b-card>
       </b-tab>
-      <b-tab :title="config.variableFullName3">
+      <b-tab :title="config.nombre3">
         <b-card type="chart">
           <template slot="header">
             <div class="card-category pull-right">

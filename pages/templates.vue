@@ -103,6 +103,17 @@
               >
               </base-input>
 
+              <br>
+
+              <base-input
+                v-model="ncConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+
+              <br>
+
               <base-input v-model="ncConfig.unit" label="Unit" type="text">
               </base-input>
 
@@ -299,6 +310,15 @@
                 type="text"
               >
               </base-input>
+              <br>
+
+              <base-input
+                v-model="DobleChartConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
               
               <base-input v-model="DobleChartConfig.unit" label="Unit" type="text">
               </base-input>
@@ -309,9 +329,21 @@
                 type="text"
               >
               </base-input>
+
+              <br>
+
+              <base-input
+                v-model="DobleChartConfig.nombre2"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+
             
               <base-input v-model="DobleChartConfig.unit2" label="Unit 2" type="text">
               </base-input>
+              <br>
 
 
               <base-input
@@ -320,6 +352,17 @@
                 type="text"
               >
               </base-input>
+
+              <br>
+
+              <base-input
+                v-model="DobleChartConfig.nombre3"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+
 
               <base-input v-model="DobleChartConfig.unit3" label="Unit 3" type="text">
               </base-input>
@@ -578,6 +621,14 @@
               <base-input
                 v-model="OptionsChartsConfig.variableFullName"
                 label="Var Name"
+                type="text"
+              >
+              </base-input>
+              <br>
+
+              <base-input
+                v-model="OptionsChartsConfig.nombre"
+                label="Nombre a mostrar"
                 type="text"
               >
               </base-input>
@@ -861,6 +912,8 @@
                 type="text"
               >
               </base-input>
+              <br>
+
 
               <base-input
                 v-model="iotSimpleConfig.nombre"
@@ -868,6 +921,7 @@
                 type="text"
               >
               </base-input>
+              <br>
 
               <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
               </base-input>
@@ -1265,6 +1319,15 @@
                 type="text"
               >
               </base-input>
+              <br>
+
+              <base-input
+                v-model="iotSimpleConfig2.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
 
               <base-input v-model="iotSimpleConfig2.unit" label="Unit" type="text">
               </base-input>
@@ -1437,7 +1500,7 @@
               >
               </base-input>
 
-               <div v-if="widgetType == 'OneValueCard'">
+               
               <base-input
                 v-model="OneValueCardConfig.nombre"
                 label="Nombre a mostrar"
@@ -2193,6 +2256,7 @@ export default {
           dId: "8888"
         },
         variableFullName: "temperature",
+        nombre:"Voltaje",
         variable: "varname",   //variable es la var name interna 
         variableType: "input",
         variableSendFreq: "30",
@@ -2214,6 +2278,9 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
+        nombre2:"Voltaje",
+        nombre3:"Voltaje",
         variableFullName: "temperature",
         variableFullName2: "Humedad",
         variableFullName3: "Presión",
@@ -2244,6 +2311,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variable: "varname",   //variable es la var name interna 
         variableType: "input",
@@ -2266,6 +2334,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "Luz",
         variable: "varname",
         variableType: "output",
@@ -2282,6 +2351,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         variableType: "input",
@@ -2302,6 +2372,7 @@ export default {
           templateId: "984237562348756ldksjfh",
           saverRule: false
         },
+        nombre:"Voltaje",
         variableFullName: "Pump",
         variable: "var1",
         variableType: "output",
@@ -2318,6 +2389,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         unit: "$",
@@ -2337,6 +2409,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variableFullName2: "light",
         variable: "varname",
@@ -2376,6 +2449,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variableFullName2: "temperature",
         variableFullName3: "temperature",
@@ -2399,6 +2473,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         unit: "Watts",

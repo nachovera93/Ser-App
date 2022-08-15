@@ -1,19 +1,19 @@
 <template>
   <b-card type="chart">
     <template slot="header">
-      <div class="card-category pull-right">
+      <div class="card-category pull-right px-2">
         <label>Color</label>
         <b-form-select v-model="selected2" :options="colores" />
       </div>
-      <div class="card-category pull-right">
+      <div class="card-category pull-right px-2">
         <label>Tiempo Atrás</label>
         <b-form-select v-model="selected" :options="timeback" />
       </div>
       <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-      <h5 class="card-category">
-        {{ config.selectedDevice.name }} - {{ config.variableFullName }}
-      </h5>
+      <h4 >
+        {{ config.nombre }}
+      </h4>
 
       <h3 class="card-title">
         <i
