@@ -1,17 +1,21 @@
 <template>
   <div>
-    <b-card :bg-variant="config.class"  text-variant="dark"  class="text-center"> 
+    <b-card :bg-variant="config.class"  text-variant="dark"  class="text-center mb-0" style="max-height: 7rem;" > 
       <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
+        
          <b-card-text> 
-        {{ config.variableFullName }}
+        {{ config.nombre }}
         </b-card-text> 
         
-        <h3 >
+        <b-card-text class="mt-2">
           <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
+            >{{ Number(value).toFixed(config.decimalPlaces) }}  -  {{ config.unit }}</span
           >
-        </h3>
-        
+       </b-card-text>
+        <h6 class="card-category mt-2">
+              Last updated {{ getTimeAgo((nowTime - time) / 1000) }} ago
+            </h6>
+            
     </b-card>
     <!-- <h5>{{ config }}</h5> -->
   </div>
