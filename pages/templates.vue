@@ -581,6 +581,14 @@
                 type="text"
               >
               </base-input>
+              <br>
+              <base-input
+                v-model="OptionsChartsConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
 
               <base-input v-model="OptionsChartsConfig.unit" label="Unit" type="text">
               </base-input>
@@ -854,10 +862,17 @@
               >
               </base-input>
 
+              <base-input
+                v-model="iotSimpleConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+
               <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
               </base-input>
 
-
+               <br>
 
               <base-input
                 v-model.number="iotSimpleConfig.decimalPlaces"
@@ -1422,6 +1437,15 @@
               >
               </base-input>
 
+               <div v-if="widgetType == 'OneValueCard'">
+              <base-input
+                v-model="OneValueCardConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+
+
               <base-input v-model="OneValueCardConfig.unit" label="Unit" type="text">
               </base-input>
 
@@ -1518,6 +1542,14 @@
               >
               </base-input>
 
+              <base-input
+                v-model="iotSwitchConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+  
               <base-input
                 v-model="iotSwitchConfig.icon"
                 label="Icon"
@@ -1625,6 +1657,15 @@
                 type="text"
               >
               </base-input>
+              <br>
+
+              <base-input
+                v-model="configButton.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
 
               <base-input
                 v-model="configButton.message"
@@ -1632,6 +1673,7 @@
                 type="text"
               >
               </base-input>
+              <br>
 
               <base-input
                 v-model="configButton.text"
@@ -1639,6 +1681,7 @@
                 type="text"
               >
               </base-input>
+              <br>
 
               <base-input
                 v-model="configButton.icon"
@@ -1748,6 +1791,17 @@
                 type="text"
               >
               </base-input>
+              <br>
+
+              <base-input
+                v-model="iotIndicatorConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+
+              
 
               <base-input
                 v-model="iotIndicatorConfig.icon"
@@ -2302,6 +2356,7 @@ export default {
           name: "Home",
           dId: "8888"
         },
+        nombre:"Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         unit: "Watts",
