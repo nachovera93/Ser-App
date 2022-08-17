@@ -16,6 +16,11 @@
         :config="fixWidget(widget)"
       ></Rtnumberchart>
 
+      <EnergyChart
+        v-if="widget.widget == 'energychart'"
+        :config="fixWidget(widget)"
+      ></EnergyChart>
+
       <DobleValue
         v-if="widget.widget == 'doblevalue'"
         :config="fixWidget(widget)"

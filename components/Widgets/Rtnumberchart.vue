@@ -40,7 +40,7 @@
       />
     </div>
 
-    <h5>{{ config }}</h5>
+    <!-- <h5>{{ config }}</h5> -->
   </b-card>
 </template>
 

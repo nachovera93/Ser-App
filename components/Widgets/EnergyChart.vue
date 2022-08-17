@@ -13,7 +13,7 @@
               <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
-            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
+           
 
             <!-- <h5 class="card-category"> -->
             <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName }} -->
@@ -26,10 +26,10 @@
                 aria-hidden="true"
                 style="font-size: 30px;"
               ></i>
-              <span
-                >{{ Number(value).toFixed(config.decimalPlaces) }}
-                {{ config.unit }}</span
-              >
+              <!-- <span -->
+                <!-- >{{ Number(value).toFixed(config.decimalPlaces) }} -->
+                <!-- {{ config.unit }}</span -->
+              <!-- > -->
             </h3>
           </template>
 
@@ -59,7 +59,7 @@
               <label>Tiempo Atrás</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
-            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
+            
 
             <!-- <h5 class="card-category"> -->
             <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName2 }} -->
@@ -72,10 +72,10 @@
                 aria-hidden="true"
                 style="font-size: 30px;"
               ></i>
-              <span
-                >{{ Number(value2).toFixed(config.decimalPlaces) }}
-                {{ config.unit2 }}</span
-              >
+              <!-- <span -->
+                <!-- >{{ Number(value2).toFixed(config.decimalPlaces) }} -->
+                <!-- {{ config.unit2 }}</span -->
+              <!-- > -->
             </h3>
           </template>
 
@@ -104,7 +104,7 @@
               <label>Tiempo Atrás</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
-            <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
+            
 
             <!-- <h5 class="card-category"> -->
             <!-- {{ config.selectedDevice.name }} - {{ config.variableFullName3 }} -->
@@ -117,10 +117,10 @@
                 aria-hidden="true"
                 style="font-size: 30px;"
               ></i>
-              <span
-                >{{ Number(value3).toFixed(config.decimalPlaces) }}
-                {{ config.unit3 }}</span
-              >
+              <!-- <span -->
+                <!-- >{{ Number(value3).toFixed(config.decimalPlaces) }} -->
+                <!-- {{ config.unit3 }}</span -->
+              <!-- > -->
             </h3>
           </template>
 
@@ -148,7 +148,7 @@
 <script>
 import("highcharts/highcharts").Options;
 export default {
-  name: "doblechart",
+  name: "energychart",
   props: ["config"],
   data() {
     return {

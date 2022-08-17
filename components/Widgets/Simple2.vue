@@ -72,30 +72,15 @@ export default {
         setTimeout(() => {
           this.value = 0;
           this.$nuxt.$off(this.topic + "/sdata");
-          this.topic =
-            this.config.userId +
-            "/" +
-            this.config.selectedDevice.dId +
-            "/" +
-            this.config.variable;
+          this.topic =this.config.userId +"/" +this.config.selectedDevice.dId +"/" +this.config.variable;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
 
           this.value2 = 0;
-          this.topic =
-            this.config.userId +
-            "/" +
-            this.config.selectedDevice.dId +
-            "/" +
-            this.config.variable2;
+          this.topic =this.config.userId + "/" +this.config.selectedDevice.dId +"/" +this.config.variable2;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData2);
 
           this.value3 = 0;
-          this.topic =
-            this.config.userId +
-            "/" +
-            this.config.selectedDevice.dId +
-            "/" +
-            this.config.variable3;
+          this.topic =this.config.userId +"/" +this.config.selectedDevice.dId + "/" +this.config.variable3;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData3);
         }, 300);
       }

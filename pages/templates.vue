@@ -23,6 +23,15 @@
                 label="Number Chart INPUT <-"
               >
               </el-option>
+
+              <el-option
+                class="text-dark"
+                value="energychart"
+                label="Energy Chart INPUT <-"
+              >
+              </el-option>
+
+
               <el-option
                 class="text-dark"
                 value="doblechart"
@@ -556,6 +565,319 @@
 
               <el-select
                 v-model="DobleChartConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
+
+            <div v-if="widgetType == 'energychart'">
+              <base-input
+                v-model="EnergyChartConfig.variableFullName"
+                label="Var Name 1"
+                type="text"
+              >
+              </base-input>
+              <br>
+
+              <base-input
+                v-model="EnergyChartConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+              
+              <base-input v-model="EnergyChartConfig.unit" label="Unit" type="text">
+              </base-input>
+
+              <base-input
+                v-model="EnergyChartConfig.variableFullName2"
+                label="Var Name 2"
+                type="text"
+              >
+              </base-input>
+
+              <br>
+
+              <base-input
+                v-model="EnergyChartConfig.nombre2"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+
+            
+              <base-input v-model="EnergyChartConfig.unit2" label="Unit 2" type="text">
+              </base-input>
+              <br>
+
+
+              <base-input
+                v-model="EnergyChartConfig.variableFullName3"
+                label="Var Name 3"
+                type="text"
+              >
+              </base-input>
+
+              <br>
+
+              <base-input
+                v-model="EnergyChartConfig.nombre3"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br>
+
+
+              <base-input v-model="EnergyChartConfig.unit3" label="Unit 3" type="text">
+              </base-input>
+              
+
+              <base-input
+                v-model.number="EnergyChartConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+              <base-input
+                v-model="EnergyChartConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="EnergyChartConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="EnergyChartConfig.chartTimeAgo"
+                label="Chart Back Time (mins)"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="EnergyChartConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.class2"
+                class="select-success"
+                placeholder="Select Class 2"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.class3"
+                class="select-success"
+                placeholder="Select Class 3"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+               
+               
+              <el-select
+                v-model="EnergyChartConfig.tipo"
+                label="Animacion"
+                class="select-success"
+                placeholder="Select type "
+                style="width: 100%;"
+              >
+                <el-option
+                  value="column"
+                  label="Tipo Columna"
+                ></el-option>
+                <el-option
+                  value="spline"
+                  label="Tipo Linea Suave"
+                ></el-option>
+                <el-option
+                  value="line"
+                  label="Tipo Linea"
+                ></el-option>
+                <el-option
+                  value="scatter"
+                  label="Tipo Puntos"
+                ></el-option>
+                <el-option
+                  value="areaspline"
+                  label="Tipo Area"
+                ></el-option>
+                <el-option
+                  value="area"
+                  label="Tipo Linea Area"
+                ></el-option>
+                </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.animacion"
+                label="Tipo Grafico"
+                class="select-success"
+                placeholder="Select Animation Duration"
+                style="width: 100%;"
+              >
+                <el-option
+                  value=0
+                  label="0"
+                ></el-option>
+                <el-option
+                  value=500
+                  label="500"
+                ></el-option>
+                
+                <el-option
+                  value=1000
+                  label="1000"
+                ></el-option>
+                
+                <el-option
+                  value=2000
+                  label="2000"
+                ></el-option>
+                </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -2000,6 +2322,10 @@
               v-if="widgetType == 'numberchart'"
               :config="ncConfig"
             ></Rtnumberchart>
+            <EnergyChart
+              v-if="widgetType == 'energychart'"
+              :config="EnergyChartConfig"
+            ></EnergyChart>
             <RTDoblechart
               v-if="widgetType == 'doblechart'"
               :config="DobleChartConfig"
@@ -2081,6 +2407,10 @@
           v-if="widget.widget == 'doblechart'"
           :config="widget"
         ></RTDoblechart>
+        <EnergyChart
+          v-if="widget.widget == 'energychart'"
+          :config="widget"
+        ></EnergyChart>
         <DobleValue
           v-if="widget.widget == 'doblevalue'"
           :config="widget"
@@ -2265,6 +2595,39 @@ export default {
         column: "col-12",
         decimalPlaces: 2,
         widget: "numberchart",
+        icon: "",
+        chartTimeAgo: 60,
+        demo: true,
+        tipo:"",
+        animacion:2000
+      },
+      
+      EnergyChartConfig: {
+        userId: "sampleuserid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        nombre:"Voltaje",
+        nombre2:"Voltaje",
+        nombre3:"Voltaje",
+        variableFullName: "temperature",
+        variableFullName2: "Humedad",
+        variableFullName3: "Presión",
+        variable: "varname",   //variable es la var name interna 
+        variable2: "varname2",
+        variable3: "varname3",
+        variableType: "input",
+        variableSendFreq: "30",
+        unit: "C",
+        unit2: "%",
+        unit3: "#",
+        class: "success",
+        class2: "success",
+        class3: "success",
+        column: "col-12",
+        decimalPlaces: 2,
+        widget: "energychart",
         icon: "",
         chartTimeAgo: 60,
         demo: true,
@@ -2672,6 +3035,13 @@ export default {
       if (this.widgetType == "onevaluecard") {
         this.OneValueCardConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.OneValueCardConfig)));
+      }
+
+      if (this.widgetType == "energychart") {
+        this.EnergyChartConfig.variable = this.makeid(10);
+        this.EnergyChartConfig.variable2 = this.makeid(10);
+        this.EnergyChartConfig.variable3 = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.EnergyChartConfig)));
       }
       
 
