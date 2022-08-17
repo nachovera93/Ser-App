@@ -103,7 +103,7 @@ export default {
       if (widget.widget =="numberchart"){
         widgetCopy.demo = false;
       }
-      if (widget.widget =="barchart"){
+      if (widget.widget =="energychart"){
         widgetCopy.demo = false;
       }
       if (widget.widget =="doblechart"){
