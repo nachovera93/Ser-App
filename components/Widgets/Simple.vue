@@ -17,7 +17,7 @@
             </h6>
             
     </b-card>
-    <!-- <h5>{{ config }}</h5> -->
+    <h5>{{ config }}</h5>
   </div>
 </template>
 
@@ -49,6 +49,7 @@ export default {
             "/" +
             this.config.variable;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
+          //this.getData();
         }, 300);
       }
     }
@@ -56,6 +57,7 @@ export default {
 
   mounted() {
     this.getNow();
+    this.getData();
   },
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
@@ -72,7 +74,32 @@ export default {
         console.log(error);
       }
     },
-    
+    getData() {
+
+      const axiosHeaders = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable,
+        }
+      };
+        this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value=element.value;
+            console.log("valur ", this.value)
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+    },
     processReceivedData(data) {
       try {
         this.time = Date.now();

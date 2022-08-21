@@ -56,7 +56,7 @@
               <b-form-select v-model="selected3" :options="colores" />
             </div>
             <div class="card-category pull-right">
-              <label>Tiempo Atrás</label>
+              <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             
@@ -101,7 +101,7 @@
               <b-form-select v-model="selected4" :options="colores" />
             </div>
             <div class="card-category pull-right">
-              <label>Tiempo Atrás</label>
+              <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             
@@ -139,7 +139,7 @@
         </b-card>
       </b-tab>
     </b-tabs>
-    <!-- <h5>{{ config }}</h5> -->
+    <h5>{{ config }}</h5>
   </div>
 
   <!-- </b-card> -->
@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       watchers: undefined,
-      selected: 60,
+      selected: 720,
       selected2:this.config.class,
       selected3:this.config.class2,
       selected4:this.config.class3,
@@ -573,6 +573,19 @@ export default {
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
+      this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
       const axiosHeaders2 = {
         headers: {
           token: $nuxt.$store.state.auth.token
@@ -583,6 +596,19 @@ export default {
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
+      this.$axios
+        .get("/get-last-data", axiosHeaders2)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value2=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
       const axiosHeaders3 = {
         headers: {
           token: $nuxt.$store.state.auth.token
@@ -593,6 +619,19 @@ export default {
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
+      this.$axios
+        .get("/get-last-data", axiosHeaders3)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value3=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
       this.$axios
         .get("/get-small-charts-data", axiosHeaders)
         .then(res => {

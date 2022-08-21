@@ -6,7 +6,7 @@
         <b-form-select v-model="selected2" :options="colores" />
       </div>
       <div class="card-category pull-right px-2">
-        <label>Tiempo Atrás</label>
+        <label>Tiempo Atrás (min)</label>
         <b-form-select v-model="selected" :options="timeback" />
       </div>
       <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
@@ -39,7 +39,7 @@
         :update="watchers"
       />
     </div>
-
+    
     <!-- <h5>{{ config }}</h5> -->
   </b-card>
 </template>
@@ -147,6 +147,7 @@ export default {
       deep: true,
       handler() {
         setTimeout(() => {
+          //this.getLastData();
           this.value = 0;
           this.$nuxt.$off(this.topic + "/sdata");
           this.topic =
@@ -170,6 +171,7 @@ export default {
   mounted() {
     this.getNow();
     this.updateColorClass();
+    //this.getLastData();
   },
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
@@ -215,6 +217,31 @@ export default {
       this.chartOptions.series[0].name =
         this.config.variableFullName + " " + this.config.unit;
     },
+    getLastData(){
+      const axiosHeaders = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable,
+          chartTimeAgo: this.config.chartTimeAgo
+        }
+      };
+      this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.values=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+    },
     getChartData() {
       if (this.config.demo) {
         this.chartOptions.series[0].data = [
@@ -242,7 +269,7 @@ export default {
         .then(res => {
           this.chartOptions.series[0].data = [];
           const data = res.data.data;
-          console.log(res.data);
+          //console.log(res.data);
           data.forEach(element => {
             var aux = [];
             aux.push(
@@ -252,6 +279,19 @@ export default {
             this.chartOptions.series[0].data.push(aux);
           });
           this.isMounted = true;
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+        this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value=element.value;
+          });
           return;
         })
         .catch(e => {

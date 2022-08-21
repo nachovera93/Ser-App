@@ -56,7 +56,7 @@
               <b-form-select v-model="selected3" :options="colores" />
             </div>
             <div class="card-category pull-right">
-              <label>Tiempo Atrás</label>
+              <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
@@ -101,7 +101,7 @@
               <b-form-select v-model="selected4" :options="colores" />
             </div>
             <div class="card-category pull-right">
-              <label>Tiempo Atrás</label>
+              <label>Tiempo Atrás (min)</label>
               <b-form-select v-model="selected" :options="timeback" />
             </div>
             <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
@@ -615,6 +615,19 @@ export default {
           console.log(e);
           //return;
         });
+        this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
       this.$axios
         .get("/get-small-charts-data", axiosHeaders2)
         .then(res => {
@@ -636,6 +649,19 @@ export default {
           console.log(e);
           //return;
         });
+        this.$axios
+        .get("/get-last-data", axiosHeaders2)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value2=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
       this.$axios
         .get("/get-small-charts-data", axiosHeaders3)
         .then(res => {
@@ -656,6 +682,19 @@ export default {
         .catch(e => {
           console.log(e);
           //return;
+        });
+        this.$axios
+        .get("/get-last-data", axiosHeaders3)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value3=element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
         });
     },
     getIconColorClass() {
