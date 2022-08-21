@@ -139,7 +139,7 @@
         </b-card>
       </b-tab>
     </b-tabs>
-    <h5>{{ config }}</h5>
+    <!-- <h5>{{ config }}</h5> -->
   </div>
 
   <!-- </b-card> -->

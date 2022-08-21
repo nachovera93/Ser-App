@@ -17,7 +17,7 @@
             </h6>
             
     </b-card>
-    <h5>{{ config }}</h5>
+    <!-- <h5>{{ config }}</h5> -->
   </div>
 </template>
 
