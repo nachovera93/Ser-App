@@ -253,16 +253,7 @@ export default {
         });
     },
     getChartData() {
-      if (this.config.demo) {
-        this.chartOptions.series[0].data = [
-          [1606659071668, 22],
-          [1606659072668, 27],
-          [1606659073668, 32],
-          [1606659074668, 7]
-        ];
-        this.isMounted = true;
-        return;
-      }
+      
 
       const axiosHeaders = {
         headers: {

@@ -86,7 +86,7 @@ export default {
               message: "Success! Welcome " + res.data.userData.name
             });
 
-            console.log(res.data)
+            //console.log(res.data)
 
             const auth = {
               token: res.data.token,

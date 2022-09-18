@@ -4,7 +4,7 @@
     <div class="row">
       <card>
         <div slot="header">
-          <h4 class="card-title">Widgets {{iotIndicatorConfig.column}}</h4>
+          <h4 class="card-title">Widgets {{ iotIndicatorConfig.column }}</h4>
         </div>
 
         <div class="row">
@@ -31,7 +31,6 @@
               >
               </el-option>
 
-
               <el-option
                 class="text-dark"
                 value="doblechart"
@@ -44,7 +43,6 @@
                 label="Smooth Chart INPUT <-"
               >
               </el-option>
-
 
               <el-option
                 class="text-dark"
@@ -82,28 +80,129 @@
 
               <el-option
                 class="text-dark"
-                value="simple"   
+                value="simple"
                 label="Number Input <-"
               ></el-option>
 
               <el-option
                 class="text-dark"
-                value="simple2"   
+                value="simple2"
                 label="Number Input 2<-"
               ></el-option>
 
               <el-option
                 class="text-dark"
-                value="onevaluecard"   
-                label="One Value Input <-"
+                value="charthistoric"
+                label="Historic <-"
               ></el-option>
-
             </el-select>
 
             <br />
             <br />
 
             <!-- FORMS NUMBER CHART TYPE -->
+            <div v-if="widgetType == 'charthistoric'">
+              <base-input
+                v-model="HistoricChartConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model="HistoricChartConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input v-model="HistoricChartConfig.unit" label="Unit" type="text">
+              </base-input>
+
+               <br />
+
+              <base-input
+                v-model.number="HistoricChartConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+               <br />
+
+              <el-select
+                v-model="HistoricChartConfig.historical"
+                label="Historical"
+                class="select-success"
+                placeholder="Select true/false "
+                style="width: 100%;"
+              >
+                <el-option value='false' label=False></el-option>
+                <el-option value='true'  label=True></el-option>
+              </el-select>
+
+              <br />
+
+              <base-input
+                v-model="HistoricChartConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="HistoricChartConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="HistoricChartConfig.chartTimeAgo"
+                label="Chart Back Time (mins)"
+                type="number"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="HistoricChartConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+             </div>
+
+               <br /><br /><br />
+
+             <!-- FORMS NUMBER CHART TYPE -->
             <div v-if="widgetType == 'numberchart'">
               <base-input
                 v-model="ncConfig.variableFullName"
@@ -112,7 +211,7 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input
                 v-model="ncConfig.nombre"
@@ -121,10 +220,12 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input v-model="ncConfig.unit" label="Unit" type="text">
               </base-input>
+
+               <br />
 
               <base-input
                 v-model.number="ncConfig.decimalPlaces"
@@ -132,6 +233,21 @@
                 type="number"
               >
               </base-input>
+
+               <br />
+
+              <el-select
+                v-model="ncConfig.historical"
+                label="Historical"
+                class="select-success"
+                placeholder="Select true/false "
+                style="width: 100%;"
+              >
+                <el-option value='false' label=False></el-option>
+                <el-option value='true'  label=True></el-option>
+              </el-select>
+
+              <br />
 
               <base-input
                 v-model="ncConfig.icon"
@@ -185,8 +301,10 @@
                 ></el-option>
               </el-select>
 
+
+             
               <br /><br /><br />
-               
+
               <el-select
                 v-model="ncConfig.tipo"
                 label="Animacion"
@@ -194,31 +312,13 @@
                 placeholder="Select type "
                 style="width: 100%;"
               >
-                <el-option
-                  value="column"
-                  label="Tipo Columna"
-                ></el-option>
-                <el-option
-                  value="spline"
-                  label="Tipo Linea Suave"
-                ></el-option>
-                <el-option
-                  value="line"
-                  label="Tipo Linea"
-                ></el-option>
-                <el-option
-                  value="scatter"
-                  label="Tipo Puntos"
-                ></el-option>
-                <el-option
-                  value="areaspline"
-                  label="Tipo Area"
-                ></el-option>
-                <el-option
-                  value="area"
-                  label="Tipo Linea Area"
-                ></el-option>
-                </el-select>
+                <el-option value="column" label="Tipo Columna"></el-option>
+                <el-option value="spline" label="Tipo Linea Suave"></el-option>
+                <el-option value="line" label="Tipo Linea"></el-option>
+                <el-option value="scatter" label="Tipo Puntos"></el-option>
+                <el-option value="areaspline" label="Tipo Area"></el-option>
+                <el-option value="area" label="Tipo Linea Area"></el-option>
+              </el-select>
 
               <br /><br /><br />
 
@@ -229,25 +329,13 @@
                 placeholder="Select Animation Duration"
                 style="width: 100%;"
               >
-                <el-option
-                  value=0
-                  label="0"
-                ></el-option>
-                <el-option
-                  value=500
-                  label="500"
-                ></el-option>
-                
-                <el-option
-                  value=1000
-                  label="1000"
-                ></el-option>
-                
-                <el-option
-                  value=2000
-                  label="2000"
-                ></el-option>
-                </el-select>
+                <el-option value="0" label="0"></el-option>
+                <el-option value="500" label="500"></el-option>
+
+                <el-option value="1000" label="1000"></el-option>
+
+                <el-option value="2000" label="2000"></el-option>
+              </el-select>
 
               <br /><br /><br />
               <el-select
@@ -311,15 +399,14 @@
               <br /><br />
             </div>
 
-
-             <div v-if="widgetType == 'doblechart'">
+            <div v-if="widgetType == 'doblechart'">
               <base-input
                 v-model="DobleChartConfig.variableFullName"
                 label="Var Name 1"
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="DobleChartConfig.nombre"
@@ -327,9 +414,13 @@
                 type="text"
               >
               </base-input>
-              <br>
-              
-              <base-input v-model="DobleChartConfig.unit" label="Unit" type="text">
+              <br />
+
+              <base-input
+                v-model="DobleChartConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -339,7 +430,7 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input
                 v-model="DobleChartConfig.nombre2"
@@ -347,13 +438,15 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-            
-              <base-input v-model="DobleChartConfig.unit2" label="Unit 2" type="text">
+              <base-input
+                v-model="DobleChartConfig.unit2"
+                label="Unit 2"
+                type="text"
+              >
               </base-input>
-              <br>
-
+              <br />
 
               <base-input
                 v-model="DobleChartConfig.variableFullName3"
@@ -362,7 +455,7 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input
                 v-model="DobleChartConfig.nombre3"
@@ -370,12 +463,14 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-
-              <base-input v-model="DobleChartConfig.unit3" label="Unit 3" type="text">
+              <base-input
+                v-model="DobleChartConfig.unit3"
+                label="Unit 3"
+                type="text"
+              >
               </base-input>
-              
 
               <base-input
                 v-model.number="DobleChartConfig.decimalPlaces"
@@ -497,8 +592,7 @@
               </el-select>
 
               <br /><br /><br />
-               
-               
+
               <el-select
                 v-model="DobleChartConfig.tipo"
                 label="Animacion"
@@ -506,31 +600,13 @@
                 placeholder="Select type "
                 style="width: 100%;"
               >
-                <el-option
-                  value="column"
-                  label="Tipo Columna"
-                ></el-option>
-                <el-option
-                  value="spline"
-                  label="Tipo Linea Suave"
-                ></el-option>
-                <el-option
-                  value="line"
-                  label="Tipo Linea"
-                ></el-option>
-                <el-option
-                  value="scatter"
-                  label="Tipo Puntos"
-                ></el-option>
-                <el-option
-                  value="areaspline"
-                  label="Tipo Area"
-                ></el-option>
-                <el-option
-                  value="area"
-                  label="Tipo Linea Area"
-                ></el-option>
-                </el-select>
+                <el-option value="column" label="Tipo Columna"></el-option>
+                <el-option value="spline" label="Tipo Linea Suave"></el-option>
+                <el-option value="line" label="Tipo Linea"></el-option>
+                <el-option value="scatter" label="Tipo Puntos"></el-option>
+                <el-option value="areaspline" label="Tipo Area"></el-option>
+                <el-option value="area" label="Tipo Linea Area"></el-option>
+              </el-select>
 
               <br /><br /><br />
 
@@ -541,25 +617,13 @@
                 placeholder="Select Animation Duration"
                 style="width: 100%;"
               >
-                <el-option
-                  value=0
-                  label="0"
-                ></el-option>
-                <el-option
-                  value=500
-                  label="500"
-                ></el-option>
-                
-                <el-option
-                  value=1000
-                  label="1000"
-                ></el-option>
-                
-                <el-option
-                  value=2000
-                  label="2000"
-                ></el-option>
-                </el-select>
+                <el-option value="0" label="0"></el-option>
+                <el-option value="500" label="500"></el-option>
+
+                <el-option value="1000" label="1000"></el-option>
+
+                <el-option value="2000" label="2000"></el-option>
+              </el-select>
 
               <br /><br /><br />
 
@@ -624,7 +688,6 @@
               <br /><br />
             </div>
 
-
             <div v-if="widgetType == 'energychart'">
               <base-input
                 v-model="EnergyChartConfig.variableFullName"
@@ -632,7 +695,7 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="EnergyChartConfig.nombre"
@@ -640,9 +703,13 @@
                 type="text"
               >
               </base-input>
-              <br>
-              
-              <base-input v-model="EnergyChartConfig.unit" label="Unit" type="text">
+              <br />
+
+              <base-input
+                v-model="EnergyChartConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -652,7 +719,7 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input
                 v-model="EnergyChartConfig.nombre2"
@@ -660,13 +727,15 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-            
-              <base-input v-model="EnergyChartConfig.unit2" label="Unit 2" type="text">
+              <base-input
+                v-model="EnergyChartConfig.unit2"
+                label="Unit 2"
+                type="text"
+              >
               </base-input>
-              <br>
-
+              <br />
 
               <base-input
                 v-model="EnergyChartConfig.variableFullName3"
@@ -675,7 +744,7 @@
               >
               </base-input>
 
-              <br>
+              <br />
 
               <base-input
                 v-model="EnergyChartConfig.nombre3"
@@ -683,12 +752,14 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-
-              <base-input v-model="EnergyChartConfig.unit3" label="Unit 3" type="text">
+              <base-input
+                v-model="EnergyChartConfig.unit3"
+                label="Unit 3"
+                type="text"
+              >
               </base-input>
-              
 
               <base-input
                 v-model.number="EnergyChartConfig.decimalPlaces"
@@ -810,8 +881,7 @@
               </el-select>
 
               <br /><br /><br />
-               
-               
+
               <el-select
                 v-model="EnergyChartConfig.tipo"
                 label="Animacion"
@@ -819,31 +889,13 @@
                 placeholder="Select type "
                 style="width: 100%;"
               >
-                <el-option
-                  value="column"
-                  label="Tipo Columna"
-                ></el-option>
-                <el-option
-                  value="spline"
-                  label="Tipo Linea Suave"
-                ></el-option>
-                <el-option
-                  value="line"
-                  label="Tipo Linea"
-                ></el-option>
-                <el-option
-                  value="scatter"
-                  label="Tipo Puntos"
-                ></el-option>
-                <el-option
-                  value="areaspline"
-                  label="Tipo Area"
-                ></el-option>
-                <el-option
-                  value="area"
-                  label="Tipo Linea Area"
-                ></el-option>
-                </el-select>
+                <el-option value="column" label="Tipo Columna"></el-option>
+                <el-option value="spline" label="Tipo Linea Suave"></el-option>
+                <el-option value="line" label="Tipo Linea"></el-option>
+                <el-option value="scatter" label="Tipo Puntos"></el-option>
+                <el-option value="areaspline" label="Tipo Area"></el-option>
+                <el-option value="area" label="Tipo Linea Area"></el-option>
+              </el-select>
 
               <br /><br /><br />
 
@@ -854,25 +906,13 @@
                 placeholder="Select Animation Duration"
                 style="width: 100%;"
               >
-                <el-option
-                  value=0
-                  label="0"
-                ></el-option>
-                <el-option
-                  value=500
-                  label="500"
-                ></el-option>
-                
-                <el-option
-                  value=1000
-                  label="1000"
-                ></el-option>
-                
-                <el-option
-                  value=2000
-                  label="2000"
-                ></el-option>
-                </el-select>
+                <el-option value="0" label="0"></el-option>
+                <el-option value="500" label="500"></el-option>
+
+                <el-option value="1000" label="1000"></el-option>
+
+                <el-option value="2000" label="2000"></el-option>
+              </el-select>
 
               <br /><br /><br />
 
@@ -937,16 +977,15 @@
               <br /><br />
             </div>
 
-
-          <!-- FORMS Options CHART TYPE -->
-          <div v-if="widgetType == 'optionscharts'">
+            <!-- FORMS Options CHART TYPE -->
+            <div v-if="widgetType == 'optionscharts'">
               <base-input
                 v-model="OptionsChartsConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="OptionsChartsConfig.nombre"
@@ -954,16 +993,20 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
               <base-input
                 v-model="OptionsChartsConfig.nombre"
                 label="Nombre a mostrar"
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-              <base-input v-model="OptionsChartsConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="OptionsChartsConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1088,8 +1131,7 @@
               <br /><br />
             </div>
 
-
- <!-- FORMS NUMBER CHART TYPE -->
+            <!-- FORMS NUMBER CHART TYPE -->
             <div v-if="widgetType == 'smoothchart'">
               <base-input
                 v-model="SmoothChartConfig.variableFullName"
@@ -1098,7 +1140,11 @@
               >
               </base-input>
 
-              <base-input v-model="SmoothChartConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="SmoothChartConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1224,18 +1270,16 @@
               <br /><br />
             </div>
 
+            <!-- FORM SIMPLE NUMBER TYPE -->
 
-    <!-- FORM SIMPLE NUMBER TYPE -->
-
-             <div v-if="widgetType == 'simple'">
+            <div v-if="widgetType == 'simple'">
               <base-input
                 v-model="iotSimpleConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
-              <br>
-
+              <br />
 
               <base-input
                 v-model="iotSimpleConfig.nombre"
@@ -1243,12 +1287,16 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-              <base-input v-model="iotSimpleConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="iotSimpleConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
-               <br>
+              <br />
 
               <base-input
                 v-model.number="iotSimpleConfig.decimalPlaces"
@@ -1265,9 +1313,8 @@
                 type="number"
               ></base-input>
 
-
               <br />
-              
+
               <el-select
                 v-model="iotSimpleConfig.class"
                 label="Color Fondo"
@@ -1275,58 +1322,27 @@
                 placeholder="Seleccionar color"
                 style="width: 100%;"
               >
-                <el-option
-                  value="success"
-                  label="success"
-                ></el-option>
-                <el-option
-                  value="primary"
-                  label="primary"
-                ></el-option>
-                <el-option
-                  value="secondary"
-                  label="secondary"
-                ></el-option>
-                <el-option
-                  value="info"
-                  label="info"
-                ></el-option>
-                <el-option
-                  value="warning"
-                  label="warning"
-                ></el-option>
-                <el-option
-                  value="danger"
-                  label="danger"
-                ></el-option>
-               <el-option
-                  value="light"
-                  label="light"
-                ></el-option>
-                <el-option
-                  value="dark"
-                  label="dark"
-                ></el-option>
-                <el-option
-                  value="Default"
-                  label="Default"
-                ></el-option>
-                <el-option
-                  value=""
-                  label="Nada"
-                ></el-option>
-                
+                <el-option value="success" label="success"></el-option>
+                <el-option value="primary" label="primary"></el-option>
+                <el-option value="secondary" label="secondary"></el-option>
+                <el-option value="info" label="info"></el-option>
+                <el-option value="warning" label="warning"></el-option>
+                <el-option value="danger" label="danger"></el-option>
+                <el-option value="light" label="light"></el-option>
+                <el-option value="dark" label="dark"></el-option>
+                <el-option value="Default" label="Default"></el-option>
+                <el-option value="" label="Nada"></el-option>
               </el-select>
 
-              <br>
+              <br />
 
               <el-select
                 v-model="iotSimpleConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
-              > 
-               <el-option
+              >
+                <el-option
                   class="text-dark"
                   value="col-2"
                   label="col-2"
@@ -1386,18 +1402,21 @@
               <br /><br />
             </div>
 
+            <!-- COST COMPONENT TYPE -->
 
-           <!-- COST COMPONENT TYPE -->
-
-             <div v-if="widgetType == 'costcomponent'">
+            <div v-if="widgetType == 'costcomponent'">
               <base-input
                 v-model="CostComponentConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
-               </base-input>
+              </base-input>
 
-               <base-input v-model="CostComponentConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="CostComponentConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1407,7 +1426,6 @@
               >
               </base-input>
 
-  
               <br />
               <el-select
                 v-model="CostComponentConfig.class"
@@ -1416,47 +1434,16 @@
                 placeholder="Seleccionar color"
                 style="width: 100%;"
               >
-                <el-option
-                  value="success"
-                  label="success"
-                ></el-option>
-                <el-option
-                  value="primary"
-                  label="primary"
-                ></el-option>
-                <el-option
-                  value="secondary"
-                  label="secondary"
-                ></el-option>
-                <el-option
-                  value="info"
-                  label="info"
-                ></el-option>
-                <el-option
-                  value="warning"
-                  label="warning"
-                ></el-option>
-                <el-option
-                  value="danger"
-                  label="danger"
-                ></el-option>
-               <el-option
-                  value="light"
-                  label="light"
-                ></el-option>
-                <el-option
-                  value="dark"
-                  label="dark"
-                ></el-option>
-                <el-option
-                  value="Default"
-                  label="Default"
-                ></el-option>
-                <el-option
-                  value=""
-                  label="Nada"
-                ></el-option>
-                
+                <el-option value="success" label="success"></el-option>
+                <el-option value="primary" label="primary"></el-option>
+                <el-option value="secondary" label="secondary"></el-option>
+                <el-option value="info" label="info"></el-option>
+                <el-option value="warning" label="warning"></el-option>
+                <el-option value="danger" label="danger"></el-option>
+                <el-option value="light" label="light"></el-option>
+                <el-option value="dark" label="dark"></el-option>
+                <el-option value="Default" label="Default"></el-option>
+                <el-option value="" label="Nada"></el-option>
               </el-select>
 
               <br />
@@ -1530,18 +1517,21 @@
               <br /><br />
             </div>
 
-
             <!-- FORM SIMPLE DOBLE NUMBER TYPE -->
 
-             <div v-if="widgetType == 'doblevalue'">
+            <div v-if="widgetType == 'doblevalue'">
               <base-input
                 v-model="iotDobleValueConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
-               </base-input>
+              </base-input>
 
-               <base-input v-model="iotDobleValueConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="iotDobleValueConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1551,7 +1541,11 @@
               >
               </base-input>
 
-              <base-input v-model="iotDobleValueConfig.unit2" label="Unit2" type="text">
+              <base-input
+                v-model="iotDobleValueConfig.unit2"
+                label="Unit2"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1632,16 +1626,16 @@
               <br /><br />
             </div>
 
-             <!-- FORM SIMPLE NUMBER TYPE  2 -->
+            <!-- FORM SIMPLE NUMBER TYPE  2 -->
 
-             <div v-if="widgetType == 'simple2'">
+            <div v-if="widgetType == 'simple2'">
               <base-input
                 v-model="iotSimpleConfig2.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="iotSimpleConfig2.nombre"
@@ -1649,9 +1643,13 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
-              <base-input v-model="iotSimpleConfig2.unit" label="Unit" type="text">
+              <base-input
+                v-model="iotSimpleConfig2.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1661,7 +1659,11 @@
               >
               </base-input>
 
-              <base-input v-model="iotSimpleConfig2.unit2" label="Unit" type="text">
+              <base-input
+                v-model="iotSimpleConfig2.unit2"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
               <base-input
@@ -1671,10 +1673,12 @@
               >
               </base-input>
 
-              <base-input v-model="iotSimpleConfig2.unit3" label="Unit" type="text">
+              <base-input
+                v-model="iotSimpleConfig2.unit3"
+                label="Unit"
+                type="text"
+              >
               </base-input>
-
-
 
               <base-input
                 v-model.number="iotSimpleConfig2.decimalPlaces"
@@ -1691,9 +1695,8 @@
                 type="number"
               ></base-input>
 
-
               <br />
-              
+
               <el-select
                 v-model="iotSimpleConfig2.class"
                 label="Color Fondo"
@@ -1701,58 +1704,27 @@
                 placeholder="Seleccionar color"
                 style="width: 100%;"
               >
-                <el-option
-                  value="success"
-                  label="success"
-                ></el-option>
-                <el-option
-                  value="primary"
-                  label="primary"
-                ></el-option>
-                <el-option
-                  value="secondary"
-                  label="secondary"
-                ></el-option>
-                <el-option
-                  value="info"
-                  label="info"
-                ></el-option>
-                <el-option
-                  value="warning"
-                  label="warning"
-                ></el-option>
-                <el-option
-                  value="danger"
-                  label="danger"
-                ></el-option>
-               <el-option
-                  value="light"
-                  label="light"
-                ></el-option>
-                <el-option
-                  value="dark"
-                  label="dark"
-                ></el-option>
-                <el-option
-                  value="Default"
-                  label="Default"
-                ></el-option>
-                <el-option
-                  value=""
-                  label="Nada"
-                ></el-option>
-                
+                <el-option value="success" label="success"></el-option>
+                <el-option value="primary" label="primary"></el-option>
+                <el-option value="secondary" label="secondary"></el-option>
+                <el-option value="info" label="info"></el-option>
+                <el-option value="warning" label="warning"></el-option>
+                <el-option value="danger" label="danger"></el-option>
+                <el-option value="light" label="light"></el-option>
+                <el-option value="dark" label="dark"></el-option>
+                <el-option value="Default" label="Default"></el-option>
+                <el-option value="" label="Nada"></el-option>
               </el-select>
 
-              <br>
+              <br />
 
               <el-select
                 v-model="iotSimpleConfig2.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
-              > 
-               <el-option
+              >
+                <el-option
                   class="text-dark"
                   value="col-2"
                   label="col-2"
@@ -1812,111 +1784,7 @@
               <br /><br />
             </div>
 
-            <!-- One Value Card-->
-
-             <div v-if="widgetType == 'OneValueCard'">
-              <base-input
-                v-model="OneValueCardConfig.variableFullName"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-               
-              <base-input
-                v-model="OneValueCardConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-
-
-              <base-input v-model="OneValueCardConfig.unit" label="Unit" type="text">
-              </base-input>
-
-              <base-input
-                v-model.number="OneValueCardConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="OneValueCardConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-
-              <br />
-
-              <el-select
-                v-model="OneValueCardConfig.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%;"
-              > 
-               <el-option
-                  class="text-dark"
-                  value="col-2"
-                  label="col-2"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
               <br /><br />
-            </div>
 
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
@@ -1933,8 +1801,8 @@
                 type="text"
               >
               </base-input>
-              <br>
-  
+              <br />
+
               <base-input
                 v-model="iotSwitchConfig.icon"
                 label="Icon"
@@ -2042,7 +1910,7 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="configButton.nombre"
@@ -2050,7 +1918,7 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="configButton.message"
@@ -2058,7 +1926,7 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="configButton.text"
@@ -2066,7 +1934,7 @@
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="configButton.icon"
@@ -2169,14 +2037,13 @@
 
             <!-- FORM INDICATOR TYPE -->
             <div v-if="widgetType == 'indicator'">
-
               <base-input
                 v-model="iotIndicatorConfig.variableFullName"
                 label="Var Name"
                 type="text"
               >
               </base-input>
-              <br>
+              <br />
 
               <base-input
                 v-model="iotIndicatorConfig.nombre"
@@ -2184,9 +2051,7 @@
                 type="text"
               >
               </base-input>
-              <br>
-
-              
+              <br />
 
               <base-input
                 v-model="iotIndicatorConfig.icon"
@@ -2203,7 +2068,7 @@
               ></base-input>
 
               <br />
-              
+
               <el-select
                 v-model="iotIndicatorConfig.width"
                 class="select-success"
@@ -2215,11 +2080,7 @@
                   width="100"
                   label="100%"
                 ></el-option>
-                <el-option
-                  class="text-dark"
-                  width="50"
-                  label="50%"
-                ></el-option>
+                <el-option class="text-dark" width="50" label="50%"></el-option>
               </el-select>
 
               <br /><br /><br />
@@ -2362,13 +2223,13 @@
               v-if="widgetType == 'simple2'"
               :config="iotSimpleConfig2"
             ></Simple2>
-            <OneValueCard
-              v-if="widgetType == 'onevaluecard'"
-              :config="OneValueCardConfig"
-            ></OneValueCard>
+            <RtChartHistoric
+              v-if="widgetType == 'charthistoric'"
+              :config="HistoricChartConfig"
+            ></RtChartHistoric>
           </div>
         </div>
-
+       
         <!-- ADD WIDGET BUTTON -->
         <div class="row pull-right">
           <div class="col-12">
@@ -2384,7 +2245,7 @@
           </div>
         </div>
       </card>
-    </div> 
+    </div>
 
     <!-- DASHBOARD PREVIEW -->
     <div class="row">
@@ -2403,6 +2264,10 @@
           v-if="widget.widget == 'numberchart'"
           :config="widget"
         ></Rtnumberchart>
+        <RtChartHistoric
+          v-if="widget.widget == 'charthistoric'"
+          :config="widget"
+        ></RtChartHistoric>
         <RTDoblechart
           v-if="widget.widget == 'doblechart'"
           :config="widget"
@@ -2439,23 +2304,17 @@
           :config="widget"
         ></Iotindicator>
 
-        <Simple
-         v-if="widget.widget == 'simple'"
-          :config="widget"
-          ></Simple>
+        <Simple v-if="widget.widget == 'simple'" 
+        :config="widget"></Simple>
         <Simple2
-        v-if="widget.widget == 'simplenumber2'"
-        :config="widget"
+          v-if="widget.widget == 'simplenumber2'"
+          :config="widget"
         ></Simple2>
-        <OneValueCard
-        v-if="widget.widget == 'onevaluecard'"
-        :config="widget"
-        ></OneValueCard>
       </div>
     </div>
 
     <!-- SAVE TEMPLATE FORM-->
-    <div class="row" >
+    <div class="row">
       <card>
         <div slot="header">
           <h4 class="card-title">Save Template</h4>
@@ -2493,15 +2352,24 @@
             >
               Save Template
             </base-button>
+            <base-button
+              native-type="submit"
+              type="primary"
+              class="mb-3 pull-right"
+              size="lg"
+              @click="saveTemplateHistorical()"
+              :disabled="widgets.length == 0"
+            >
+              Save Template Historical
+            </base-button>
           </div>
         </div>
       </card>
     </div>
 
-
     <!-- TEMPLATES TABLE -->
     <div class="row">
-      <card>
+      <b-card>
         <div slot="header">
           <h4 class="card-title">Templates</h4>
         </div>
@@ -2551,9 +2419,8 @@
             </el-table-column>
           </el-table>
         </div>
-      </card>
+      </b-card>
     </div>
-
 
   </div>
 </template>
@@ -2574,10 +2441,34 @@ export default {
     return {
       widgets: [],
       templates: [],
+      templatesHistorical:[],
       widgetType: "",
       templateName: "",
       templateDescription: "",
 
+      HistoricChartConfig: {
+        userId: "sampleuserid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        nombre: "Historico",
+        variable: "varname", //variable es la var name interna
+        variableType: "input",
+        variableSendFreq: "30",
+        unit: "Watts",
+        class: "success",
+        column: "col-12",
+        decimalPlaces: 2,
+        widget: "charthistoric",
+        icon: "",
+        chartTimeAgo: 1440,
+        demo: true,
+        tipo: "",
+        animacion: 2000,
+        historical: ''
+      },
 
       ncConfig: {
         userId: "sampleuserid",
@@ -2586,8 +2477,8 @@ export default {
           dId: "8888"
         },
         variableFullName: "temperature",
-        nombre:"Voltaje",
-        variable: "varname",   //variable es la var name interna 
+        nombre: "Voltaje",
+        variable: "varname", //variable es la var name interna
         variableType: "input",
         variableSendFreq: "30",
         unit: "Watts",
@@ -2598,23 +2489,24 @@ export default {
         icon: "",
         chartTimeAgo: 60,
         demo: true,
-        tipo:"",
-        animacion:2000
+        tipo: "",
+        animacion: 2000,
+        historical: ''
       },
-      
+
       EnergyChartConfig: {
         userId: "sampleuserid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
-        nombre2:"Voltaje",
-        nombre3:"Voltaje",
+        nombre: "Voltaje",
+        nombre2: "Voltaje",
+        nombre3: "Voltaje",
         variableFullName: "temperature",
         variableFullName2: "Humedad",
         variableFullName3: "Presión",
-        variable: "varname",   //variable es la var name interna 
+        variable: "varname", //variable es la var name interna
         variable2: "varname2",
         variable3: "varname3",
         variableType: "input",
@@ -2631,8 +2523,9 @@ export default {
         icon: "",
         chartTimeAgo: 60,
         demo: true,
-        tipo:"",
-        animacion:2000
+        tipo: "",
+        animacion: 2000,
+        historical: true
       },
 
       DobleChartConfig: {
@@ -2641,13 +2534,13 @@ export default {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
-        nombre2:"Voltaje",
-        nombre3:"Voltaje",
+        nombre: "Voltaje",
+        nombre2: "Voltaje",
+        nombre3: "Voltaje",
         variableFullName: "temperature",
         variableFullName2: "Humedad",
         variableFullName3: "Presión",
-        variable: "varname",   //variable es la var name interna 
+        variable: "varname", //variable es la var name interna
         variable2: "varname2",
         variable3: "varname3",
         variableType: "input",
@@ -2664,19 +2557,20 @@ export default {
         icon: "",
         chartTimeAgo: 60,
         demo: true,
-        tipo:"",
-        animacion:2000
+        tipo: "",
+        animacion: 2000,
+        historical: true
       },
-      
+
       SmoothChartConfig: {
         userId: "sampleuserid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
-        variable: "varname",   //variable es la var name interna 
+        variable: "varname", //variable es la var name interna
         variableType: "input",
         variableSendFreq: "30",
         unit: "C",
@@ -2687,9 +2581,9 @@ export default {
         widget: "smoothchart",
         icon: "",
         chartTimeAgo: 60,
-        demo: true
+        demo: true,
+        historical: true
       },
-
 
       iotSwitchConfig: {
         userId: "userid",
@@ -2697,16 +2591,16 @@ export default {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "Luz",
         variable: "varname",
         variableType: "output",
         class: "danger",
         widget: "switch",
         icon: "",
-        column: "col-6"
+        column: "col-6",
+        historical: false
       },
-
 
       iotIndicatorConfig: {
         userId: "userid",
@@ -2714,16 +2608,17 @@ export default {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         variableType: "input",
         variableSendFreq: "30",
-        style:"50",
+        style: "50",
         class: "success",
         widget: "indicator",
         icon: "",
-        column: "col-6"
+        column: "col-6",
+        historical: false
       },
 
       configButton: {
@@ -2735,7 +2630,7 @@ export default {
           templateId: "984237562348756ldksjfh",
           saverRule: false
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "Pump",
         variable: "var1",
         variableType: "output",
@@ -2745,14 +2640,15 @@ export default {
         class: "danger",
         message: "{'fanstatus': 'stop'}"
       },
-      
-      CostComponentConfig: {       //mio
+
+      CostComponentConfig: {
+        //mio
         userId: "userid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         unit: "$",
@@ -2763,16 +2659,17 @@ export default {
         column: "col-3",
         class: "info",
         textvariant: "white",
-        header:"Primary"
+        header: "Primary"
       },
 
-       iotDobleValueConfig: {       //mio
+      iotDobleValueConfig: {
+        //mio
         userId: "userid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
         variableFullName2: "light",
         variable: "varname",
@@ -2786,13 +2683,14 @@ export default {
         column: "col-3"
       },
 
-       iotSimpleConfig: {       //mio
+      iotSimpleConfig: {
+        //mio
         userId: "userid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
         variable: "varname",
         unit: "Watts",
@@ -2803,16 +2701,17 @@ export default {
         widget: "simple",
         column: "col-4",
         textvariant: "white",
-        header:"Primary"
+        header: "Primary"
       },
 
-      iotSimpleConfig2: {       //mio
+      iotSimpleConfig2: {
+        //mio
         userId: "userid",
         selectedDevice: {
           name: "Home",
           dId: "8888"
         },
-        nombre:"Voltaje",
+        nombre: "Voltaje",
         variableFullName: "temperature",
         variableFullName2: "temperature",
         variableFullName3: "temperature",
@@ -2827,24 +2726,7 @@ export default {
         widget: "simplenumber2",
         column: "col-4",
         textvariant: "white",
-        header:"Primary"
-      },
-
-      OneValueCardConfig: {       //mio
-        userId: "userid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888"
-        },
-        nombre:"Voltaje",
-        variableFullName: "temperature",
-        variable: "varname",
-        unit: "Watts",
-        variableType: "input",
-        variableSendFreq: "30",
-        decimalPlaces: 2,
-        widget: "onevaluecard",
-        column: "col-2"
+        header: "Primary"
       },
 
     };
@@ -2852,7 +2734,6 @@ export default {
 
   mounted() {
     this.getTemplates();
-   
   },
 
   methods: {
@@ -2866,10 +2747,33 @@ export default {
 
       try {
         const res = await this.$axios.get("/template", axiosHeaders);
-        console.log(res.data);
-
+        //console.log(res.data);
         if (res.data.status == "success") {
           this.templates = res.data.data;
+        }
+      } catch (error) {
+        this.$notify({
+          type: "danger",
+          icon: "tim-icons icon-alert-circle-exc",
+          message: "Error getting templates..."
+        });
+        console.log(error);
+        return;
+      }
+    },
+
+    async getTemplatesHistorical() {
+      const axiosHeaders = {
+        headers: {
+          token: this.$store.state.auth.token
+        }
+      };
+
+      try {
+        const res = await this.$axios.get("/templatehistorical", axiosHeaders);
+        //console.log(res.data);
+        if (res.data.status == "success") {
+          this.templatesHistorical = res.data.data;
         }
       } catch (error) {
         this.$notify({
@@ -2889,9 +2793,7 @@ export default {
           token: this.$store.state.auth.token
         }
       };
-
-      console.log(axiosHeaders);
-
+      //console.log(axiosHeaders);
       const toSend = {
         template: {
           name: this.templateName,
@@ -2899,7 +2801,6 @@ export default {
           widgets: this.widgets
         }
       };
-
       try {
         const res = await this.$axios.post("/template", toSend, axiosHeaders);
 
@@ -2924,35 +2825,70 @@ export default {
       }
     },
 
+    async saveTemplateHistorical() {
+      const axiosHeaders = {
+        headers: {
+          token: this.$store.state.auth.token
+        }
+      };
+      //console.log(axiosHeaders);
+      const toSend = {
+        template: {
+          name: this.templateName,
+          description: "Historical",
+          widgets: this.widgets
+        }
+      };
+      try {
+        const res = await this.$axios.post("/templatehistorical", toSend, axiosHeaders);
+
+        if (res.data.status == "success") {
+          this.$notify({
+            type: "success",
+            icon: "tim-icons icon-alert-circle-exc",
+            message: "Template created!"
+          });
+          this.getTemplatesHistorical();
+          this.widgets = [];
+        }
+      } catch (error) {
+        this.$notify({
+          type: "danger",
+          icon: "tim-icons icon-alert-circle-exc",
+          message: "Error creating template..."
+        });
+        console.log(error);
+        return;
+      }
+    },
+
     //Delete Template
     async deleteTemplate(template) {
-
-      
       const axiosHeaders = {
         headers: {
           token: this.$store.state.auth.token
         },
-        params:{
-          templateId:template._id
+        params: {
+          templateId: template._id
         }
       };
 
       console.log(axiosHeaders);
 
       try {
-
         const res = await this.$axios.delete("/template", axiosHeaders);
 
-        console.log(res.data)
+        console.log(res.data);
 
         if (res.data.status == "fail" && res.data.error == "template in use") {
-
           this.$notify({
             type: "danger",
             icon: "tim-icons icon-alert-circle-exc",
-            message: template.name + " is in use. First remove the devices linked to the template!"
+            message:
+              template.name +
+              " is in use. First remove the devices linked to the template!"
           });
-          
+
           return;
         }
 
@@ -2962,7 +2898,7 @@ export default {
             icon: "tim-icons icon-check-2",
             message: template.name + " was deleted!"
           });
-          
+
           this.getTemplates();
         }
       } catch (error) {
@@ -2989,7 +2925,7 @@ export default {
         this.DobleChartConfig.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.DobleChartConfig)));
       }
-  
+
       if (this.widgetType == "smoothchart") {
         this.SmoothChartConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.SmoothChartConfig)));
@@ -3010,7 +2946,7 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.iotIndicatorConfig)));
       }
 
-       if (this.widgetType == "simple") {
+      if (this.widgetType == "simple") {
         this.iotSimpleConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig)));
       }
@@ -3031,10 +2967,10 @@ export default {
         this.iotSimpleConfig2.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig2)));
       }
-       
-      if (this.widgetType == "onevaluecard") {
-        this.OneValueCardConfig.variable = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.OneValueCardConfig)));
+
+      if (this.widgetType == "charthistoric") {
+        this.HistoricChartConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.HistoricChartConfig)));
       }
 
       if (this.widgetType == "energychart") {
@@ -3043,8 +2979,6 @@ export default {
         this.EnergyChartConfig.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.EnergyChartConfig)));
       }
-      
-
     },
 
     //Delete Widget

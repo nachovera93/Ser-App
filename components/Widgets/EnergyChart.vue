@@ -1,17 +1,17 @@
 <template>
-  <!-- <b-card> -->
-  <div>
+  <b-card > 
+    <!-- class="col-xs-12 col-sm-12 col-md-8 col-lg-6" -->
     <b-tabs fill justified>
-      <b-tab :title="config.nombre" active>
-        <b-card type="chart">
+      <b-tab class="col-xs-12" :title="config.nombre" active>
+        <b-card  >
           <template slot="header">
-            <div class="card-category pull-right px-2">
+            <div class="col-xs-2 col-sm-4 col-md-3 col-lg-2 card-category px-1 pull-right">
               <label>Color Grafico</label>
               <b-form-select v-model="selected2" :options="colores" />
             </div>
-            <div class="card-category pull-right">
-              <label>Tiempo Atrás (min)</label>
-              <b-form-select v-model="selected" :options="timeback" />
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-2 card-category px-1 pull-right">
+              <label>Tiempo Atrás (Min)</label>
+              <b-form-select v-model="selected" :options="options" />
             </div>
            
 
@@ -48,16 +48,16 @@
         </b-card>
       </b-tab>
 
-      <b-tab :title="config.nombre2">
-        <b-card type="chart">
+      <b-tab class="col-xs-4" :title="config.nombre2">
+        <b-card class="col-xs-12" type="chart">
           <template slot="header">
-            <div class="card-category pull-right px-2">
+            <div class="col-xs-3 col-sm-4 col-md-3 col-lg-2 card-category px-1 pull-right">
               <label>Color</label>
               <b-form-select v-model="selected3" :options="colores" />
             </div>
-            <div class="card-category pull-right">
-              <label>Tiempo Atrás (min)</label>
-              <b-form-select v-model="selected" :options="timeback" />
+            <div class="col-xs-3 col-sm-4 col-md-3 col-lg-2 card-category px-1 pull-right">
+              <label>Tiempo Atrás (Min)</label>
+              <b-form-select v-model="selected" :options="options" />
             </div>
             
 
@@ -93,16 +93,16 @@
           <!-- <h5>{{ config }}</h5> -->
         </b-card>
       </b-tab>
-      <b-tab :title="config.nombre3">
-        <b-card type="chart">
+      <b-tab class="col-xs-4" :title="config.nombre3">
+        <b-card class="col-xs-12" type="chart">
           <template slot="header">
-            <div class="card-category pull-right px-2">
+            <div class="col-xs-3 col-sm-4 col-md-3 col-lg-2 card-category px-1 pull-right">
               <label>Color</label>
               <b-form-select v-model="selected4" :options="colores" />
             </div>
-            <div class="card-category pull-right">
-              <label>Tiempo Atrás (min)</label>
-              <b-form-select v-model="selected" :options="timeback" />
+            <div class="col-xs-3 col-sm-4 col-md-3 col-lg-2 card-category px-1 pull-right">
+              <label>Tiempo Atrás (Min)</label>
+              <b-form-select v-model="selected" :options="options" />
             </div>
             
 
@@ -140,9 +140,9 @@
       </b-tab>
     </b-tabs>
     <!-- <h5>{{ config }}</h5> -->
-  </div>
+  
 
-  <!-- </b-card> -->
+ </b-card>
 </template>
 
 <script>
@@ -157,8 +157,22 @@ export default {
       selected2:this.config.class,
       selected3:this.config.class2,
       selected4:this.config.class3,
-      timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
-      colores:["success","primary","warning","danger"],
+      options: [
+          { value: 5, text: '5 minutos atrás' },
+          { value: 10, text: '10 minutos atrás' },
+          { value: 30, text: '30 minutos atrás' },
+          { value: 60, text: '1 hora atrás' },
+          { value: 120, text: '2 horas atrás' },
+          { value: 180, text: '3 horas atrás' },
+          { value: 720, text: '12 horas atrás' },
+          { value: 1440, text: '1 día atrás' },
+            ],
+      colores: [
+          { value: "success", text: 'Verde' },
+          { value: "primary", text: 'Morado' },
+          { value: "warning", text: 'Naranjo' },
+          { value: "danger", text: 'Rojo' }
+            ],
       receivedTime: 0,
       value: 0,
       value2: 0,

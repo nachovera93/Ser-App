@@ -24,7 +24,7 @@
           }"
         >
         </sidebar-item>
-      <!--
+        <!--
         <sidebar-item
           :link="{
             name: 'Devices',
@@ -64,7 +64,11 @@
       <div :class="{ content: !isFullScreenRoute }" @click="toggleSidebar">
         <zoom-center-transition :duration="1000" mode="out-in">
           <!-- your content here -->
+          <!-- <ion-app> -->
           <nuxt></nuxt>
+          
+            <!-- <ion-router-outlet /> -->
+          <!-- </ion-app> -->
         </zoom-center-transition>
       </div>
       <content-footer v-if="!isFullScreenRoute"></content-footer>
@@ -113,7 +117,7 @@ export default {
       client: null,
       options: {
         host: process.env.mqtt_host, //Red local o vps
-        port: process.env.mqtt_port,  //puertos de mqtt
+        port: process.env.mqtt_port, //puertos de mqtt
         endpoint: "/mqtt",
         clean: true,
         connectTimeout: 5000,
@@ -201,9 +205,7 @@ export default {
           this.client.options.password = credentials.data.password;
         }
       } catch (error) {
-
         console.log(error);
-
 
         if (error.response.status == 401) {
           console.log("NO VALID TOKEN");
@@ -214,7 +216,6 @@ export default {
 
           window.location.href = "/login";
         }
-        
       }
     },
 
@@ -228,13 +229,11 @@ export default {
         this.$store.state.auth.userData._id + "/+/+/notif";
 
       const connectUrl =
-        process.env.mqtt_prefix + 
+        process.env.mqtt_prefix +
         this.options.host +
         ":" +
         this.options.port +
         this.options.endpoint;
-
-        
 
       try {
         this.client = mqtt.connect(connectUrl, this.options);

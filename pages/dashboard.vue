@@ -10,7 +10,7 @@
       :class="[widget.column]"
       
     >
-         <!-- <h5>{{widget}}</h5> -->
+          <h5>{{widget}}</h5> 
       <Rtnumberchart
         v-if="widget.widget == 'numberchart'"
         :config="fixWidget(widget)"
@@ -102,12 +102,15 @@ export default {
 
       if (widget.widget =="numberchart"){
         widgetCopy.demo = false;
+         widgetCopy.historical = 'false';
       }
       if (widget.widget =="energychart"){
         widgetCopy.demo = false;
+         widgetCopy.historical = 'false';
       }
       if (widget.widget =="doblechart"){
         widgetCopy.demo = false;
+         widgetCopy.historical = 'false';
       }
       
       return widgetCopy;
