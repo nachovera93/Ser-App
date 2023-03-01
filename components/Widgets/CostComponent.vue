@@ -1,19 +1,20 @@
 <template>
   <div>
-    <b-card :bg-variant="config.class"  text-variant="dark"  class="text-center"> 
+    <b-card :bg-variant="config.class" text-variant="dark" class="text-center">
       <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
-         <b-card-text> 
+      <b-card-text>
         {{ config.variableFullName }}
-        </b-card-text> 
-        
-        <h3 >
-          <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }} {{ config.unit }}</span
-          >
-        </h3>
-        
+      </b-card-text>
+
+      <h3>
+        <span
+          >{{ Number(value).toFixed(config.decimalPlaces) }}
+          {{ config.unit }}</span
+        >
+      </h3>
     </b-card>
     <h5>{{ config }}</h5>
+    <h5>Tópico actual: {{ topic }}</h5>
   </div>
 </template>
 
@@ -34,6 +35,7 @@ export default {
       immediate: true,
       deep: true,
       handler() {
+        console.log("Suscrito a tópico: " + this.topic);
         setTimeout(() => {
           this.value = 0;
           this.$nuxt.$off(this.topic + "/sdata");
@@ -51,6 +53,7 @@ export default {
 
   mounted() {
     this.getNow();
+    this.getData();
   },
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
@@ -58,7 +61,7 @@ export default {
   computed: {
     foo() {
       return this.value2 ? "success" : "warning"; //<--- define condition/s
-    },
+    }
   },
   methods: {
     processReceivedData(data) {
@@ -69,7 +72,31 @@ export default {
         console.log(error);
       }
     },
-
+    getData() {
+      const axiosHeaders = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable
+        }
+      };
+      this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value = element.value;
+            console.log("valur ", this.value);
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+    },
     getNow() {
       this.nowTime = Date.now();
       setTimeout(() => {
@@ -101,7 +128,6 @@ export default {
         return seconds.toFixed() + " day";
       }
     }
-   
   }
 };
 </script>

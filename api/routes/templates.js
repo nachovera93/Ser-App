@@ -87,6 +87,30 @@ router.post('/template', checkAuth, async (req, res) => {
 
 });
 
+//Template Color
+//router.post('/widgetcolor', checkAuth, async (req, res) => {
+//    try {
+//        const userId = req.userData._id;
+//        //var newTemplate = req.body.template;
+//        console.log(req.body)
+//        const response = {
+//            status: "success",
+//        }
+//        return res.json(response)
+//
+//    } catch (error) {
+//        console.log(error);
+//        const response = {
+//            status: "error",
+//            error: error
+//        }
+//        return res.status(500).json(response);
+//    }
+//
+//});
+//
+
+
 router.post('/templatehistorical', checkAuth, async (req, res) => {
     try {
         const userId = req.userData._id;

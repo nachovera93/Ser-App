@@ -1,20 +1,25 @@
 <template>
 
 
-    
+
   <div class="row" v-if="$store.state.devices.length > 0">
-   
+
     <div
       v-for="(widget, index) in $store.state.selectedDevice.template.widgets"
       :key="index"
       :class="[widget.column]"
-      
+
     >
-          <h5>{{widget}}</h5> 
+          <!-- <h5>{{widget}}</h5> -->
       <Rtnumberchart
         v-if="widget.widget == 'numberchart'"
         :config="fixWidget(widget)"
       ></Rtnumberchart>
+
+      <RtChartHistoric
+        v-if="widget.widget == 'charthistoric'"
+        :config="fixWidget(widget)"
+      ></RtChartHistoric>
 
       <EnergyChart
         v-if="widget.widget == 'energychart'"
@@ -25,12 +30,12 @@
         v-if="widget.widget == 'doblevalue'"
         :config="fixWidget(widget)"
       ></DobleValue>
-      
+
       <CostComponent
           v-if="widget.widget == 'costcomponent'"
           :config="widget"
         ></CostComponent>
-        
+
       <RTDoblechart
         v-if="widget.widget == 'doblechart'"
         :config="fixWidget(widget)"
@@ -66,29 +71,40 @@
         :config="fixWidget(widget)"
       ></Simple2>
 
-     
+
+
     </div>
+    <Wheater></Wheater>
+      <div><PhotoFile /></div>
+      <TableEnergy></TableEnergy>
   </div>
 
   <div v-else>
     Select a Device...
   </div>
 
+
 </template>
 <script>
+import TableEnergy from "../components/Widgets/TableEnergy.vue"
 
+//import PhotoFile from "./components/widgets/PhotoFile";
 export default {
+  components: { TableEnergy },
   middleware: 'authenticated',
   name: 'Dashboard',
+  //components: {
+  //  PhotoFile
+  //},
   data() {
     return {
 
 
-    } 
+    }
   },
 
   mounted() {
-  
+
 
   },
 
@@ -104,6 +120,10 @@ export default {
         widgetCopy.demo = false;
          widgetCopy.historical = 'false';
       }
+      if (widget.widget =="charthistoric"){
+        widgetCopy.demo = false;
+         widgetCopy.historical = 'false';
+      }
       if (widget.widget =="energychart"){
         widgetCopy.demo = false;
          widgetCopy.historical = 'false';
@@ -112,7 +132,7 @@ export default {
         widgetCopy.demo = false;
          widgetCopy.historical = 'false';
       }
-      
+
       return widgetCopy;
     }
 

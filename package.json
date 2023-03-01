@@ -33,6 +33,7 @@
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "mqtt": "^4.3.7",
+    "node-sass": "^7.0.3",
     "nuxt": "^2.14.7",
     "nuxt-highcharts": "^1.0.3",
     "perfect-scrollbar": "^1.5.5",
@@ -41,6 +42,7 @@
     "ufo": "^0.8.5",
     "vue": "^2.7.10",
     "vue-chartjs": "^3.4.0",
+    "vue-image-upload-resize": "^2.3.0",
     "vue-template-compiler": "^2.7.10",
     "vue2-transitions": "^0.2.3"
   },
@@ -50,7 +52,6 @@
     "@babel/node": "^7.18.10",
     "@babel/preset-env": "^7.19.0",
     "babel-plugin-component": "^1.1.1",
-    "node-sass": "^4.12.0",
     "sass-loader": "^10.3.1"
   }
 }

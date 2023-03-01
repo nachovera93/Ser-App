@@ -12,8 +12,15 @@
       style="font-size: 30px"
     ></i>
 
-    <base-button  @click="sendValue()" :type="config.class" class="mb-3 pull-right" size="lg">{{config.text}}</base-button>
-
+    <base-button
+      @click="sendValue()"
+      :type="config.class"
+      class="mb-3 pull-right"
+      size="lg"
+      >{{ config.text }}</base-button
+    >
+    <h5>{{ config }}</h5>
+    <!-- <h5>Tópico actual: {{ topic }}</h5> -->
   </card>
 </template>
 
@@ -22,38 +29,36 @@ export default {
   props: ["config"],
   data() {
     return {
-      sending: false,
+      sending: false
     };
   },
-  mounted() {
- 
-  },
+  mounted() {},
   methods: {
-
     sendValue() {
+      this.sending = true;
 
-        this.sending = true;
+      setTimeout(() => {
+        this.sending = false;
+      }, 500);
 
-        setTimeout(() => {
-            this.sending = false;
-        }, 500);
+      const toSend = {
+        topic:
+          this.config.userId +
+          "/" +
+          this.config.selectedDevice.dId +
+          "/" +
+          this.config.variable +
+          "/actdata",
+        msg: {
+          value: this.config.message
+        }
+      };
 
-        const toSend = {
-            topic: this.config.userId + "/" + this.config.selectedDevice.dId + "/" + this.config.variable + "/actdata",
-            msg: {
-                value: this.config.message
-            }
-        };
-
-        console.log(toSend);
-        this.$nuxt.$emit('mqtt-sender', toSend);
-
-
+      console.log(toSend);
+      this.$nuxt.$emit("mqtt-sender", toSend);
     },
-   
 
     getIconColorClass() {
-
       if (!this.sending) {
         return "text-dark";
       }

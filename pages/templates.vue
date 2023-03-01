@@ -95,6 +95,12 @@
                 value="charthistoric"
                 label="Historic <-"
               ></el-option>
+
+              <el-option
+                class="text-dark"
+                value="DataBetween"
+                label="DataBetween <-"
+              ></el-option>
             </el-select>
 
             <br />
@@ -173,6 +179,80 @@
 
               <el-select
                 v-model="HistoricChartConfig.class"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="success"
+                  label="Success"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="primary"
+                  label="Primary"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="warning"
+                  label="Warning"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="danger"
+                  label="Danger"
+                ></el-option>
+              </el-select>
+             </div>
+
+               <br /><br /><br />
+
+            <!-- FORMS DATA BETWEEN CHART TYPE -->
+            <div v-if="widgetType == 'DataBetween'">
+              <base-input
+                v-model="DataBetweenConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input
+                v-model="DataBetweenConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+
+              <br />
+
+              <base-input v-model="DataBetweenConfig.unit" label="Unit" type="text">
+              </base-input>
+
+               <br />
+
+              <base-input
+                v-model.number="DataBetweenConfig.decimalPlaces"
+                label="Decimal Places"
+                type="number"
+              >
+              </base-input>
+
+               <br />
+
+
+              <base-input
+                v-model="DataBetweenConfig.icon"
+                label="Icon"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <el-select
+                v-model="DataBetweenConfig.class"
                 class="select-success"
                 placeholder="Select Class"
                 style="width: 100%;"
@@ -302,7 +382,7 @@
               </el-select>
 
 
-             
+
               <br /><br /><br />
 
               <el-select
@@ -883,8 +963,25 @@
               <br /><br /><br />
 
               <el-select
-                v-model="EnergyChartConfig.tipo"
-                label="Animacion"
+                v-model="EnergyChartConfig.TipoGrafico1"
+                label="Tipo Grafico Live"
+                class="select-success"
+                placeholder="Select type "
+                style="width: 100%;"
+              >
+                <el-option value="column" label="Tipo Columna"></el-option>
+                <el-option value="spline" label="Tipo Linea Suave"></el-option>
+                <el-option value="line" label="Tipo Linea"></el-option>
+                <el-option value="scatter" label="Tipo Puntos"></el-option>
+                <el-option value="areaspline" label="Tipo Area"></el-option>
+                <el-option value="area" label="Tipo Linea Area"></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.TipoGrafico2"
+                label="Tipo Grafico Data"
                 class="select-success"
                 placeholder="Select type "
                 style="width: 100%;"
@@ -2183,6 +2280,10 @@
               v-if="widgetType == 'numberchart'"
               :config="ncConfig"
             ></Rtnumberchart>
+            <DataBetween
+              v-if="widgetType == 'DataBetween'"
+              :config="DataBetweenConfig"
+            ></DataBetween>
             <EnergyChart
               v-if="widgetType == 'energychart'"
               :config="EnergyChartConfig"
@@ -2229,7 +2330,7 @@
             ></RtChartHistoric>
           </div>
         </div>
-       
+
         <!-- ADD WIDGET BUTTON -->
         <div class="row pull-right">
           <div class="col-12">
@@ -2264,6 +2365,10 @@
           v-if="widget.widget == 'numberchart'"
           :config="widget"
         ></Rtnumberchart>
+        <DataBetween
+        v-if="widget.widget ==  'DataBetween'"
+              :config="widget"
+        ></DataBetween>
         <RtChartHistoric
           v-if="widget.widget == 'charthistoric'"
           :config="widget"
@@ -2304,7 +2409,7 @@
           :config="widget"
         ></Iotindicator>
 
-        <Simple v-if="widget.widget == 'simple'" 
+        <Simple v-if="widget.widget == 'simple'"
         :config="widget"></Simple>
         <Simple2
           v-if="widget.widget == 'simplenumber2'"
@@ -2494,6 +2599,27 @@ export default {
         historical: ''
       },
 
+      DataBetweenConfig: {
+        userId: "sampleuserid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        variableFullName: "temperature",
+        nombre: "Voltaje",
+        variable: "varname", //variable es la var name interna
+        variableType: "input",
+        unit: "Watts",
+        class: "success",
+        column: "col-12",
+        decimalPlaces: 2,
+        widget: "DataBetween",
+        icon: "",
+        demo: true,
+        tipo: "",
+        animacion: 2000
+      },
+
       EnergyChartConfig: {
         userId: "sampleuserid",
         selectedDevice: {
@@ -2523,7 +2649,8 @@ export default {
         icon: "",
         chartTimeAgo: 60,
         demo: true,
-        tipo: "",
+        TipoGrafico1:"",
+        TipoGrafico2:"",
         animacion: 2000,
         historical: true
       },
@@ -2917,6 +3044,11 @@ export default {
       if (this.widgetType == "numberchart") {
         this.ncConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig)));
+      }
+
+      if (this.widgetType == "DataBetween") {
+        this.DataBetweenConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.DataBetweenConfig)));
       }
 
       if (this.widgetType == "doblechart") {

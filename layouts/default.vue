@@ -66,8 +66,8 @@
           <!-- your content here -->
           <!-- <ion-app> -->
           <nuxt></nuxt>
-          
-            <!-- <ion-router-outlet /> -->
+
+          <!-- <ion-router-outlet /> -->
           <!-- </ion-app> -->
         </zoom-center-transition>
       </div>
@@ -288,6 +288,8 @@ export default {
         try {
           const splittedTopic = topic.split("/");
           const msgType = splittedTopic[3];
+          const userId = splittedTopic[0];
+          const deviceId = splittedTopic[1];
 
           if (msgType == "notif") {
             this.$notify({
@@ -298,7 +300,35 @@ export default {
             this.$store.dispatch("getNotifications");
             return;
           } else if (msgType == "sdata") {
-            $nuxt.$emit(topic, JSON.parse(message.toString()));
+          //     const variableString = splittedTopic[2];
+          //     for(let i = 0; i < variableString.length; i += 10) {
+          //       var variable = variableString.slice(i, i+10);
+          //       var topic = userId + "/" + deviceId + "/" + variable + "/sdata";
+          //       $nuxt.$emit(topic, JSON.parse(message.toString()));
+          //     }
+          //     return;
+          // }
+            const variable = splittedTopic[2];
+            if (variable.length === 10) {
+              $nuxt.$emit(topic, JSON.parse(message.toString()));
+            } else if (variable.length === 20) {
+              var firstHalf = variable.slice(0, 10);
+              var secondHalf = variable.slice(10, 20);
+              var topic1=userId+"/"+deviceId+"/"+firstHalf+"/sdata";
+              var topic2=userId+"/"+deviceId+"/"+secondHalf+"/sdata";
+              $nuxt.$emit(topic1, JSON.parse(message.toString()));
+              $nuxt.$emit(topic2, JSON.parse(message.toString()));
+            } else if (variable.length === 30) {
+              var firstThird = variable.slice(0, 10);
+              var secondThird = variable.slice(10, 20);
+              var thirdThird = variable.slice(20, 30);
+              var topic1=userId+"/"+deviceId+"/"+firstThird+"/sdata";
+              var topic2=userId+"/"+deviceId+"/"+secondThird+"/sdata";
+              var topic3=userId+"/"+deviceId+"/"+thirdThird+"/sdata";
+              $nuxt.$emit(topic1, JSON.parse(message.toString()));
+              $nuxt.$emit(topic2, JSON.parse(message.toString()));
+              $nuxt.$emit(topic3, JSON.parse(message.toString()));
+            }
             return;
           }
         } catch (error) {

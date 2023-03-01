@@ -6,6 +6,7 @@ const axios = require("axios");
 const colors = require("colors");
 
 import Data from "../models/data.js";
+import DataGraph from "../models/data_graph.js";
 import Device from "../models/device.js";
 import EmqxAuthRule from "../models/emqx_auth.js";
 import Notification from "../models/notifications.js";
@@ -18,11 +19,17 @@ var client;
 //**** A P I *******
 //******************
 
+function checkToken(req, res, next) {
+  if (req.headers.token != process.env.EMQX_API_TOKEN) {
+      res.status(404).json();
+  } else {
+      next();
+  }
+}
 
 //DEVICE CREDENTIALS WEBHOOK
 router.post("/getdevicecredentials", async (req, res) => {
   try {
-
     const dId = req.body.dId;
 
     const password = req.body.password;
@@ -38,7 +45,6 @@ router.post("/getdevicecredentials", async (req, res) => {
     var credentials = await getDeviceMqttCredentials(dId, userId);
 
     var template = await Template.findOne({ _id: device.templateId });
-
 
     var variables = [];
 
@@ -73,7 +79,6 @@ router.post("/getdevicecredentials", async (req, res) => {
       variables: variables
     };
 
-
     res.json(response);
 
     setTimeout(() => {
@@ -84,12 +89,115 @@ router.post("/getdevicecredentials", async (req, res) => {
     console.log(error);
     res.sendStatus(500);
   }
-}); 
- 
+});
+
+router.post("/saver-webhook", checkToken, async (req, res) => {
+  console.log("saver.webhook");
+  const data = req.body;
+  const splittedTopic = data.topic.split("/");
+  const dId = splittedTopic[1];
+  const variable = splittedTopic[2];
+
+  var result = await Device.find({ dId: dId, userId: data.userId });
+  if (result.length == 1) {
+      const timeSaveData = Date.now();
+      let values = Object.keys(data.payload).filter(key => key.startsWith("value")).map(val => data.payload[val]);
+      for (let i = 0; i < values.length; i++) {
+          const currentVariable = variable.slice(i*10, i*10+10);
+          const currentValue = values[i];
+          if (currentValue) {
+              Data.create({
+                  userId: data.userId,
+                  dId: dId,
+                  variable: currentVariable,
+                  value: currentValue,
+                  time: timeSaveData
+              });
+          }
+      }
+      console.log("Data created");
+      return res.status(200).json();
+  } else {
+      console.log("No creo data");
+      return res.status(404).json();
+  }
+});
 //SAVER WEBHOOK
-router.post("/saver-webhook", async (req, res) => {
+//router.post("/saver-webhook", async (req, res) => {
+//  try {
+//    //console.log("Estamos en Try con emqx api token ");
+//    if (req.headers.token != process.env.EMQX_API_TOKEN) {
+//      res.status(404).json();
+//      return;
+//    }
+//
+//    const data = req.body;
+//    console.log("Saver-Webhook");
+//    console.log(data);
+//    const splittedTopic = data.topic.split("/");
+//    console.log(splittedTopic);
+//    const dId = splittedTopic[1];
+//    const variable = splittedTopic[2];
+//
+//    if (variable.length === 10) {
+//      var firstTen = variable.slice(0, 10);
+//    } else if (variable.length === 20) {
+//      var firstTen = variable.slice(0, 10);
+//      var secondHalf = variable.slice(10, 20);
+//    } else if (variable.length === 30) {
+//      var firstTen = variable.slice(0, 10);
+//      var secondHalf = variable.slice(10, 20);
+//      var thirdThird = variable.slice(20, 30);
+//    }
+//
+//    var result = await Device.find({ dId: dId, userId: data.userId });
+//    //console.log("Estamos en Saver-Webhook")
+//    if (result.length == 1) {
+//      const timeSaveData = Date.now()
+//      Data.create({
+//        userId: data.userId,
+//        dId: dId,
+//        variable: firstTen,
+//        value: data.payload.value,
+//        time: timeSaveData
+//      });
+//      if (data.payload.value2 !== undefined) {
+//        console.log("value2 Create");
+//        Data.create({
+//          userId: data.userId,
+//          dId: dId,
+//          variable: secondHalf,
+//          value: data.payload.value2,
+//          time: timeSaveData
+//        });
+//      }
+//      if (data.payload.value3 !== undefined) {
+//        console.log("value3 Create");
+//        Data.create({
+//          userId: data.userId,
+//          dId: dId,
+//          variable: thirdThird,
+//          value: data.payload.value3,
+//          time: timeSaveData
+//        });
+//      }
+//      console.log("Data created ");
+//    } else {
+//      console.log("No creo data");
+//    }
+//
+//    return res.status(200).json();
+//  } catch (error) {
+//    console.log(error);
+//    return res.status(500).json();
+//  }
+//});
+//
+//SAVER WEBHOOK
+router.post("/saver-webhook-graph", async (req, res) => {
   try {
-     //console.log("Estamos en Try con emqx api token ");
+    //console.log("Estamos en Try con emqx api token ");
+    console.log("saver.webhook-graph");
     if (req.headers.token != process.env.EMQX_API_TOKEN) {
       res.status(404).json();
       return;
@@ -100,20 +208,19 @@ router.post("/saver-webhook", async (req, res) => {
     const splittedTopic = data.topic.split("/");
     const dId = splittedTopic[1];
     const variable = splittedTopic[2];
-
     var result = await Device.find({ dId: dId, userId: data.userId });
     //console.log("Estamos en Saver-Webhook")
     if (result.length == 1) {
-      Data.create({
+      DataGraph.create({
         userId: data.userId,
         dId: dId,
         variable: variable,
         value: data.payload.value,
+        value2: data.payload.value2,
         time: Date.now()
       });
       console.log("Data created");
-    }
-    else{
+    } else {
       console.log("No creo data");
     }
 

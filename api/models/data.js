@@ -10,7 +10,8 @@ const dataSchema = new Schema({
   variable: { type: String, required: [true] },
   variable2: { type: String },
   variable3: { type: String },
-  value: { type: Number, required: [true] },
+  value: { type: Number},
+  value2: { type: Number },
   time: { type: Number, required: [true] }
 });
 

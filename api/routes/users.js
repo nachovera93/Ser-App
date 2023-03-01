@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
       const token = jwt.sign({ userData: user }, "securePasswordHere", {
         expiresIn: 60 * 60 * 24 * 30
       }); 
-
+      console.log(token)
       const response = {
         status: "success",
         token: token,

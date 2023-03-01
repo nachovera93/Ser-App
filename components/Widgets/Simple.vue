@@ -1,29 +1,35 @@
 <template>
   <div>
-    <b-card :bg-variant="config.class"  text-variant="dark"  class="text-center mb-0" style="max-height: 7rem;" > 
+    <b-card
+      :bg-variant="config.class"
+      text-variant="dark"
+      class="text-center mb-0"
+      style="max-height: 7rem;"
+    >
       <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
-        
-         <b-card-text> 
+
+      <b-card-text>
         {{ config.nombre }}
-        </b-card-text> 
-        
-        <b-card-text class="mt-2">
-          <span
-            >{{ Number(value).toFixed(config.decimalPlaces) }}  -  {{ config.unit }}</span
-          >
-       </b-card-text>
-        <h6 class="card-category mt-2">
-              Last updated {{ getTimeAgo((nowTime - time) / 1000) }} ago
-            </h6>
-            
+      </b-card-text>
+
+      <b-card-text class="mt-2">
+        <span
+          >{{ Number(value).toFixed(config.decimalPlaces) }} -
+          {{ config.unit }}</span
+        >
+      </b-card-text>
+      <h6 class="card-category mt-2">
+        Last updated {{ getTimeAgo((nowTime - time) / 1000) }} ago
+      </h6>
     </b-card>
-    <!-- <h5>{{ config }}</h5> -->
+    <h5>{{ config }}</h5>
+    <h5>Tópico actual: {{ topic }}</h5>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'simple',
+  name: "simple",
   props: ["config"],
   data() {
     return {
@@ -64,8 +70,7 @@ export default {
   },
 
   methods: {
-
-    processReceivedData(data){
+    processReceivedData(data) {
       try {
         //console.log("RECEIVED");
         console.log(data);
@@ -75,23 +80,22 @@ export default {
       }
     },
     getData() {
-
       const axiosHeaders = {
         headers: {
           token: $nuxt.$store.state.auth.token
         },
         params: {
           dId: this.config.selectedDevice.dId,
-          variable: this.config.variable,
+          variable: this.config.variable
         }
       };
-        this.$axios
+      this.$axios
         .get("/get-last-data", axiosHeaders)
         .then(res => {
           const data = res.data.data;
           data.forEach(element => {
-            this.value=element.value;
-            console.log("valur ", this.value)
+            this.value = element.value;
+            console.log("valur ", this.value);
           });
           return;
         })

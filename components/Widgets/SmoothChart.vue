@@ -13,7 +13,7 @@
         <div id="animationDuration">
           <label>Animation Duration</label>
           <b-form-select v-model.number="animationDuration" :options="durations" />
-        </div>
+        </div> 
         <div id="yAxis">
           <label>y-axis Title</label>
           <input
@@ -64,11 +64,11 @@
             @focus="watchers = ['options.caption']"
             @blur="watchers = undefined"
           />
-        </div>
-      </div>
+        </div>  
+      </div> 
       <div class="col-9-auto col-md-9">
         
-        <input
+         <input
           v-model="subtitle"
           class="form-control centered"
           @focus="watchers = ['options.subtitle']"
@@ -83,6 +83,7 @@
           @chartLoaded="chartLoaded"
         />
         <div>
+          
           <b-input-group class="mt-3">
             <b-form-input
               v-for="index in points.length"
@@ -92,8 +93,8 @@
               type="number"
               @focus="watchers = ['options.series']"
               @blur="watchers = undefined"
-            />
-          </b-input-group>
+            /> 
+          </b-input-group> 
         </div>
       </div>
     </div>
@@ -143,6 +144,7 @@ export default {
         .toString(16)
     },
     chartOptions() {
+      console.log(this.chartType.toLowerCase())
       const ctx = this
       return {
         caption: {

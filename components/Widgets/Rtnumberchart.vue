@@ -1,19 +1,82 @@
 <template>
   <b-card type="chart">
     <template slot="header">
+      <div
+        class="col-sm-2
+      "
+      >
+        <base-button
+          @click="getDataBetween()"
+          type="primary"
+          class="mb-2"
+          size="lg-2"
+          >Filtrar</base-button
+        >
+      </div>
+      <h5>{{ this.selected_radious }}</h5>
+      <div>
+        <b-form-group label="Individual radios" v-slot="{ ariaDescribedby }">
+          <b-form-radio
+            v-model="selected_radious"
+            :aria-describedby="ariaDescribedby"
+            name="some-radios"
+            value="A"
+            >Option A</b-form-radio
+          >
+          <b-form-radio
+            v-model="selected_radious"
+            :aria-describedby="ariaDescribedby"
+            name="some-radios"
+            value="B"
+            >Option B</b-form-radio
+          >
+        </b-form-group>
+
+        <div class="mt-3">
+          Selected: <strong>{{ selected_radious }}</strong>
+        </div>
+      </div>
+      <div v-if="this.selected_radious == 'A'">
+        <h1>Si</h1>
+      </div>
+      <div v-else>
+        <h1>No</h1>
+      </div>
       <div class="card-category pull-right px-2">
         <label>Color</label>
         <b-form-select v-model="selected2" :options="colores" />
       </div>
-      <div class="card-category pull-right px-2">
+      <div class="card-category pull-right">
         <label>Tiempo Atrás (min)</label>
         <b-form-select v-model="selected" :options="options" />
       </div>
       <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-      <h4 >
+      <h4>
         {{ config.nombre }}
       </h4>
+
+      <div class="col-sm-3 pull-right">
+        <base-input>
+          <el-date-picker
+            v-model="timestamp_end"
+            type="datetime"
+            placeholder="Selecciona Hora y Fecha"
+          >
+          </el-date-picker>
+        </base-input>
+      </div>
+
+      <div class="col-sm-3 pull-right">
+        <base-input>
+          <el-date-picker
+            v-model="timestamp_init"
+            type="datetime"
+            placeholder="Selecciona Hora y Fecha"
+          >
+          </el-date-picker>
+        </base-input>
+      </div>
 
       <h3 class="card-title">
         <i
@@ -39,33 +102,44 @@
         :update="watchers"
       />
     </div>
-    
     <h5>{{ config }}</h5>
   </b-card>
 </template>
 
 <script>
+import { DatePicker, TimeSelect } from "element-ui";
 import("highcharts/highcharts").Options;
 export default {
   name: "rtnumberchart",
   props: ["config"],
+  components: {
+    [DatePicker.name]: DatePicker,
+    [TimeSelect.name]: TimeSelect
+  },
   data() {
     return {
+      timestamp_init: null,
+      timestamp_end: null,
+      timestamp: null,
+      selected_radious: "",
       watchers: undefined,
       selected: 60,
-      selected2:this.config.class,
+      selected2: this.config.class,
       options: [
-          { value: 5, text: '5 minutos atrás' },
-          { value: 10, text: '10 minutos atrás' },
-          { value: 30, text: '30 minutos atrás' },
-          { value: 60, text: '1 hora atrás' },
-          { value: 120, text: '2 horas atrás' },
-          { value: 180, text: '3 horas atrás' },
-          { value: 720, text: '12 horas atrás' },
-          { value: 1440, text: '1 día atrás' },
-            ],
+        { value: 5, text: "5 minutos atrás" },
+        { value: 10, text: "10 minutos atrás" },
+        { value: 30, text: "30 minutos atrás" },
+        { value: 60, text: "1 hora atrás" },
+        { value: 120, text: "2 horas atrás" },
+        { value: 180, text: "3 horas atrás" },
+        { value: 720, text: "12 horas atrás" },
+        { value: 1440, text: "1 día atrás" }
+        //Semanal
+        //Mensual
+        //Anual
+      ],
       timeback: [5, 10, 30, 60, 120, 180, 720, 1440],
-      colores:["success","primary","warning","danger"],
+      colores: ["success", "primary", "warning", "danger"],
       receivedTime: 0,
       value: 0,
       timeago: this.config.chartTimeAgo,
@@ -86,7 +160,8 @@ export default {
           text: ""
         },
         xAxis: {
-          type: "datetime",
+          categories: [],
+          //type: "datetime",
           labels: {
             style: {
               color: "#d4d2d2"
@@ -102,14 +177,6 @@ export default {
               color: "#d4d2d2",
               font: "11px Trebuchet MS, Verdana, sans-serif"
             }
-          }
-        },
-        plotOptions: {
-          series: {
-            label: {
-              connectorAllowed: false
-            },
-            pointStart: 2010
           }
         },
         series: [
@@ -152,12 +219,17 @@ export default {
       this.config.class = newVal2;
       this.updateColorClass();
     },
+    //date(date) {
+    //  console.log(this.date)
+    //
+    //},
     config: {
       immediate: true,
       deep: true,
       handler() {
         setTimeout(() => {
           //this.getLastData();
+          //console.log(this.date)
           this.value = 0;
           this.$nuxt.$off(this.topic + "/sdata");
           this.topic =
@@ -168,6 +240,7 @@ export default {
             this.config.variable;
           this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData);
           this.chartOptions.series[0].data = [];
+          this.chartOptions.xAxis.categories = [];
           this.getChartData();
           this.chartOptions.series[0].name =
             this.config.variableFullName + " " + this.config.unit;
@@ -189,7 +262,7 @@ export default {
 
   methods: {
     updateColorClass() {
-      console.log("update" + this.config.class);
+      console.log("update " + this.config.class);
       var c = this.config.class;
 
       var types = this.config.tipo;
@@ -227,7 +300,7 @@ export default {
       this.chartOptions.series[0].name =
         this.config.variableFullName + " " + this.config.unit;
     },
-    getLastData(){
+    getLastData() {
       const axiosHeaders = {
         headers: {
           token: $nuxt.$store.state.auth.token
@@ -243,7 +316,69 @@ export default {
         .then(res => {
           const data = res.data.data;
           data.forEach(element => {
-            this.values=element.value;
+            this.values = element.value;
+          });
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+    },
+    getDataBetween() {
+      console.log("DATE");
+      this.timestamp_init = new Date(this.timestamp_init).getTime();
+      this.timestamp_end = new Date(this.timestamp_end).getTime();
+      const axiosHeaders = {
+        headers: {
+          token: $nuxt.$store.state.auth.token
+        },
+        params: {
+          dId: this.config.selectedDevice.dId,
+          variable: this.config.variable,
+          timestamp_init: this.timestamp_init,
+          timestamp_end: this.timestamp_end
+        }
+      };
+      this.$axios
+        .get("/get-data-between", axiosHeaders)
+        .then(res => {
+          this.chartOptions.series[0].data = [];
+          this.chartOptions.xAxis.categories = [];
+          const data = res.data.data;
+          console.log(data[0].energia_fase_2_consumocliente_mensual);
+          console.log(this.chartOptions.xAxis.categories);
+          data.forEach(element => {
+            var aux2 = [];
+            var dateFormat = new Date(element.time * 1000);
+            aux2.push(
+              dateFormat.getDate() +
+                "/" +
+                (dateFormat.getMonth() + 1) +
+                "/" +
+                dateFormat.getFullYear()
+            );
+            var aux = [];
+            aux.push(element.energia_fase_2_consumocliente_mensual);
+            //console.log(element.energia_fase_2_consumocliente_mensual);
+            this.chartOptions.series[0].data.push(aux);
+            this.chartOptions.xAxis.categories.push(aux2);
+          });
+          console.log(data[0].energia_fase_2_consumocliente_mensual);
+          console.log(this.chartOptions.xAxis.categories);
+          this.isMounted = true;
+          return;
+        })
+        .catch(e => {
+          console.log(e);
+          return;
+        });
+      this.$axios
+        .get("/get-last-data", axiosHeaders)
+        .then(res => {
+          const data = res.data.data;
+          data.forEach(element => {
+            this.value = element.value;
           });
           return;
         })
@@ -295,12 +430,12 @@ export default {
           console.log(e);
           return;
         });
-        this.$axios
+      this.$axios
         .get("/get-last-data", axiosHeaders)
         .then(res => {
           const data = res.data.data;
           data.forEach(element => {
-            this.value=element.value;
+            this.value = element.value;
           });
           return;
         })

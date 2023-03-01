@@ -40,6 +40,7 @@ export default {
   */
   plugins: [
     `~/plugins/dashboard-plugin.js`,
+    {src: '~/plugins/vue-image-upload.js', mode: 'client'}
   ],
   //autoimport
   components: [
