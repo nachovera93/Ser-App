@@ -49,7 +49,7 @@
             />
           </div>
           <!-- <h5>{{ config }}</h5> -->
-          <!-- <h5>Tópico actual: {{ topic }}</h5> -->
+          <h5>Tópico actual: {{ topic }}</h5>
         </b-card>
 </template>
 
@@ -486,6 +486,9 @@ export default {
           variable: this.config.variable,
           variable2: this.config.variable2,
           variable3: this.config.variable3,
+          //Energy_Red_Phase_1:
+          //Energy_Consumption_Pahse
+          //Energy_Panels
           chartTimeAgo: this.config.chartTimeAgo
         }
       };

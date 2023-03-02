@@ -49,7 +49,7 @@
             icon: 'tim-icons icon-atom',
             path: '/templates'
           }"
-        > 
+        >
         </sidebar-item> -->
       </template>
     </side-bar>

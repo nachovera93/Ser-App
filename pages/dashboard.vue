@@ -71,12 +71,17 @@
         :config="fixWidget(widget)"
       ></Simple2>
 
+      <SimpleTable
+        v-if="widget.widget == 'TableSimple'"
+        :config="fixWidget(widget)"
+      ></SimpleTable>
+
 
 
     </div>
-    <Wheater></Wheater>
-      <div><PhotoFile /></div>
-      <TableEnergy></TableEnergy>
+    <!-- <Wheater></Wheater> -->
+      <!-- <div><PhotoFile /></div> -->
+
   </div>
 
   <div v-else>
@@ -86,11 +91,10 @@
 
 </template>
 <script>
-import TableEnergy from "../components/Widgets/TableEnergy.vue"
+
 
 //import PhotoFile from "./components/widgets/PhotoFile";
 export default {
-  components: { TableEnergy },
   middleware: 'authenticated',
   name: 'Dashboard',
   //components: {

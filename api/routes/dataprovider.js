@@ -414,6 +414,38 @@ router.post("/post-status-indicator", checkAuth, async (req, res) => {
   }
 });
 
+
+router.post("/get-data-day", checkAuth, async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const color = req.body.color;
+    const name = req.body.nameTemplate;
+    console.log("Name ", req.body);
+    const variable = req.body.variable;
+    const data = await Template.find({ "widgets.variable": variable });
+    console.log(data);
+
+    const result = await Template.updateMany(
+      { "widgets.variable": variable },
+      { $set: { "widgets.$.class": color } }
+    );
+    console.log(result);
+    //var aux = [];
+    const response = {
+      status: "success"
+      //data: color,
+    };
+    return res.json(response);
+  } catch (error) {
+    console.log(error);
+    const response = {
+      status: "error",
+      error: error
+    };
+    return res.json(response);
+  }
+});
+
 router.post("/post-color", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;

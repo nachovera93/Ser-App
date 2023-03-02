@@ -101,6 +101,12 @@
                 value="DataBetween"
                 label="DataBetween <-"
               ></el-option>
+
+              <el-option
+                class="text-dark"
+                value="TableSimple"
+                label="TableSimple <-"
+              ></el-option>
             </el-select>
 
             <br />
@@ -206,8 +212,6 @@
               </el-select>
              </div>
 
-               <br /><br /><br />
-
             <!-- FORMS DATA BETWEEN CHART TYPE -->
             <div v-if="widgetType == 'DataBetween'">
               <base-input
@@ -279,8 +283,6 @@
                 ></el-option>
               </el-select>
              </div>
-
-               <br /><br /><br />
 
              <!-- FORMS NUMBER CHART TYPE -->
             <div v-if="widgetType == 'numberchart'">
@@ -1881,7 +1883,6 @@
               <br /><br />
             </div>
 
-              <br /><br />
 
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
@@ -2272,6 +2273,99 @@
 
               <br /><br />
             </div>
+
+            <div v-if="widgetType == 'TableSimple'">
+              <base-input
+                v-model="TableSimpleConfig.variableFullName"
+                label="Var Name"
+                type="text"
+              >
+              </base-input>
+              <br />
+
+              <base-input
+                v-model="TableSimpleConfig.nombre"
+                label="Nombre a mostrar"
+                type="text"
+              >
+              </base-input>
+              <br />
+
+              <base-input
+                v-model.number="TableSimpleConfig.variableSendFreq"
+                label="Send Freq"
+                type="number"
+              ></base-input>
+
+
+              <br />
+
+              <el-select
+                v-model="TableSimpleConfig.column"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-dark"
+                  value="col-2"
+                  label="col-2"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-3"
+                  label="col-3"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-4"
+                  label="col-4"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-5"
+                  label="col-5"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-6"
+                  label="col-6"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-7"
+                  label="col-7"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-8"
+                  label="col-8"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-9"
+                  label="col-9"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-10"
+                  label="col-10"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-11"
+                  label="col-11"
+                ></el-option>
+                <el-option
+                  class="text-dark"
+                  value="col-12"
+                  label="col-12"
+                ></el-option>
+              </el-select>
+
+              <br /><br />
+            </div>
+
           </div>
 
           <!-- WIDGET PREVIEW -->
@@ -2328,6 +2422,10 @@
               v-if="widgetType == 'charthistoric'"
               :config="HistoricChartConfig"
             ></RtChartHistoric>
+            <SimpleTable
+              v-if="widgetType == 'TableSimple'"
+              :config="TableSimpleConfig"
+            ></SimpleTable>
           </div>
         </div>
 
@@ -2831,6 +2929,24 @@ export default {
         header: "Primary"
       },
 
+      TableSimpleConfig: {
+        //mio
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888"
+        },
+        nombre: "Energia",
+        variableFullName: "Energia",
+        variable: "varname",
+        variableType: "input",
+        variableSendFreq: "30",
+        decimalPlaces: 2,
+        class: "info",
+        widget: "TableSimple",
+        column: "col-4",
+      },
+
       iotSimpleConfig2: {
         //mio
         userId: "userid",
@@ -2855,7 +2971,6 @@ export default {
         textvariant: "white",
         header: "Primary"
       },
-
     };
   },
 
@@ -3110,6 +3225,11 @@ export default {
         this.EnergyChartConfig.variable2 = this.makeid(10);
         this.EnergyChartConfig.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.EnergyChartConfig)));
+      }
+
+      if (this.widgetType == "TableSimple") {
+        this.TableSimpleConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.TableSimpleConfig)));
       }
     },
 

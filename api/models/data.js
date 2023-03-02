@@ -8,10 +8,7 @@ const dataSchema = new Schema({
   userId: { type: String, required: [true] },
   dId: { type: String, required: [true] },
   variable: { type: String, required: [true] },
-  variable2: { type: String },
-  variable3: { type: String },
   value: { type: Number},
-  value2: { type: Number },
   time: { type: Number, required: [true] }
 });
 

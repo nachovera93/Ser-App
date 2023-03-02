@@ -97,6 +97,7 @@ router.post("/saver-webhook", checkToken, async (req, res) => {
   const splittedTopic = data.topic.split("/");
   const dId = splittedTopic[1];
   const variable = splittedTopic[2];
+  const type = splittedTopic[3];
 
   var result = await Device.find({ dId: dId, userId: data.userId });
   if (result.length == 1) {
