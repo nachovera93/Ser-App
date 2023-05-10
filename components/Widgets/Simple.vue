@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="simple-widget">
     <b-card
       :bg-variant="config.class"
       text-variant="dark"
@@ -14,7 +14,7 @@
 
       <b-card-text class="mt-2">
         <span
-          >{{ Number(value).toFixed(config.decimalPlaces) }} -
+          >{{ Number(this.value2).toFixed(config.decimalPlaces) }} -
           {{ config.unit }}</span
         >
       </b-card-text>
@@ -22,8 +22,10 @@
         Last updated {{ getTimeAgo((nowTime - time) / 1000) }} ago
       </h6>
     </b-card>
-    <h5>{{ config }}</h5>
-    <h5>Tópico actual: {{ topic }}</h5>
+    <!-- <h5>{{ this.config }}</h5> -->
+    <!-- <h5>Tópico actual: {{ topic }}</h5> -->
+    <!-- <h5>{{ this.value2 }}</h5> -->
+
   </div>
 </template>
 
@@ -34,7 +36,7 @@ export default {
   data() {
     return {
       receivedTime: 0,
-      value: 0,
+      value2:0,
       time: Date.now(),
       nowTime: Date.now(),
       topic: ""
@@ -46,14 +48,17 @@ export default {
       deep: true,
       handler() {
         setTimeout(() => {
-          this.value = 0;
+          //this.value = 0;
+          console.log("LLEGO!!");
           this.$nuxt.$off(this.topic + "/sdata");
           this.topic =
             this.config.userId +
             "/" +
             this.config.selectedDevice.dId +
             "/" +
-            this.config.variable;
+            this.config.variable +
+            "/" +
+            this.config.type;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
           //this.getData();
         }, 300);
@@ -72,47 +77,34 @@ export default {
   methods: {
     processReceivedData(data) {
       try {
-        //console.log("RECEIVED");
-        console.log(data);
-        this.value = data.value;
+        this.value2 = data.value;
       } catch (error) {
         console.log(error);
       }
     },
-    getData() {
-      const axiosHeaders = {
-        headers: {
-          token: $nuxt.$store.state.auth.token
-        },
-        params: {
-          dId: this.config.selectedDevice.dId,
-          variable: this.config.variable
-        }
-      };
-      this.$axios
-        .get("/get-last-data", axiosHeaders)
-        .then(res => {
-          const data = res.data.data;
-          data.forEach(element => {
-            this.value = element.value;
-            console.log("valur ", this.value);
-          });
-          return;
-        })
-        .catch(e => {
-          console.log(e);
-          return;
-        });
-    },
-    processReceivedData(data) {
+    async getData() {
       try {
-        this.time = Date.now();
-        this.value = data.value;
-      } catch (error) {
-        console.log(error);
+        const axiosHeaders = {
+          headers: {
+            token: this.$store.state.auth.token
+          },
+          params: {
+            dId: this.config.selectedDevice.dId,
+            variable: this.config.variable
+          }
+        };
+        const res = await this.$axios.get("/get-last-data", axiosHeaders);
+        const data = res.data.data;
+        this.value2=data[0];
+        //data.forEach(element => {
+        //  this.value = element.variableData;
+        //  this.value2 = element.variableData;
+        //  console.log("valur ", this.value);
+        //});
+      } catch (e) {
+        console.log(e);
       }
     },
-
     getNow() {
       this.nowTime = Date.now();
       setTimeout(() => {
@@ -147,3 +139,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+  .simple-widget {
+    margin-top: 2rem;
+  }
+</style>

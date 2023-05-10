@@ -13,8 +13,8 @@
         >
       </h3>
     </b-card>
-    <h5>{{ config }}</h5>
-    <h5>Tópico actual: {{ topic }}</h5>
+    <!-- <h5>{{ config }}</h5> -->
+    <!-- <h5>Tópico actual: {{ topic }}</h5> -->
   </div>
 </template>
 

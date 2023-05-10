@@ -1,56 +1,69 @@
 <template>
-        <b-card type="chart">
-          <h5>{{ this.Dia }}</h5>
-          <template slot="header">
-            <div class="cont d-flex justify-content-center">
-              <div class="d-flex flex-row align-items-center">
-                <h4 class="card-title mr-3">
-                  <i
-                    class="fa "
-                    :class="[config.icon, getIconColorClass()]"
-                    aria-hidden="true"
-                    style="font-size: 30px;"
-                  ></i>
-                  <span
-                    >{{ Number(valueVariable).toFixed(config.decimalPlaces) }}
-                    {{ config.unit }}</span
-                  >
-                  <span
-                    >{{ Number(valueVariable2).toFixed(config.decimalPlaces) }}
-                    {{ config.unit }}</span
-                  >
-                  <span
-                    >{{ Number(valueVariable3).toFixed(config.decimalPlaces) }}
-                    {{ config.unit }}</span
-                  >
-                </h4>
-                <base-input>
-                  <select class="form-control" v-model="selected3">
-                    <option
-                      v-for="(TipoGrafico1, index) in chartTypes"
-                      :key="index"
-                      :value="TipoGrafico1"
-                      >{{ TipoGrafico1 }}</option
-                    >
-                  </select>
-                </base-input>
-              </div>
-            </div>
-          </template>
+  <b-card type="chart" class="custom-card">
+    <!-- <h5>{{ this.Dia }}</h5> -->
+    <div class="header-container d-flex justify-content-center">
+      <div class="icon-container mr-3">
+        <i
+          class="fa"
+          :class="[config.icon, getIconColorClass()]"
+          aria-hidden="true"
+          style="font-size: 30px;"
+        ></i>
+      </div>
+      <div class="values-container">
+        <div
+          class="value-item d-flex align-items-center"
+          v-for="(serie, index) in chartOptionsLive.series"
+          :key="index"
+        >
+          <span
+            class="value-color mr-2"
+            :style="{ backgroundColor: serie.color }"
+          ></span>
+          <span class="value-name mr-2">{{ serie.name }}</span>
+        </div>
+      </div>
+      <div class="chart-select-container ml-auto">
+        <base-input>
+          <b-form-select v-model="selected_minutes">
+            <option
+              v-for="(minutes, index) in minutes_options"
+              :key="index"
+              :value="minutes.value"
+              >{{ minutes.label }}</option
+            >
+          </b-form-select>
+        </base-input>
+      </div>
+      <div class="chart-select-container ml-auto">
+        <base-input>
+          <b-form-select v-model="TypeGraphicSelect">
+            <option value="null">{{ TipoGrafico }}</option>
+            <option
+              v-for="(TipoGrafico, index) in chartTypes"
+              :key="index"
+              :value="TipoGrafico"
+              >{{ TipoGrafico }}</option
+            >
+          </b-form-select>
+        </base-input>
+      </div>
+    </div>
 
-          <div class="chart-area" style="height: 300px">
-            <highchart
-              :animation="{ duration: config.animacion }"
-              :exporting="true"
-              style="height: 100%"
-              v-if="isMounted"
-              :options="chartOptionsLive"
-              :update="watchers"
-            />
-          </div>
-          <!-- <h5>{{ config }}</h5> -->
-          <h5>Tópico actual: {{ topic }}</h5>
-        </b-card>
+    <div class="chart-area">
+      <div class="legend-container"></div>
+      <div class="chart-area" style="height: 300px">
+        <highchart
+          :animation="{ duration: config.animacion }"
+          :exporting="true"
+          style="height: 100%"
+          v-if="isMounted"
+          :options="chartOptionsLive"
+          :update="watchers"
+        />
+      </div>
+    </div>
+  </b-card>
 </template>
 
 <script>
@@ -65,22 +78,6 @@ export default {
   },
   data() {
     return {
-
-      data_red: 0,
-      data_carga: 0,
-      data_paneles: 0,
-      data_red_fase1: [],
-      data_carga_fase1: [],
-      data_paneles_fase1: [],
-      data_red_fase2: [],
-      data_carga_fase2: [],
-      data_paneles_fase2: [],
-      data_red_fase3: [],
-      data_carga_fase3: [],
-      data_paneles_fase3: [],
-      EditDataCheckboxRed_Fase1: [],
-      EditDataCheckboxRed_Fase2: [],
-      EditDataCheckboxRed_Fase3: [],
       year: "Año: " + new Date().getFullYear(),
       month: "Mes: " + new Date().getFullYear() + "-" + new Date().getMonth(),
       Dia:
@@ -91,48 +88,29 @@ export default {
         "-" +
         new Date().getDate(),
       visible: true,
-      points: [10, 0, 8, 2, 6, 4, 5, 5],
-      timestamp_init: null,
-      timestamp_end: null,
-      timestamp: null,
+      selected_minutes: null,
+      minutes_options: [
+        { value: null, label: "60 min" },
+        { value: 60, label: "60 min" },
+        { value: 120, label: "120 min" },
+        { value: 480, label: "480 min" },
+        { value: 720, label: "720 min" },
+        { value: 1440, label: "1440 min" }
+      ],
       seriesColor: "",
       colorInputIsSupported: null,
       chartTypes: [],
       watchers: undefined,
-      colors: [
-        "Red",
-        "Green",
-        "Blue",
-        "Pink",
-        "Orange",
-        "Brown",
-        "Black",
-        "Purple"
-      ],
-      selected: 120,
-      //selected2: this.config.class,
-      selected3: this.config.tipo,
-      TipoGrafico1: "",
-      TipoGrafico2: "",
+      timebacks: "",
+      TypeGraphicSelect: this.config.tipo,
+      TipoGrafico: "",
       chartOptioncolor: "",
-      data_red_total: [],
-      data_carga_total: [],
-      data_paneles_total: [],
-      data1Live: [],
-      data2Live: [],
-      data3Live: [],
       datetime: [],
       datetime_real_time: [],
       receivedTime: 0,
       valueVariable: 0,
       valueVariable2: 0,
       valueVariable3: 0,
-      value: 0,
-      value2: 0,
-      value3: 0,
-      valuecard: 0,
-      value2card: 0,
-      value3card: 0,
       timeago: this.config.chartTimeAgo,
       time: Date.now(),
       nowTime: Date.now(),
@@ -146,32 +124,18 @@ export default {
     };
   },
   watch: {
+    selected_minutes(select) {
+      console.log("select: ", select);
+      this.timeago = select;
+      this.getChartData();
+    },
     seriesColor(newVal2) {
       this.seriesColor = newVal2;
       this.updateColorClass(newVal2);
     },
-    selected3(newVal3) {
-      //this.config.tipo = newVal3;
-      //this.updateTipo(newVal3);
-      //console.log("Watch Type", this.chartType);
-    },
-    Select_Phase_1(newValue) {
-      // Aquí puedes hacer algo con el nuevo valor de la variable
-      this.fase_1 = newValue;
-      //console.log("Watch Select_Phase_1 ",newValue)
-      this.EditDataCheckbox();
-    },
-    Select_Phase_2(newValue) {
-      // Aquí puedes hacer algo con el nuevo valor de la variable
-      this.fase_2 = newValue;
-      //console.log("Watch Select_Phase_2 ",newValue)
-      this.EditDataCheckbox();
-    },
-    Select_Phase_3(newValue) {
-      this.fase_3 = newValue;
-      // Aquí puedes hacer algo con el nuevo valor de la variable
-      //console.log("Watch Select_Phase_3 ",newValue)
-      this.EditDataCheckbox();
+    TypeGraphicSelect(newVal3) {
+      this.TipoGrafico = newVal3;
+      this.updateTipo(newVal3);
     },
     config: {
       immediate: true,
@@ -179,16 +143,36 @@ export default {
       handler() {
         setTimeout(() => {
           this.valueVariable = 0;
-          this.value = 0;
-          this.value2 = 0;
+          this.valueVariable2 = 0;
+          this.valueVariable3 = 0;
           this.$nuxt.$off(this.topic + "/sdata");
           this.topic =
             this.config.userId +
             "/" +
             this.config.selectedDevice.dId +
             "/" +
-            this.config.variable;
+            this.config.variable +
+            "/" +
+            this.config.variableFullName;
+          this.topic2 =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable +
+            "/" +
+            this.config.variableFullName2;
+          this.topic3 =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable +
+            "/" +
+            this.config.variableFullName3;
           this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData);
+          this.$nuxt.$on(this.topic2 + "/sdata", this.procesReceivedData);
+          this.$nuxt.$on(this.topic3 + "/sdata", this.procesReceivedData);
           this.chartOptionsLiveData = [];
           this.chartOptionsLiveData2 = [];
           this.chartOptionsLiveData3 = [];
@@ -211,7 +195,7 @@ export default {
         chart: {
           backgroundColor: "rgba(0,0,0,0)",
           className: "my-chart",
-          type: this.TipoGrafico1
+          type: this.TipoGrafico
         },
         yAxis: {
           title: {
@@ -228,23 +212,39 @@ export default {
           text: ""
         },
         legend: {
-          itemStyle: {
-            color: "#d4d2d2"
-          }
+          enabled: false
+          //itemStyle: {
+          //  color: "#d4d2d2"
+          //}
         },
         series: [
           {
-            name: "Energia 1",
+            name:
+              this.config.nombre +
+              " " +
+              Number(this.valueVariable).toFixed(this.config.decimalPlaces) +
+              " " +
+              this.config.unit,
             data: this.chartOptionsLiveData,
             color: "#e14eca"
           },
           {
-            name: "Energia 2",
+            name:
+              this.config.nombre2 +
+              " " +
+              Number(this.valueVariable2).toFixed(this.config.decimalPlaces) +
+              " " +
+              this.config.unit2,
             data: this.chartOptionsLiveData2,
             color: "#00f2c3"
           },
           {
-            name: "Energia 3",
+            name:
+              this.config.nombre3 +
+              " " +
+              Number(this.valueVariable3).toFixed(this.config.decimalPlaces) +
+              " " +
+              this.config.unit3,
             data: this.chartOptionsLiveData3,
             color: "#1a1fa8"
           }
@@ -283,6 +283,7 @@ export default {
     const i = document.createElement("input");
     i.setAttribute("type", "color");
     this.colorInputIsSupported = i.type === "color";
+    this.TypeGraphicSelect = null;
     this.chartTypes = this.$highcharts.chartTypes;
     console.log("charttypes ", this.$highcharts.chartTypes);
     //this.chartType = this.chartTypes[0];
@@ -361,18 +362,15 @@ export default {
           token: $nuxt.$store.state.auth.token
         },
         params: {
-          variable: this.config.variable
+          idChart: this.config.idChart
         }
       };
       try {
         const res = await this.$axios.get("/get-tipo", axiosHeaders);
-        console.log(res.data);
-        const types = res.data.tipoGrafico1.toLowerCase();
-        const types2 = res.data.tipoGrafico2.toLowerCase();
+        console.log("data: ", res.data);
+        const types = res.data.data.tipo.toLowerCase();
         console.log("types: ", types);
-        console.log("types2: ", types2);
-        this.TipoGrafico2 = types2;
-        this.TipoGrafico1 = types;
+        this.TipoGrafico = types;
       } catch (error) {
         this.$notify({
           type: "danger",
@@ -383,41 +381,39 @@ export default {
         return;
       }
     },
-    //async updateTipo(value3) {
-    //  //console.log("update " + this.config.tipo);
-    //  console.log("update graph " + value3);
-    //  this.chartType = value3.toLowerCase();
-    //  console.log(this.chartType);
-    //  const axiosHeaders = {
-    //    headers: {
-    //      token: this.$store.state.auth.token
-    //    }
-    //  };
-    //  const toSend = {
-    //    dId: this.config.selectedDevice.dId,
-    //    variable: this.config.variable,
-    //    tipo: value3
-    //  };
-    //
-    //  try {
-    //    const res = await this.$axios.post("/post-tipo", toSend, axiosHeaders);
-    //    if (res.data.status == "success") {
-    //      this.$notify({
-    //        type: "success",
-    //        icon: "tim-icons icon-alert-circle-exc",
-    //        message: "Graph updated!"
-    //      });
-    //    }
-    //  } catch (error) {
-    //    this.$notify({
-    //      type: "danger",
-    //      icon: "tim-icons icon-alert-circle-exc",
-    //      message: "Error Updating Graph..."
-    //    });
-    //    console.log(error);
-    //    return;
-    //  }
-    //},
+    async updateTipo(value3) {
+      console.log("update graph " + value3);
+      this.TipoGrafico = value3.toLowerCase();
+      console.log(this.TipoGrafico);
+      const axiosHeaders = {
+        headers: {
+          token: this.$store.state.auth.token
+        }
+      };
+      const toSend = {
+        idChart: this.config.idChart,
+        tipo: value3.toLowerCase()
+      };
+
+      try {
+        const res = await this.$axios.post("/update-tipo", toSend, axiosHeaders);
+        if (res.data.status == "success") {
+          this.$notify({
+            type: "success",
+            icon: "tim-icons icon-alert-circle-exc",
+            message: "Graph updated!"
+          });
+        }
+      } catch (error) {
+        this.$notify({
+          type: "danger",
+          icon: "tim-icons icon-alert-circle-exc",
+          message: "Error Updating Graph..."
+        });
+        console.log(error);
+        return;
+      }
+    },
     getLastData() {
       console.log("Entro getLastData");
       const axiosHeaders = {
@@ -429,6 +425,9 @@ export default {
           variable: this.config.variable,
           variable2: this.config.variable2,
           variable3: this.config.variable3,
+          variableFullName: this.config.variableFullName,
+          variableFullName2: this.config.variableFullName2,
+          variableFullName3: this.config.variableFullName3,
           chartTimeAgo: this.config.chartTimeAgo
         }
       };
@@ -437,25 +436,26 @@ export default {
       this.$axios
         .get("/get-last-data", axiosHeaders)
         .then(res => {
-          console.log(res.data);
-          const data = res.data.data;
-          const data2 = res.data.data2;
-          const data3 = res.data.data3;
-          console.log("Data1: ", data);
-          console.log("Data2: ", data2);
-          console.log("Data3: ", data3);
-          data.forEach(element => {
-            this.valueVariable = element.value;
-          });
-          data2.forEach(element => {
-            this.valueVariable2 = element.value;
-          });
-          data3.forEach(element => {
-            this.valueVariable3 = element.value;
-          });
-          console.log("Data1: ", this.valueVariable);
-          console.log("Data2: ", this.valueVariable2);
-          console.log("Data3: ", this.valueVariable3);
+          //console.log(res.data);
+          const dataArrays = res.data.data;
+          //console.log("Data1: ", dataArrays);
+
+          const valueVariables = [
+            "valueVariable",
+            "valueVariable2",
+            "valueVariable3"
+          ];
+
+          if (dataArrays.length === valueVariables.length) {
+            for (let i = 0; i < dataArrays.length; i++) {
+              this[valueVariables[i]] = dataArrays[i];
+            }
+          } else {
+            console.error(
+              "dataArrays and valueVariables should have the same length"
+            );
+          }
+
           return;
         })
         .catch(e => {
@@ -464,7 +464,7 @@ export default {
         });
     },
     async getChartData() {
-      console.log("Entro getChartData");
+      //console.log("Entro getChartData");
       //Probar con mqtt del broker de prueba
       //console.log("Data valueLocal: ", valueLocal + " / " + value2Local);
       if (this.config.demo) {
@@ -486,10 +486,10 @@ export default {
           variable: this.config.variable,
           variable2: this.config.variable2,
           variable3: this.config.variable3,
-          //Energy_Red_Phase_1:
-          //Energy_Consumption_Pahse
-          //Energy_Panels
-          chartTimeAgo: this.config.chartTimeAgo
+          variableFullName: this.config.variableFullName,
+          variableFullName2: this.config.variableFullName2,
+          variableFullName3: this.config.variableFullName3,
+          chartTimeAgo: this.timeago
         }
       };
       try {
@@ -507,21 +507,18 @@ export default {
           data.forEach(variableData => {
             variableData.forEach(element => {
               //var aux = [];
-              const date = new Date(element.time * 1000).toLocaleString(
-                "es-CL",
-                {
-                  hour: "numeric",
-                  minute: "numeric",
-                  second: "numeric"
-                }
-              );
+              const date = new Date(element.time).toLocaleString("es-CL", {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric"
+              });
               this.datetime_real_time.push(date);
               //aux.push(element.value);
-              if (element.variable === this.config.variable) {
+              if (element.type === this.config.variableFullName) {
                 this.chartOptionsLiveData.push(element.value);
-              } else if (element.variable === this.config.variable2) {
+              } else if (element.type === this.config.variableFullName2) {
                 this.chartOptionsLiveData2.push(element.value);
-              } else if (element.variable === this.config.variable3) {
+              } else if (element.type === this.config.variableFullName3) {
                 this.chartOptionsLiveData3.push(element.value);
               }
             });
@@ -551,14 +548,18 @@ export default {
       }
     },
     procesReceivedData(data) {
-      console.log("ProcessREceived: ", data);
+      //console.log("ProcessREceived: ", data);
       try {
-        this.time = Date.now();
-        this.valueVariable = data.value;
-        this.valueVariable2 = data.value2;
-        this.valueVariable3 = data.value3;
-        //const valueLocal = data.value;
-        //const value2Local = data.value2;
+        if (data.currentType == this.config.variableFullName) {
+          this.valueVariable = data.value;
+        }
+        if (data.currentType == this.config.variableFullName2) {
+          this.valueVariable2 = data.value;
+        }
+        if (data.currentType == this.config.variableFullName3) {
+          this.valueVariable3 = data.value;
+        }
+
         setTimeout(() => {
           if (data.save == 1) {
             this.getChartData();
@@ -599,95 +600,48 @@ export default {
 </script>
 
 <style scoped>
-input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-#colorPicker {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  width: 30px;
-  height: 30px;
-}
-
-.card .row {
+.header-container {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-.card .col {
-  flex: 0 0 100%;
-  max-width: 100%;
-  position: relative;
-  width: 100%;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.card input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-@media (min-width: 576px) {
-  .card .col {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-
-@media (min-width: 768px) {
-  .card .col {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-  }
-}
-
-@media (min-width: 992px) {
-  .card .col {
-    flex: 0 0 25%;
-    max-width: 25%;
-  }
-}
-
-.container {
-  display: flex;
+  align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
-base-input {
-  margin-right: 20px; /* Add a margin-right of 10px */
-}
-
-.checkboxes-container {
+.icon-container {
   display: flex;
-  justify-content: center; /* center the checkboxes within the container */
+  align-items: center;
+  flex: 0 0 auto;
 }
 
-@media (max-width: 767px) {
-  /* Only apply this style on screens smaller than 768px (mobile) */
-  .checkboxes-container {
-    flex-wrap: wrap; /* wrap the checkboxes on multiple lines */
-    justify-content: center; /* center the checkboxes within the container */
-  }
+.values-container {
+  font-size: 16px;
+  font-weight: bold;
+  flex: 1 1 auto;
 }
 
-@media (min-width: 768px) {
-  /* Only apply this style on screens larger than 768px (tablet and larger) */
-  .checkboxes-container {
-    justify-content: center; /* center the checkboxes within the container */
-  }
+.value-item {
+  margin-bottom: 0.25rem;
 }
 
-.cont {
-  height: 100%;
+.value-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
-@media (max-width: 600px) {
-  .card-title {
-    font-size: 14px;
-  }
+.chart-select-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.select-container {
+  margin-right: 0.5rem;
+}
+
+.select-container:last-child {
+  margin-right: 0;
 }
 </style>

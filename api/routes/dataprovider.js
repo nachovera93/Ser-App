@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { checkAuth } = require("../middlewares/authentication.js");
-
+const mongoose = require("mongoose");
 import { min } from "d3";
 //models import
 import Data from "../models/data.js";
@@ -16,43 +16,74 @@ function addToArray(array, value) {
   }
 }
 
+const variableToCollection = {
+  Yb7TcLx9pK: "VoltajeData",
+  Qf4GjSd2hN: "CorrienteData",
+  Lm6VzKx8rJ: "PotenciaData",
+  Hc2BtFg9nR: "EnergiaData",
+  Xs5MvPz3kD: "THDData",
+  Aq8RtNf2pZ: "FPData"
+};
+
 //{ "value":22,"value2":11,"value3":33, "save":1 }
 router.get("/get-last-data", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;
-    const chartTimeAgo = req.query.chartTimeAgo;
     const dId = req.query.dId;
-    const variable = req.query.variable;
-    const variable2 = req.query.variable2;
-    const variable3 = req.query.variable3;
+    const timeAgoMs = Date.now();
+    const queryVariables = {
+      variable: req.query.variable,
+      variable2: req.query.variable2,
+      variable3: req.query.variable3
+    };
+    const QueryVariableFullName = {
+      variable: req.query.variableFullName,
+      variable2: req.query.variableFullName2,
+      variable3: req.query.variableFullName3
+    };
+    const variables = Object.values(queryVariables).filter(Boolean);
+    const VariableFullNames = Object.values(QueryVariableFullName).filter(
+      Boolean
+    );
+    //console.log("get-last-data");
+    //console.log(req.query);
+    //console.log("variables.length");
+    //console.log(variables.length);
 
-    const data = await Data.find({
-      userId: userId,
-      dId: dId,
-      variable: variable
-    })
-      .sort({ time: -1 })
-      .limit(1);
-    const data2 = await Data.find({
-      userId: userId,
-      dId: dId,
-      variable: variable2
-    })
-      .sort({ time: -1 })
-      .limit(1);
-    const data3 = await Data.find({
-      userId: userId,
-      dId: dId,
-      variable: variable3
-    })
-      .sort({ time: -1 })
-      .limit(1);
+    const data = [];
+    for (let i = 0; i < variables.length; i++) {
+      const currentVariable = variables[i];
+      const variableFullName = VariableFullNames[i];
+      const collectionName = variableToCollection[currentVariable];
+      //console.log("gcollectionName");
+      //console.log(collectionName);
+      if (collectionName) {
+        // Check if collectionName is truthy
+        //console.log("Entro con: ",collectionName + " " + i)
+        const Collection = mongoose.connection.collection(collectionName);
+        const variableData = await Collection.find({
+          userId: userId,
+          dId: dId,
+          type: variableFullName
+        })
+          .sort({ time: -1 })
+          .limit(1)
+          .toArray();
+        //console.log("variableData: ",variableData)
+        //console.log("variableData: ",variableData[0].value)
+        if (variableData.length > 0 && variableData[0]) {
+          data.push(variableData[0].value);
+        } else {
+          console.log(`No data found for variable: ${currentVariable}`);
+        }
+      } else {
+        console.log(`No collection found for variable: ${currentVariable}`);
+      }
+    }
 
     const response = {
       status: "success",
-      data: data,
-      data2: data2,
-      data3: data3
+      data: data
     };
     return res.json(response);
   } catch (error) {
@@ -67,40 +98,59 @@ router.get("/get-last-data", checkAuth, async (req, res) => {
 
 router.get("/get-small-charts-data", checkAuth, async (req, res) => {
   try {
+    console.log("Entro get small chart data");
     const userId = req.userData._id;
     const chartTimeAgo = req.query.chartTimeAgo;
     const dId = req.query.dId;
     console.log(userId);
+    console.log("req.query");
     console.log(req.query);
-    const variables = [
+    const queryVariables = [
       req.query.variable,
       req.query.variable2,
       req.query.variable3
-    ].filter(Boolean);
+    ];
+    const QueryVariableFullName = {
+      variable: req.query.variableFullName,
+      variable2: req.query.variableFullName2,
+      variable3: req.query.variableFullName3
+    };
+    const variables = Object.values(queryVariables).filter(Boolean);
+    const VariableFullNames = Object.values(QueryVariableFullName).filter(
+      Boolean
+    );
     const timeAgoMs = Date.now() - chartTimeAgo * 60 * 1000;
     const data = [];
-    const promises = [];
-    for (let i = 0; i < variables.length; i++) {
-      promises.push(
-        Data.find({
+
+    const getData = async (variableFullName, currentVariable) => {
+      const collectionName = variableToCollection[currentVariable];
+      if (collectionName) {
+        const Collection = mongoose.connection.collection(collectionName);
+        const variableData = await Collection.find({
           userId: userId,
           dId: dId,
-          variable: variables[i],
+          type: variableFullName,
           time: { $gt: timeAgoMs }
-        }).sort({ time: 1 })
-      );
-    }
+        })
+          .sort({ time: 1 })
+          .toArray();
+        return variableData;
+      }
+    };
+
+    const promises = variables.map((currentVariable, i) => {
+      const variableFullName = VariableFullNames[i];
+      return getData(variableFullName, currentVariable);
+    });
+
     const results = await Promise.all(promises);
     results.forEach(result => {
       data.push(result);
     });
-
-
+    console.log("data: ", data);
     const response = {
       status: "success",
       data: data
-      //data2: data2,
-      //data3: data3
     };
     return res.json(response);
   } catch (error) {
@@ -414,7 +464,6 @@ router.post("/post-status-indicator", checkAuth, async (req, res) => {
   }
 });
 
-
 router.post("/get-data-day", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -477,55 +526,90 @@ router.post("/post-color", checkAuth, async (req, res) => {
   }
 });
 
-router.post("/post-tipo", checkAuth, async (req, res) => {
+router.post("/update-tipo", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;
-    const tipo = req.body.tipo;
-    const name = req.body.nameTemplate;
-    console.log("Name ", req.body);
-    const variable = req.body.variable;
-    const data = await Template.find({ "widgets.variable": variable });
-    console.log(data);
+    const idChart = req.body.idChart;
+    const newTipoGrafico = req.body.tipo;
+    console.log('userId', userId);
+    console.log('idChart', idChart);
+    console.log('newTipoGrafico', newTipoGrafico);
 
-    const result = await Template.updateMany(
-      { "widgets.variable": variable },
-      { $set: { "widgets.$.tipo": tipo } }
+    const updateResult = await Template.updateOne(
+      { userId: userId, "widgets.idChart": idChart },
+      { $set: { "widgets.$.TipoGrafico": newTipoGrafico } }
     );
-    console.log(result);
-    const response = {
-      status: "success"
-    };
-    return res.json(response);
+
+    if (updateResult.nModified === 1) {
+      const response = {
+        status: "success",
+        message: "TipoGrafico actualizado con éxito",
+      };
+      return res.json(response);
+    } else {
+      const response = {
+        status: "not_found",
+        message: "No se encontró el widget con el idChart proporcionado",
+      };
+      return res.json(response);
+    }
   } catch (error) {
     console.log(error);
     const response = {
       status: "error",
-      error: error
+      error: error,
     };
     return res.json(response);
   }
+
 });
 
 router.get("/get-tipo", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;
-    const variable = req.query.variable;
-    const data = await Template.find({
-      userId: userId,
-      "widgets.variable": variable
+    const idChart = req.query.idChart;
+    console.log("userId: ", userId);
+    console.log("idChart: ", idChart);
+
+    const templates = await Template.find({
+      userId: userId
     });
-    for (let i = 0; i < data[0].widgets.length; i++) {
-      console.log(data[0].widgets[i].variable);
-      if (data[0].widgets[i].variable == variable) {
-        const tipoGrafico1 = data[0].widgets[i].TipoGrafico1;
-        const tipoGrafico2 = data[0].widgets[i].TipoGrafico2;
+
+    if (templates) {
+      console.log("Templates: ", templates);
+
+      // Encuentra el objeto con los widgets
+      const templateWithWidgets = templates.find(t =>
+        t.widgets.some(widget => widget.idChart === idChart)
+      );
+
+      if (templateWithWidgets) {
+        // Encuentra el widget específico
+        const widget = templateWithWidgets.widgets.find(
+          widget => widget.idChart === idChart
+        );
+        console.log("widget: ", widget);
         const response = {
           status: "success",
-          tipoGrafico1: tipoGrafico1,
-          tipoGrafico2: tipoGrafico2
+          data: {
+            tipo: widget.TipoGrafico
+          }
+        };
+        console.log("response: ", response);
+        return res.json(response);
+      } else {
+        const response = {
+          status: "not_found",
+          message: "No se encontró el widget con el idChart proporcionado"
         };
         return res.json(response);
       }
+    } else {
+      const response = {
+        status: "not_found",
+        message: "No se encontró el documento con el userId proporcionado"
+      };
+      return res.json(response);
     }
   } catch (error) {
     console.log(error);

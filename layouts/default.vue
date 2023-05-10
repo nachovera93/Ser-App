@@ -224,9 +224,9 @@ export default {
 
       //ejemplo topic: "userid/did/variableId/sdata"
       const deviceSubscribeTopic =
-        this.$store.state.auth.userData._id + "/+/+/sdata";
+        this.$store.state.auth.userData._id + "/+/+/+/sdata";
       const notifSubscribeTopic =
-        this.$store.state.auth.userData._id + "/+/+/notif";
+        this.$store.state.auth.userData._id + "/+/+/+/notif";
 
       const connectUrl =
         process.env.mqtt_prefix +
@@ -282,14 +282,22 @@ export default {
       });
 
       this.client.on("message", (topic, message) => {
-        console.log("Message from topic " + topic + " -> ");
-        console.log(message.toString());
+        //console.log("Message from topic " + topic + " -> ");
+        //console.log(message.toString());
 
         try {
           const splittedTopic = topic.split("/");
-          const msgType = splittedTopic[3];
+          const msgType = splittedTopic[4];
           const userId = splittedTopic[0];
           const deviceId = splittedTopic[1];
+          let Types = [];
+          if (splittedTopic[3]) {
+            if (splittedTopic[3].indexOf(",") > -1) {
+              Types = splittedTopic[3].split(",");
+            } else {
+              Types = [splittedTopic[3]];
+            }
+          }
 
           if (msgType == "notif") {
             this.$notify({
@@ -300,34 +308,57 @@ export default {
             this.$store.dispatch("getNotifications");
             return;
           } else if (msgType == "sdata") {
-          //     const variableString = splittedTopic[2];
-          //     for(let i = 0; i < variableString.length; i += 10) {
-          //       var variable = variableString.slice(i, i+10);
-          //       var topic = userId + "/" + deviceId + "/" + variable + "/sdata";
-          //       $nuxt.$emit(topic, JSON.parse(message.toString()));
-          //     }
-          //     return;
-          // }
             const variable = splittedTopic[2];
             if (variable.length === 10) {
-              $nuxt.$emit(topic, JSON.parse(message.toString()));
-            } else if (variable.length === 20) {
-              var firstHalf = variable.slice(0, 10);
-              var secondHalf = variable.slice(10, 20);
-              var topic1=userId+"/"+deviceId+"/"+firstHalf+"/sdata";
-              var topic2=userId+"/"+deviceId+"/"+secondHalf+"/sdata";
-              $nuxt.$emit(topic1, JSON.parse(message.toString()));
-              $nuxt.$emit(topic2, JSON.parse(message.toString()));
-            } else if (variable.length === 30) {
-              var firstThird = variable.slice(0, 10);
-              var secondThird = variable.slice(10, 20);
-              var thirdThird = variable.slice(20, 30);
-              var topic1=userId+"/"+deviceId+"/"+firstThird+"/sdata";
-              var topic2=userId+"/"+deviceId+"/"+secondThird+"/sdata";
-              var topic3=userId+"/"+deviceId+"/"+thirdThird+"/sdata";
-              $nuxt.$emit(topic1, JSON.parse(message.toString()));
-              $nuxt.$emit(topic2, JSON.parse(message.toString()));
-              $nuxt.$emit(topic3, JSON.parse(message.toString()));
+              console.log("variable.length === 10");
+              for (const Type of Types) {
+                const topicI = `${userId}/${deviceId}/${variable}/${Type}/sdata`;
+                const data = {};
+                data[Type] = JSON.parse(message.toString());
+                $nuxt.$emit(topicI, data);
+              }
+            } else {
+              const parsedMessage = JSON.parse(message.toString());
+              const save = parsedMessage.save;
+
+              const valueKeys = Object.keys(parsedMessage).filter(key =>
+                key.startsWith("value")
+              );
+              const values = valueKeys.map(key => parsedMessage[key]);
+
+              //console.log("valueKeys");
+              //console.log(valueKeys);
+              //console.log("values");
+              //console.log(values);
+              //console.log("save");
+              //console.log(save);
+
+              const varsCount = variable.length / 10;
+              for (let i = 0; i < varsCount; i++) {
+                const slice = variable.slice(i * 10, i * 10 + 10);
+
+                const currentType = Types[i] || null;
+                const currentKey = valueKeys[i];
+                const currentValue = JSON.parse(message.toString())[currentKey];
+                if (currentValue) {
+                  const topicI = `${userId}/${deviceId}/${slice}/${currentType}/sdata`;
+                  const data = {
+                    value: currentValue,
+                    currentType: currentType,
+                    save:save
+                  };
+                  //console.log(
+                  //  `Mensaje emitido: ${JSON.stringify(
+                  //    data
+                  //  )} al tópico ${topicI}`
+                  //);
+                  $nuxt.$emit(topicI, data);
+                  //console.log("data");
+                  //console.log(data);
+                  //console.log("topicI");
+                  //console.log(topicI);
+                }
+              }
             }
             return;
           }

@@ -13,7 +13,7 @@ import EmqxAuthRule from "../models/emqx_auth.js";
 
 //******************
 //**** A P I *******
-//****************** 
+//******************
 
 const auth = {
   auth: {
@@ -219,7 +219,7 @@ router.put("/saver-rule", checkAuth, async (req, res) => {
 
 //**********************
 //**** FUNCTIONS *******
-//********************** 
+//**********************
 
 async function getAlarmRules(userId) {
   try {
@@ -277,11 +277,11 @@ async function getSaverRules(userId) {
 //create saver rule
 async function createSaverRule(userId, dId, status) {
 
- 
+
   try {
     const url = "http://"+process.env.EMQX_API_HOST+":8085/api/v4/rules";
 
-    const topic = userId + "/" + dId + "/+/sdata";
+    const topic = userId + "/" + dId + "/+/+/sdata";
 
     const rawsql =
       'SELECT topic, payload FROM "' + topic + '" WHERE payload.save = 1';

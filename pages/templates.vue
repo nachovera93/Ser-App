@@ -33,23 +33,11 @@
 
               <el-option
                 class="text-dark"
-                value="doblechart"
-                label="Doble Chart INPUT <-"
-              >
-              </el-option>
-              <el-option
-                class="text-dark"
                 value="smoothchart"
                 label="Smooth Chart INPUT <-"
               >
               </el-option>
 
-              <el-option
-                class="text-dark"
-                value="doblevalue"
-                label="Doble Value INPUT <-"
-              >
-              </el-option>
               <el-option
                 class="text-dark"
                 value="costcomponent"
@@ -86,18 +74,6 @@
 
               <el-option
                 class="text-dark"
-                value="simple2"
-                label="Number Input 2<-"
-              ></el-option>
-
-              <el-option
-                class="text-dark"
-                value="charthistoric"
-                label="Historic <-"
-              ></el-option>
-
-              <el-option
-                class="text-dark"
                 value="DataBetween"
                 label="DataBetween <-"
               ></el-option>
@@ -111,106 +87,6 @@
 
             <br />
             <br />
-
-            <!-- FORMS NUMBER CHART TYPE -->
-            <div v-if="widgetType == 'charthistoric'">
-              <base-input
-                v-model="HistoricChartConfig.variableFullName"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model="HistoricChartConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input v-model="HistoricChartConfig.unit" label="Unit" type="text">
-              </base-input>
-
-               <br />
-
-              <base-input
-                v-model.number="HistoricChartConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-               <br />
-
-              <el-select
-                v-model="HistoricChartConfig.historical"
-                label="Historical"
-                class="select-success"
-                placeholder="Select true/false "
-                style="width: 100%;"
-              >
-                <el-option value='false' label=False></el-option>
-                <el-option value='true'  label=True></el-option>
-              </el-select>
-
-              <br />
-
-              <base-input
-                v-model="HistoricChartConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="HistoricChartConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="HistoricChartConfig.chartTimeAgo"
-                label="Chart Back Time (mins)"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="HistoricChartConfig.class"
-                class="select-success"
-                placeholder="Select Class"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-             </div>
 
             <!-- FORMS DATA BETWEEN CHART TYPE -->
             <div v-if="widgetType == 'DataBetween'">
@@ -232,10 +108,102 @@
 
               <br />
 
-              <base-input v-model="DataBetweenConfig.unit" label="Unit" type="text">
+              <base-input
+                v-model="DataBetweenConfig.unit"
+                label="Unit"
+                type="text"
+              >
               </base-input>
 
-               <br />
+              <br />
+
+              <el-select
+                v-model="DataBetweenConfig.variable"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Yb7TcLx9pK"
+                  label="VoltajeData"
+                ></el-option>
+                <el-option
+                  value="Qf4GjSd2hN"
+                  label="CorrienteData"
+                ></el-option>
+                <el-option
+                  value="Lm6VzKx8rJ"
+                  label="PotenciaData"
+                ></el-option>
+                <el-option
+                  value="Hc2BtFg9nR"
+                  label="EnergiaData"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
+
+              <el-select
+                v-model="DataBetweenConfig.type"
+                class="select-success"
+                placeholder="Selecciona el tipo"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Voltage_Phase_1"
+                  label="Voltaje fase 1"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_2"
+                 label="Voltaje fase 2"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_3"
+                  label="Voltaje fase 3"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
+
+              <el-select
+                v-model="DataBetweenConfig.type2"
+                class="select-success"
+                placeholder="Selecciona el tipo"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Voltage_Phase_1"
+                  label="Voltaje fase 1"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_2"
+                  label="Voltaje fase 2"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_3"
+                  label="Voltaje fase 3"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
+
+              <el-select
+                v-model="DataBetweenConfig.type3"
+                class="select-success"
+                placeholder="Selecciona el tipo"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Voltage_Phase_1"
+                  label="Voltaje fase 1"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_2"
+                  label="Voltaje fase 2"
+                ></el-option>
+                <el-option
+                value="Voltage_Phase_3"
+                  label="Voltaje fase 3"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
 
               <base-input
                 v-model.number="DataBetweenConfig.decimalPlaces"
@@ -244,8 +212,7 @@
               >
               </base-input>
 
-               <br />
-
+              <br />
 
               <base-input
                 v-model="DataBetweenConfig.icon"
@@ -282,9 +249,9 @@
                   label="Danger"
                 ></el-option>
               </el-select>
-             </div>
+            </div>
 
-             <!-- FORMS NUMBER CHART TYPE -->
+            <!-- FORMS NUMBER CHART TYPE -->
             <div v-if="widgetType == 'numberchart'">
               <base-input
                 v-model="ncConfig.variableFullName"
@@ -307,7 +274,7 @@
               <base-input v-model="ncConfig.unit" label="Unit" type="text">
               </base-input>
 
-               <br />
+              <br />
 
               <base-input
                 v-model.number="ncConfig.decimalPlaces"
@@ -316,7 +283,7 @@
               >
               </base-input>
 
-               <br />
+              <br />
 
               <el-select
                 v-model="ncConfig.historical"
@@ -325,8 +292,8 @@
                 placeholder="Select true/false "
                 style="width: 100%;"
               >
-                <el-option value='false' label=False></el-option>
-                <el-option value='true'  label=True></el-option>
+                <el-option value="false" label="False"></el-option>
+                <el-option value="true" label="True"></el-option>
               </el-select>
 
               <br />
@@ -383,8 +350,6 @@
                 ></el-option>
               </el-select>
 
-
-
               <br /><br /><br />
 
               <el-select
@@ -422,295 +387,6 @@
               <br /><br /><br />
               <el-select
                 v-model="ncConfig.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
-              <br /><br />
-            </div>
-
-            <div v-if="widgetType == 'doblechart'">
-              <base-input
-                v-model="DobleChartConfig.variableFullName"
-                label="Var Name 1"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.unit"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="DobleChartConfig.variableFullName2"
-                label="Var Name 2"
-                type="text"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.nombre2"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.unit2"
-                label="Unit 2"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.variableFullName3"
-                label="Var Name 3"
-                type="text"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.nombre3"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="DobleChartConfig.unit3"
-                label="Unit 3"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model.number="DobleChartConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-              <base-input
-                v-model="DobleChartConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="DobleChartConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="DobleChartConfig.chartTimeAgo"
-                label="Chart Back Time (mins)"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="DobleChartConfig.class"
-                class="select-success"
-                placeholder="Select Class"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="DobleChartConfig.class2"
-                class="select-success"
-                placeholder="Select Class 2"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="DobleChartConfig.class3"
-                class="select-success"
-                placeholder="Select Class 3"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="DobleChartConfig.tipo"
-                label="Animacion"
-                class="select-success"
-                placeholder="Select type "
-                style="width: 100%;"
-              >
-                <el-option value="column" label="Tipo Columna"></el-option>
-                <el-option value="spline" label="Tipo Linea Suave"></el-option>
-                <el-option value="line" label="Tipo Linea"></el-option>
-                <el-option value="scatter" label="Tipo Puntos"></el-option>
-                <el-option value="areaspline" label="Tipo Area"></el-option>
-                <el-option value="area" label="Tipo Linea Area"></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="DobleChartConfig.animacion"
-                label="Tipo Grafico"
-                class="select-success"
-                placeholder="Select Animation Duration"
-                style="width: 100%;"
-              >
-                <el-option value="0" label="0"></el-option>
-                <el-option value="500" label="500"></el-option>
-
-                <el-option value="1000" label="1000"></el-option>
-
-                <el-option value="2000" label="2000"></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="DobleChartConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -828,6 +504,84 @@
 
               <br />
 
+              <el-select
+                v-model="EnergyChartConfig.variable"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Yb7TcLx9pK"
+                  label="VoltajeData"
+                ></el-option>
+                <el-option
+                  value="Qf4GjSd2hN"
+                  label="CorrienteData"
+                ></el-option>
+                <el-option
+                  value="Lm6VzKx8rJ"
+                  label="PotenciaData"
+                ></el-option>
+                <el-option
+                  value="Hc2BtFg9nR"
+                  label="EnergiaData"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
+              <el-select
+                v-model="EnergyChartConfig.variable2"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  value="Yb7TcLx9pK"
+                  label="VoltajeData"
+                ></el-option>
+                <el-option
+                  value="Qf4GjSd2hN"
+                  label="CorrienteData"
+                ></el-option>
+                <el-option
+                  value="Lm6VzKx8rJ"
+                  label="PotenciaData"
+                ></el-option>
+                <el-option
+                  value="Hc2BtFg9nR"
+                  label="EnergiaData"
+                ></el-option>
+              </el-select>
+
+              <br /><br /><br />
+
+              <el-select
+                v-model="EnergyChartConfig.variable3"
+                class="select-success"
+                placeholder="Select Class"
+                style="width: 100%;"
+              >
+                <el-option
+                  class="text-success"
+                  value="Yb7TcLx9pK"
+                  label="VoltajeData"
+                ></el-option>
+                <el-option
+                  class="text-primary"
+                  value="Qf4GjSd2hN"
+                  label="CorrienteData"
+                ></el-option>
+                <el-option
+                  class="text-warning"
+                  value="Lm6VzKx8rJ"
+                  label="PotenciaData"
+                ></el-option>
+                <el-option
+                  class="text-danger"
+                  value="Hc2BtFg9nR"
+                  label="EnergiaData"
+                ></el-option>
+              </el-select>
+              <br /><br /><br />
               <base-input
                 v-model="EnergyChartConfig.nombre3"
                 label="Nombre a mostrar"
@@ -940,50 +694,17 @@
                 placeholder="Select Class 3"
                 style="width: 100%;"
               >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
+                <el-option value="success" label="Success"></el-option>
+                <el-option value="primary" label="Primary"></el-option>
+                <el-option value="warning" label="Warning"></el-option>
+                <el-option value="danger" label="Danger"></el-option>
               </el-select>
 
               <br /><br /><br />
 
               <el-select
-                v-model="EnergyChartConfig.TipoGrafico1"
+                v-model="EnergyChartConfig.TipoGrafico"
                 label="Tipo Grafico Live"
-                class="select-success"
-                placeholder="Select type "
-                style="width: 100%;"
-              >
-                <el-option value="column" label="Tipo Columna"></el-option>
-                <el-option value="spline" label="Tipo Linea Suave"></el-option>
-                <el-option value="line" label="Tipo Linea"></el-option>
-                <el-option value="scatter" label="Tipo Puntos"></el-option>
-                <el-option value="areaspline" label="Tipo Area"></el-option>
-                <el-option value="area" label="Tipo Linea Area"></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="EnergyChartConfig.TipoGrafico2"
-                label="Tipo Grafico Data"
                 class="select-success"
                 placeholder="Select type "
                 style="width: 100%;"
@@ -1017,160 +738,6 @@
 
               <el-select
                 v-model="EnergyChartConfig.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
-              <br /><br />
-            </div>
-
-            <!-- FORMS Options CHART TYPE -->
-            <div v-if="widgetType == 'optionscharts'">
-              <base-input
-                v-model="OptionsChartsConfig.variableFullName"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="OptionsChartsConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-              <base-input
-                v-model="OptionsChartsConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="OptionsChartsConfig.unit"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model.number="OptionsChartsConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-              <base-input
-                v-model="OptionsChartsConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="OptionsChartsConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="OptionsChartsConfig.chartTimeAgo"
-                label="Chart Back Time (mins)"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="OptionsChartsConfig.class"
-                class="select-success"
-                placeholder="Select Class"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="OptionsChartsConfig.column"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%;"
@@ -1412,6 +979,18 @@
                 type="number"
               ></base-input>
 
+              <base-input
+                v-model.number="iotSimpleConfig.type"
+                label="Tipo"
+                type="text"
+              ></base-input>
+
+              <base-input
+                v-model.number="iotSimpleConfig.variable"
+                label="Variable"
+                type="text"
+              ></base-input>
+
               <br />
 
               <el-select
@@ -1555,6 +1134,21 @@
 
               <br />
 
+              <base-input
+                v-model.number="iotSimpleConfig.type"
+                label="Tipo"
+                type="text"
+              ></base-input>
+
+              <br />
+
+              <base-input
+                v-model.number="iotSimpleConfig.variable"
+                label="Variable"
+                type="text"
+              ></base-input>
+              <br />
+
               <el-select
                 v-model="CostComponentConfig.column"
                 class="select-success"
@@ -1615,274 +1209,6 @@
 
               <br /><br />
             </div>
-
-            <!-- FORM SIMPLE DOBLE NUMBER TYPE -->
-
-            <div v-if="widgetType == 'doblevalue'">
-              <base-input
-                v-model="iotDobleValueConfig.variableFullName"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotDobleValueConfig.unit"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotDobleValueConfig.variableFullName2"
-                label="Var Name 2"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotDobleValueConfig.unit2"
-                label="Unit2"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model.number="iotDobleValueConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="iotDobleValueConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="iotDobleValueConfig.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
-              <br /><br />
-            </div>
-
-            <!-- FORM SIMPLE NUMBER TYPE  2 -->
-
-            <div v-if="widgetType == 'simple2'">
-              <base-input
-                v-model="iotSimpleConfig2.variableFullName"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="iotSimpleConfig2.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="iotSimpleConfig2.unit"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotSimpleConfig2.variableFullName2"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotSimpleConfig2.unit2"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotSimpleConfig2.variableFullName3"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="iotSimpleConfig2.unit3"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model.number="iotSimpleConfig2.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="iotSimpleConfig2.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="iotSimpleConfig2.class"
-                label="Color Fondo"
-                class="select-success"
-                placeholder="Seleccionar color"
-                style="width: 100%;"
-              >
-                <el-option value="success" label="success"></el-option>
-                <el-option value="primary" label="primary"></el-option>
-                <el-option value="secondary" label="secondary"></el-option>
-                <el-option value="info" label="info"></el-option>
-                <el-option value="warning" label="warning"></el-option>
-                <el-option value="danger" label="danger"></el-option>
-                <el-option value="light" label="light"></el-option>
-                <el-option value="dark" label="dark"></el-option>
-                <el-option value="Default" label="Default"></el-option>
-                <el-option value="" label="Nada"></el-option>
-              </el-select>
-
-              <br />
-
-              <el-select
-                v-model="iotSimpleConfig2.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%;"
-              >
-                <el-option
-                  class="text-dark"
-                  value="col-2"
-                  label="col-2"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
-              <br /><br />
-            </div>
-
 
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
@@ -2297,7 +1623,6 @@
                 type="number"
               ></base-input>
 
-
               <br />
 
               <el-select
@@ -2365,7 +1690,6 @@
 
               <br /><br />
             </div>
-
           </div>
 
           <!-- WIDGET PREVIEW -->
@@ -2382,18 +1706,11 @@
               v-if="widgetType == 'energychart'"
               :config="EnergyChartConfig"
             ></EnergyChart>
-            <RTDoblechart
-              v-if="widgetType == 'doblechart'"
-              :config="DobleChartConfig"
-            ></RTDoblechart>
             <CostComponent
               v-if="widgetType == 'costcomponent'"
               :config="CostComponentConfig"
             ></CostComponent>
-            <DobleValue
-              v-if="widgetType == 'doblevalue'"
-              :config="iotDobleValueConfig"
-            ></DobleValue>
+
             <SmoothChart
               v-if="widgetType == 'smoothchart'"
               :config="SmoothChartConfig"
@@ -2414,14 +1731,7 @@
               v-if="widgetType == 'simple'"
               :config="iotSimpleConfig"
             ></Simple>
-            <Simple2
-              v-if="widgetType == 'simple2'"
-              :config="iotSimpleConfig2"
-            ></Simple2>
-            <RtChartHistoric
-              v-if="widgetType == 'charthistoric'"
-              :config="HistoricChartConfig"
-            ></RtChartHistoric>
+
             <SimpleTable
               v-if="widgetType == 'TableSimple'"
               :config="TableSimpleConfig"
@@ -2464,8 +1774,8 @@
           :config="widget"
         ></Rtnumberchart>
         <DataBetween
-        v-if="widget.widget ==  'DataBetween'"
-              :config="widget"
+          v-if="widget.widget == 'DataBetween'"
+          :config="widget"
         ></DataBetween>
         <RtChartHistoric
           v-if="widget.widget == 'charthistoric'"
@@ -2507,8 +1817,7 @@
           :config="widget"
         ></Iotindicator>
 
-        <Simple v-if="widget.widget == 'simple'"
-        :config="widget"></Simple>
+        <Simple v-if="widget.widget == 'simple'" :config="widget"></Simple>
         <Simple2
           v-if="widget.widget == 'simplenumber2'"
           :config="widget"
@@ -2624,7 +1933,6 @@
         </div>
       </b-card>
     </div>
-
   </div>
 </template>
 
@@ -2644,34 +1952,10 @@ export default {
     return {
       widgets: [],
       templates: [],
-      templatesHistorical:[],
+      templatesHistorical: [],
       widgetType: "",
       templateName: "",
       templateDescription: "",
-
-      HistoricChartConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888"
-        },
-        variableFullName: "temperature",
-        nombre: "Historico",
-        variable: "varname", //variable es la var name interna
-        variableType: "input",
-        variableSendFreq: "30",
-        unit: "Watts",
-        class: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "charthistoric",
-        icon: "",
-        chartTimeAgo: 1440,
-        demo: true,
-        tipo: "",
-        animacion: 2000,
-        historical: ''
-      },
 
       ncConfig: {
         userId: "sampleuserid",
@@ -2694,7 +1978,7 @@ export default {
         demo: true,
         tipo: "",
         animacion: 2000,
-        historical: ''
+        historical: ""
       },
 
       DataBetweenConfig: {
@@ -2747,44 +2031,8 @@ export default {
         icon: "",
         chartTimeAgo: 60,
         demo: true,
-        TipoGrafico1:"",
-        TipoGrafico2:"",
-        animacion: 2000,
-        historical: true
-      },
-
-      DobleChartConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888"
-        },
-        nombre: "Voltaje",
-        nombre2: "Voltaje",
-        nombre3: "Voltaje",
-        variableFullName: "temperature",
-        variableFullName2: "Humedad",
-        variableFullName3: "Presión",
-        variable: "varname", //variable es la var name interna
-        variable2: "varname2",
-        variable3: "varname3",
-        variableType: "input",
-        variableSendFreq: "30",
-        unit: "C",
-        unit2: "%",
-        unit3: "#",
-        class: "success",
-        class2: "success",
-        class3: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "doblechart",
-        icon: "",
-        chartTimeAgo: 60,
-        demo: true,
-        tipo: "",
-        animacion: 2000,
-        historical: true
+        TipoGrafico: "",
+        animacion: 2000
       },
 
       SmoothChartConfig: {
@@ -2875,37 +2123,17 @@ export default {
         },
         nombre: "Voltaje",
         variableFullName: "temperature",
-        variable: "varname",
-        unit: "$",
-        variableType: "input",
-        variableSendFreq: "30",
-        decimalPlaces: 2,
-        widget: "costcomponent",
-        column: "col-3",
-        class: "info",
-        textvariant: "white",
-        header: "Primary"
-      },
-
-      iotDobleValueConfig: {
-        //mio
-        userId: "userid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888"
-        },
-        nombre: "Voltaje",
-        variableFullName: "temperature",
-        variableFullName2: "light",
-        variable: "varname",
-        variable2: "varname2",
         unit: "Watts",
-        unit2: "",
         variableType: "input",
         variableSendFreq: "30",
         decimalPlaces: 2,
-        widget: "doblevalue",
-        column: "col-3"
+        class: "info",
+        widget: "simple",
+        column: "col-4",
+        textvariant: "white",
+        header: "Primary",
+        type: "Voltage_Phase_2",
+        variable: "Voltage"
       },
 
       iotSimpleConfig: {
@@ -2917,7 +2145,6 @@ export default {
         },
         nombre: "Voltaje",
         variableFullName: "temperature",
-        variable: "varname",
         unit: "Watts",
         variableType: "input",
         variableSendFreq: "30",
@@ -2926,7 +2153,9 @@ export default {
         widget: "simple",
         column: "col-4",
         textvariant: "white",
-        header: "Primary"
+        header: "Primary",
+        type: "Voltage_Phase_1",
+        variable: "Voltage"
       },
 
       TableSimpleConfig: {
@@ -2944,33 +2173,8 @@ export default {
         decimalPlaces: 2,
         class: "info",
         widget: "TableSimple",
-        column: "col-4",
-      },
-
-      iotSimpleConfig2: {
-        //mio
-        userId: "userid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888"
-        },
-        nombre: "Voltaje",
-        variableFullName: "temperature",
-        variableFullName2: "temperature",
-        variableFullName3: "temperature",
-        variable: "varname",
-        variable2: "varname2",
-        variable3: "varname3",
-        unit: "Watts",
-        variableType: "input",
-        variableSendFreq: "30",
-        decimalPlaces: 2,
-        class: "info",
-        widget: "simplenumber2",
-        column: "col-4",
-        textvariant: "white",
-        header: "Primary"
-      },
+        column: "col-4"
+      }
     };
   },
 
@@ -3082,7 +2286,11 @@ export default {
         }
       };
       try {
-        const res = await this.$axios.post("/templatehistorical", toSend, axiosHeaders);
+        const res = await this.$axios.post(
+          "/templatehistorical",
+          toSend,
+          axiosHeaders
+        );
 
         if (res.data.status == "success") {
           this.$notify({
@@ -3162,15 +2370,8 @@ export default {
       }
 
       if (this.widgetType == "DataBetween") {
-        this.DataBetweenConfig.variable = this.makeid(10);
+        this.DataBetweenConfig.idChart = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.DataBetweenConfig)));
-      }
-
-      if (this.widgetType == "doblechart") {
-        this.DobleChartConfig.variable = this.makeid(10);
-        this.DobleChartConfig.variable2 = this.makeid(10);
-        this.DobleChartConfig.variable3 = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.DobleChartConfig)));
       }
 
       if (this.widgetType == "smoothchart") {
@@ -3194,36 +2395,19 @@ export default {
       }
 
       if (this.widgetType == "simple") {
-        this.iotSimpleConfig.variable = this.makeid(10);
+        //this.iotSimpleConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig)));
       }
 
-      if (this.widgetType == "doblevalue") {
-        this.iotDobleValueConfig.variable = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.iotDobleValueConfig)));
-      }
-
       if (this.widgetType == "costcomponent") {
-        this.CostComponentConfig.variable = this.makeid(10);
+        //this.CostComponentConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.CostComponentConfig)));
       }
 
-      if (this.widgetType == "simple2") {
-        this.iotSimpleConfig2.variable = this.makeid(10);
-        this.iotSimpleConfig2.variable2 = this.makeid(10);
-        this.iotSimpleConfig2.variable3 = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.iotSimpleConfig2)));
-      }
-
-      if (this.widgetType == "charthistoric") {
-        this.HistoricChartConfig.variable = this.makeid(10);
-        this.widgets.push(JSON.parse(JSON.stringify(this.HistoricChartConfig)));
-      }
-
       if (this.widgetType == "energychart") {
-        this.EnergyChartConfig.variable = this.makeid(10);
-        this.EnergyChartConfig.variable2 = this.makeid(10);
-        this.EnergyChartConfig.variable3 = this.makeid(10);
+        this.EnergyChartConfig.idChart = this.makeid(10);
+        //this.EnergyChartConfig.variable2 = this.makeid(10);
+        //this.EnergyChartConfig.variable3 = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.EnergyChartConfig)));
       }
 

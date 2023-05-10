@@ -19,7 +19,7 @@ const auth = {
 
 //******************
 //**** A P I *******
-//****************** 
+//******************
 
 //CREATE ALARM-RULE
 router.post("/alarm-rule", checkAuth, async (req, res) => {
@@ -103,7 +103,7 @@ router.delete("/alarm-rule", checkAuth, async (req, res) => {
 
 //**********************
 //**** FUNCTIONS *******
-//********************** 
+//**********************
 
 //CREATE ALARM
 async function createAlarmRule(newAlarm) {
@@ -112,7 +112,8 @@ async function createAlarmRule(newAlarm) {
 
     // topicExample = userid/did/temp  //msgExample = {value: 20}
     const topic =
-      newAlarm.userId + "/" + newAlarm.dId + "/" + newAlarm.variable + "/sdata";
+  newAlarm.userId + "/" + newAlarm.dId + "/" + newAlarm.variable + "/" + newAlarm.type + "/sdata";
+
 
     const rawsql =
       'SELECT username, topic, payload FROM "' +

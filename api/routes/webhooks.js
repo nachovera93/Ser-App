@@ -4,9 +4,9 @@ const { checkAuth } = require("../middlewares/authentication.js");
 var mqtt = require("mqtt");
 const axios = require("axios");
 const colors = require("colors");
-
+const mongoose = require('mongoose');
+const { VoltajeData, CorrienteData, PotenciaData, EnergiaData, THDData, FPData } = require('../models/dataModels');
 import Data from "../models/data.js";
-import DataGraph from "../models/data_graph.js";
 import Device from "../models/device.js";
 import EmqxAuthRule from "../models/emqx_auth.js";
 import Notification from "../models/notifications.js";
@@ -91,38 +91,73 @@ router.post("/getdevicecredentials", async (req, res) => {
   }
 });
 
+const variableToCollection = {
+  Yb7TcLx9pK: 'VoltajeData',
+  Qf4GjSd2hN: 'CorrienteData',
+  Lm6VzKx8rJ: 'PotenciaData',
+  Hc2BtFg9nR: 'EnergiaData'
+};
+
 router.post("/saver-webhook", checkToken, async (req, res) => {
   console.log("saver.webhook");
   const data = req.body;
   const splittedTopic = data.topic.split("/");
   const dId = splittedTopic[1];
   const variable = splittedTopic[2];
-  const type = splittedTopic[3];
 
-  var result = await Device.find({ dId: dId, userId: data.userId });
-  if (result.length == 1) {
+  let type = [];
+  if (splittedTopic[3]) {
+    if (splittedTopic[3].indexOf(",") > -1) {
+      type = splittedTopic[3].split(",");
+    } else {
+      type = [splittedTopic[3]];
+    }
+  }
+  console.log("type")
+  console.log(type)
+
+    var result = await Device.find({ dId: dId, userId: data.userId });
+    if (result.length == 1) {
       const timeSaveData = Date.now();
       let values = Object.keys(data.payload).filter(key => key.startsWith("value")).map(val => data.payload[val]);
       for (let i = 0; i < values.length; i++) {
-          const currentVariable = variable.slice(i*10, i*10+10);
-          const currentValue = values[i];
-          if (currentValue) {
-              Data.create({
-                  userId: data.userId,
-                  dId: dId,
-                  variable: currentVariable,
-                  value: currentValue,
-                  time: timeSaveData
-              });
-          }
+        const currentVariable = variable.slice(i*10, i*10+10);
+        console.log("currentVariable")
+        console.log(currentVariable)
+        const currentValue = values[i];
+        console.log("currentValue")
+        console.log(currentValue)
+        const collectionName = variableToCollection[currentVariable];
+        console.log("collectionName")
+        console.log(collectionName)
+        const Collection = mongoose.connection.collection(collectionName);
+        if (currentValue) {
+          await Collection.insertOne({
+            userId: data.userId,
+            dId: dId,
+            variable: currentVariable,
+            value: currentValue,
+            time: timeSaveData,
+            // Aquí se cambia `type` por el valor correspondiente en `types`
+            type: type[i] || null
+          });
+        }
       }
       console.log("Data created");
       return res.status(200).json();
-  } else {
+    } else {
       console.log("No creo data");
       return res.status(404).json();
-  }
+    }
+
 });
+
+
+
+
+
+
+
 //SAVER WEBHOOK
 //router.post("/saver-webhook", async (req, res) => {
 //  try {
@@ -346,8 +381,8 @@ async function getDeviceMqttCredentials(dId, userId) {
         dId: dId,
         username: makeid(10),
         password: makeid(10),
-        publish: [userId + "/" + dId + "/+/sdata"],
-        subscribe: [userId + "/" + dId + "/+/actdata"],
+        publish: [userId + "/" + dId + "/+/+/sdata"],
+        subscribe: [userId + "/" + dId + "/+/+/actdata"],
         type: "device",
         time: Date.now(),
         updatedTime: Date.now()

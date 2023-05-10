@@ -63,12 +63,12 @@ export default {
     '@nuxtjs/axios',
     'nuxt-highcharts',
     'bootstrap-vue/nuxt',
-    
+
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.AXIOS_BASE_URL 
+    baseURL: process.env.AXIOS_BASE_URL
   },
   env:{
    mqtt_prefix: process.env.MQTT_PREFIX,

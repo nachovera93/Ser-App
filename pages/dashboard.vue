@@ -7,7 +7,7 @@
     <div
       v-for="(widget, index) in $store.state.selectedDevice.template.widgets"
       :key="index"
-      :class="[widget.column]"
+      :class="getResponsiveClass(widget)"
 
     >
           <!-- <h5>{{widget}}</h5> -->
@@ -26,15 +26,6 @@
         :config="fixWidget(widget)"
       ></EnergyChart>
 
-      <DobleValue
-        v-if="widget.widget == 'doblevalue'"
-        :config="fixWidget(widget)"
-      ></DobleValue>
-
-      <CostComponent
-          v-if="widget.widget == 'costcomponent'"
-          :config="widget"
-        ></CostComponent>
 
       <RTDoblechart
         v-if="widget.widget == 'doblechart'"
@@ -65,11 +56,6 @@
         v-if="widget.widget == 'simple'"
         :config="fixWidget(widget)"
       ></Simple>
-
-      <Simple2
-        v-if="widget.widget == 'simplenumber2'"
-        :config="fixWidget(widget)"
-      ></Simple2>
 
       <SimpleTable
         v-if="widget.widget == 'TableSimple'"
@@ -138,7 +124,16 @@ export default {
       }
 
       return widgetCopy;
+    },
+    getResponsiveClass(widget) {
+    if (widget.widget === 'simple') {
+      const originalSize = parseInt(widget.column.match(/\d+/)[0]);
+      return `col-12 col-md-${originalSize}`;
+    } else {
+      // Retorna las clases originales para los demás widgets
+      return widget.column;
     }
+  }
 
   }
 

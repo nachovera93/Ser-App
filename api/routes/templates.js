@@ -5,7 +5,6 @@ const { checkAuth } = require('../middlewares/authentication.js');
 //models import
 import Template from '../models/template.js';
 import Device from '../models/device.js';
-import TemplateHistorical from '../models/templateHistorical.js';
 
 //get templates
 router.get('/template', checkAuth, async (req, res) => {
@@ -32,35 +31,6 @@ router.get('/template', checkAuth, async (req, res) => {
 });
 
 
-router.get('/templatehistorical', checkAuth, async (req, res) => {
-
-    try {
-        const userId = req.userData._id;
-        const templates = await TemplateHistorical.find({userId: userId});
-        //console.log("templates")
-        //console.log(templates[0].widgets[0].widget)
-        //console.log(templates[0].widgets[0].column)
-        //console.log(templates[0].widgets[0])
-        //const widget = templates[0].widgets[0].widget;
-        //const column = templates[0].widgets[0].column;
-        const template = templates[0].widgets[0];
-        const response = {
-            status: "success",
-            data: template
-        }
-        return res.json(response);
-
-    } catch (error) {
-        console.log(error);
-        const response = {
-            status: "error",
-            error: error
-        }
-        return res.status(500).json(response);
-
-    }
-
-});
 
 //create template
 router.post('/template', checkAuth, async (req, res) => {
@@ -110,30 +80,6 @@ router.post('/template', checkAuth, async (req, res) => {
 //});
 //
 
-
-router.post('/templatehistorical', checkAuth, async (req, res) => {
-    try {
-        const userId = req.userData._id;
-        var newTemplate = req.body.template;
-        newTemplate.userId = userId;
-        newTemplate.createdTime = Date.now();
-        const r = await TemplateHistorical.create(newTemplate);
-        
-        const response = {
-            status: "success",
-        }
-        return res.json(response)
-
-    } catch (error) {
-        console.log(error);
-        const response = {
-            status: "error",
-            error: error
-        }
-        return res.status(500).json(response);
-    }
-
-});
 
 //delete template
 router.delete('/template', checkAuth, async (req, res) => {
