@@ -13,7 +13,7 @@ const notificationSchema = new Schema({
     value: { type: Number, required: [true] },
     condition: { type: String, required: [true] },
     variable: { type: String, required: [true] },
-    variableFullName: { type: String, required: [true] },
+    NameWidget: { type: String, required: [true] },
     readed: {type: Boolean, required: [true]},
     time: {type: Number, required: [true]}
 

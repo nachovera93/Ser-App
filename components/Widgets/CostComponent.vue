@@ -3,7 +3,7 @@
     <b-card :bg-variant="config.class" text-variant="dark" class="text-center">
       <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
       <b-card-text>
-        {{ config.variableFullName }}
+        {{ config.NameWidget }}
       </b-card-text>
 
       <h3>

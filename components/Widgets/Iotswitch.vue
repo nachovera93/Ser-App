@@ -2,7 +2,7 @@
   <card>
     <template slot="header">
       <h5 class="card-category">
-        {{ config.selectedDevice.name }} - {{ config.variableFullName }}
+        {{ config.selectedDevice.name }} - {{ config.NameWidget }}
       </h5>
 
       <h3 class="card-title">

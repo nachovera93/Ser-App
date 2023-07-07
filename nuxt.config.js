@@ -29,19 +29,22 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
+   css: [
     'assets/css/demo.css',
     'assets/css/nucleo-icons.css',
     'assets/sass/black-dashboard.scss',
+    'bootstrap/dist/css/bootstrap.css',  // Agrega esta línea
     'bootstrap-vue/dist/bootstrap-vue.css',
-  ],
+],
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    `~/plugins/dashboard-plugin.js`,
-    {src: '~/plugins/vue-image-upload.js', mode: 'client'}
-  ],
+    '~/plugins/dashboard-plugin.js',
+    {src: '~/plugins/vue-image-upload.js', mode: 'client'},
+    '~/plugins/bootstrap-vue.js'  // Asegúrate de crear este archivo en la carpeta de plugins
+],
   //autoimport
   components: [
     {
@@ -65,6 +68,7 @@ export default {
     'bootstrap-vue/nuxt',
 
   ],
+
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {

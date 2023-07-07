@@ -1,16 +1,12 @@
 <template>
   <div >
-      
-        <!-- your content here -->
-        <nuxt />
-      
-    
+    <nuxt />
   </div>
 </template>
 <script>
 export default {
   name: "authhome"
-  
+
 };
 </script>
 

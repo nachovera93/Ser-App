@@ -31,42 +31,38 @@ function checkToken(req, res, next) {
 router.post("/getdevicecredentials", async (req, res) => {
   try {
     const dId = req.body.dId;
-
     const password = req.body.password;
-
     const device = await Device.findOne({ dId: dId });
-
     if (password != device.password) {
       return res.status(401).json();
     }
-
     const userId = device.userId;
-
     var credentials = await getDeviceMqttCredentials(dId, userId);
-
     var template = await Template.findOne({ _id: device.templateId });
-
     var variables = [];
-
     template.widgets.forEach(widget => {
       var v = (({
         variable,
         variable2,
         variable3,
-        variableFullName,
+        NameWidget,
         variableFullName2,
         variableFullName3,
         variableType,
-        variableSendFreq
+        variableSendFreq,
+        n_variables,
+        widget
       }) => ({
         variable,
         variable2,
         variable3,
-        variableFullName,
+        NameWidget,
         variableFullName2,
         variableFullName3,
         variableType,
-        variableSendFreq
+        variableSendFreq,
+        n_variables,
+        widget
       }))(widget);
 
       variables.push(v);
@@ -98,59 +94,52 @@ const variableToCollection = {
   Hc2BtFg9nR: 'EnergiaData'
 };
 
+const moment = require('moment-timezone');  // Importa las bibliotecas
+
 router.post("/saver-webhook", checkToken, async (req, res) => {
   console.log("saver.webhook");
-  const data = req.body;
-  const splittedTopic = data.topic.split("/");
-  const dId = splittedTopic[1];
-  const variable = splittedTopic[2];
+  try {
+    const data = req.body;
+    const splittedTopic = data.topic.split("/");
+    const userId = splittedTopic[0];
+    const dId = splittedTopic[1];
+    const variable = splittedTopic[2];
+    const NameWidget_0 = splittedTopic[3];
+    const nameWidgets = NameWidget_0.split(',');
+    var result = await Device.find({ dId: dId, userId: userId });
 
-  let type = [];
-  if (splittedTopic[3]) {
-    if (splittedTopic[3].indexOf(",") > -1) {
-      type = splittedTopic[3].split(",");
-    } else {
-      type = [splittedTopic[3]];
-    }
-  }
-  console.log("type")
-  console.log(type)
-
-    var result = await Device.find({ dId: dId, userId: data.userId });
+    console.log(data)
     if (result.length == 1) {
-      const timeSaveData = Date.now();
-      let values = Object.keys(data.payload).filter(key => key.startsWith("value")).map(val => data.payload[val]);
-      for (let i = 0; i < values.length; i++) {
-        const currentVariable = variable.slice(i*10, i*10+10);
-        console.log("currentVariable")
-        console.log(currentVariable)
-        const currentValue = values[i];
-        console.log("currentValue")
-        console.log(currentValue)
-        const collectionName = variableToCollection[currentVariable];
-        console.log("collectionName")
-        console.log(collectionName)
-        const Collection = mongoose.connection.collection(collectionName);
-        if (currentValue) {
-          await Collection.insertOne({
-            userId: data.userId,
-            dId: dId,
-            variable: currentVariable,
-            value: currentValue,
-            time: timeSaveData,
-            // Aquí se cambia `type` por el valor correspondiente en `types`
-            type: type[i] || null
-          });
-        }
-      }
+      const chileTime = moment().tz("America/Santiago").toDate();   // Genera la fecha y hora de Chile
+      const collectionName = variableToCollection[variable];
+      const Collection = mongoose.connection.collection(collectionName);
+
+      let documentToSave = {
+        userId: userId,
+        dId: dId,
+        timestamp: chileTime  // Usa chileTime para el campo timestamp
+      };
+      // Añade cada NameWidget y su valor al documento
+      let index = 1;
+      nameWidgets.forEach(nameWidget => {
+        documentToSave[nameWidget] = data.payload[`value${index++}`] || data.payload["value"];
+      });
+
+      // Guarda el documento
+      await Collection.insertOne(documentToSave);
+
       console.log("Data created");
       return res.status(200).json();
     } else {
       console.log("No creo data");
       return res.status(404).json();
     }
-
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: error.toString() });
+  }
 });
+
 
 
 
@@ -229,43 +218,6 @@ router.post("/saver-webhook", checkToken, async (req, res) => {
 //  }
 //});
 //
-//SAVER WEBHOOK
-router.post("/saver-webhook-graph", async (req, res) => {
-  try {
-    //console.log("Estamos en Try con emqx api token ");
-    console.log("saver.webhook-graph");
-    if (req.headers.token != process.env.EMQX_API_TOKEN) {
-      res.status(404).json();
-      return;
-    }
-
-    const data = req.body;
-
-    const splittedTopic = data.topic.split("/");
-    const dId = splittedTopic[1];
-    const variable = splittedTopic[2];
-    var result = await Device.find({ dId: dId, userId: data.userId });
-    //console.log("Estamos en Saver-Webhook")
-    if (result.length == 1) {
-      DataGraph.create({
-        userId: data.userId,
-        dId: dId,
-        variable: variable,
-        value: data.payload.value,
-        value2: data.payload.value2,
-        time: Date.now()
-      });
-      console.log("Data created");
-    } else {
-      console.log("No creo data");
-    }
-
-    return res.status(200).json();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json();
-  }
-});
 
 //ALARMS WEBHOOK
 router.post("/alarm-webhook", async (req, res) => {
@@ -303,7 +255,8 @@ router.post("/alarm-webhook", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json();
+    return res.status(500).json({ error: error.toString() });
+
   }
 });
 
@@ -467,7 +420,7 @@ function sendMqttNotif(notif) {
   const topic = notif.userId + "/dummy-did/dummy-var/notif";
   const msg =
     "The rule: when the " +
-    notif.variableFullName +
+    notif.NameWidget +
     " is " +
     notif.condition +
     " than " +

@@ -28,64 +28,69 @@ const variableToCollection = {
 //{ "value":22,"value2":11,"value3":33, "save":1 }
 router.get("/get-last-data", checkAuth, async (req, res) => {
   try {
+    console.log("get-last-data");
+    console.log(req.query);
     const userId = req.userData._id;
+    console.log(userId);
     const dId = req.query.dId;
-    const timeAgoMs = Date.now();
-    const queryVariables = {
-      variable: req.query.variable,
-      variable2: req.query.variable2,
-      variable3: req.query.variable3
-    };
-    const QueryVariableFullName = {
-      variable: req.query.variableFullName,
-      variable2: req.query.variableFullName2,
-      variable3: req.query.variableFullName3
-    };
-    const variables = Object.values(queryVariables).filter(Boolean);
-    const VariableFullNames = Object.values(QueryVariableFullName).filter(
-      Boolean
-    );
-    //console.log("get-last-data");
-    //console.log(req.query);
-    //console.log("variables.length");
-    //console.log(variables.length);
+    const variable = req.query.variable;
+    const NameWidgets = req.query.NameWidget.split(",");  // Suponiendo que los NameWidgets se pasen como una cadena separada por comas
 
-    const data = [];
-    for (let i = 0; i < variables.length; i++) {
-      const currentVariable = variables[i];
-      const variableFullName = VariableFullNames[i];
-      const collectionName = variableToCollection[currentVariable];
-      //console.log("gcollectionName");
-      //console.log(collectionName);
-      if (collectionName) {
-        // Check if collectionName is truthy
-        //console.log("Entro con: ",collectionName + " " + i)
-        const Collection = mongoose.connection.collection(collectionName);
-        const variableData = await Collection.find({
+    const collectionName = variableToCollection[variable];
+
+    if (collectionName) {
+      const Collection = mongoose.connection.collection(collectionName);
+
+      let data = [];  // Variable para almacenar los datos de todas las consultas
+
+      for (const NameWidget of NameWidgets) {  // Iterar a través de todos los NameWidgets
+        let query = {
           userId: userId,
           dId: dId,
-          type: variableFullName
-        })
-          .sort({ time: -1 })
+        };
+        query[NameWidget] = { $exists: true };
+
+        const variableData = await Collection.find(query)
+          .sort({ timestamp: -1 })
           .limit(1)
           .toArray();
-        //console.log("variableData: ",variableData)
-        //console.log("variableData: ",variableData[0].value)
-        if (variableData.length > 0 && variableData[0]) {
-          data.push(variableData[0].value);
+
+        if (variableData.length > 0) {
+          data.push({  // Agregar los datos a la matriz de datos
+            variable: variable,
+            name: NameWidget,
+            value: variableData[0][NameWidget],
+            timestamp: variableData[0].timestamp
+          });
         } else {
-          console.log(`No data found for variable: ${currentVariable}`);
+          console.log(`No data found for variable: ${variable} y ${NameWidget}`);
         }
-      } else {
-        console.log(`No collection found for variable: ${currentVariable}`);
       }
+      console.log("data");
+       console.log(data);
+      if (data.length > 0) {
+        const response = {
+          status: "success",
+          data: data  // Devolver todos los datos en la respuesta
+        };
+        return res.json(response);
+      } else {
+        const response = {
+          status: "error",
+          error: `No data found for variable: ${variable}`
+        };
+        return res.json(response);
+      }
+
+    } else {
+      console.log(`No collection found for variable: ${variable}`);
+      const response = {
+        status: "error",
+        error: `No collection found for variable: ${variable}`
+      };
+      return res.json(response);
     }
 
-    const response = {
-      status: "success",
-      data: data
-    };
-    return res.json(response);
   } catch (error) {
     console.log(error);
     const response = {
@@ -96,57 +101,61 @@ router.get("/get-last-data", checkAuth, async (req, res) => {
   }
 });
 
+
+
 router.get("/get-small-charts-data", checkAuth, async (req, res) => {
   try {
     console.log("Entro get small chart data");
+    console.log(req.query)
     const userId = req.userData._id;
+    console.log(userId);
     const chartTimeAgo = req.query.chartTimeAgo;
     const dId = req.query.dId;
-    console.log(userId);
-    console.log("req.query");
-    console.log(req.query);
-    const queryVariables = [
-      req.query.variable,
-      req.query.variable2,
-      req.query.variable3
-    ];
-    const QueryVariableFullName = {
-      variable: req.query.variableFullName,
-      variable2: req.query.variableFullName2,
-      variable3: req.query.variableFullName3
-    };
-    const variables = Object.values(queryVariables).filter(Boolean);
-    const VariableFullNames = Object.values(QueryVariableFullName).filter(
-      Boolean
-    );
+    const variable = req.query.variable;
+    const nameWidgets = req.query.NameWidget.split(',');
+
     const timeAgoMs = Date.now() - chartTimeAgo * 60 * 1000;
-    const data = [];
 
-    const getData = async (variableFullName, currentVariable) => {
-      const collectionName = variableToCollection[currentVariable];
-      if (collectionName) {
-        const Collection = mongoose.connection.collection(collectionName);
-        const variableData = await Collection.find({
-          userId: userId,
-          dId: dId,
-          type: variableFullName,
-          time: { $gt: timeAgoMs }
-        })
-          .sort({ time: 1 })
-          .toArray();
-        return variableData;
+    const collectionName = variableToCollection[variable];
+
+    if (!collectionName) {
+      throw new Error(`No collection found for variable: ${variable}`);
+    }
+
+    const Collection = mongoose.connection.collection(collectionName);
+    console.log("Collection: ", collectionName);
+
+    // Variable para almacenar los datos de todas las consultas
+    let data = [];
+
+    for (const nameWidget of nameWidgets) {  // Iterar a través de todos los nameWidgets
+      let query = {
+        userId: userId,
+        dId: dId,
+        timestamp: { $gt: new Date(timeAgoMs) } // Se quitó el .toISOString()
+      };
+      query[nameWidget] = { $exists: true };
+
+      const variableData = await Collection.find(query)
+        .sort({ timestamp: 1 })
+        .toArray();
+
+      // Si no se encontraron datos, continuar con la siguiente iteración
+      if (!variableData.length) {
+        console.log(`No data found for widget: ${nameWidget}`);
+        continue;
       }
-    };
 
-    const promises = variables.map((currentVariable, i) => {
-      const variableFullName = VariableFullNames[i];
-      return getData(variableFullName, currentVariable);
-    });
+      // Añadir los datos a la matriz de datos
+      variableData.forEach(entry => {
+        let obj = {
+          timestamp: entry.timestamp
+        };
+        obj[nameWidget] = entry[nameWidget];
+        data.push(obj);
+      });
+    }
 
-    const results = await Promise.all(promises);
-    results.forEach(result => {
-      data.push(result);
-    });
     console.log("data: ", data);
     const response = {
       status: "success",
@@ -162,6 +171,12 @@ router.get("/get-small-charts-data", checkAuth, async (req, res) => {
     return res.json(response);
   }
 });
+
+
+
+
+
+
 
 router.get("/get-data-between", checkAuth, async (req, res) => {
   console.log("get-data-between");

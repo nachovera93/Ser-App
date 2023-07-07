@@ -6,7 +6,7 @@ const alarmRuleSchema = new Schema({
     userId: {type: String, required: [true]},
     dId: { type: String, required: [true] },
     emqxRuleId: { type: String, required: [true] },
-    variableFullName: { type: String },
+    NameWidget: { type: String },
     variable: { type: String },
     value: {type: Number},
     condition:  { type: String },

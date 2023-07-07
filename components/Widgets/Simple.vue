@@ -1,45 +1,60 @@
 <template>
-  <div class="simple-widget">
+  <div>
     <b-card
+      :title="config.nombre"
+      class="card-title"
+      img-src="../../static/img/light.svg"
       :bg-variant="config.class"
-      text-variant="dark"
-      class="text-center mb-0"
-      style="max-height: 7rem;"
+      img-alt="Card image"
+      img-left
     >
-      <!-- :header="config.selectedDevice.name" Para poner titulo a la card-->
-
-      <b-card-text>
-        {{ config.nombre }}
-      </b-card-text>
-
-      <b-card-text class="mt-2">
-        <span
-          >{{ Number(this.value2).toFixed(config.decimalPlaces) }} -
-          {{ config.unit }}</span
+      <b-card-text class="small-text">
+        <p
+          v-for="(value, index) in values"
+          :key="index"
+          v-b-tooltip.hover="lastUpdatedTooltipText"
         >
+          <i
+            v-if="value > previousValues[index]"
+            class="fas fa-arrow-up"
+            style="color: green"
+          ></i>
+          <i
+            v-else-if="value < previousValues[index]"
+            class="fas fa-arrow-down"
+            style="color: red"
+          ></i>
+          <i v-else class="fas fa-circle" style="color: yellow"></i>
+          {{ Number(value).toFixed(config.decimalPlaces) }}
+          {{ config.unit_1 }}
+        </p>
       </b-card-text>
-      <h6 class="card-category mt-2">
-        Last updated {{ getTimeAgo((nowTime - time) / 1000) }} ago
-      </h6>
     </b-card>
-    <!-- <h5>{{ this.config }}</h5> -->
-    <!-- <h5>Tópico actual: {{ topic }}</h5> -->
-    <!-- <h5>{{ this.value2 }}</h5> -->
 
+    <h5>{{ this.config }}</h5>
+    <h5>Tópico actual: {{ topic }}</h5>
   </div>
 </template>
 
+
+
+
+
 <script>
+import moment from "moment";
 export default {
   name: "simple",
   props: ["config"],
   data() {
     return {
       receivedTime: 0,
-      value2:0,
+      variables: [],
       time: Date.now(),
       nowTime: Date.now(),
-      topic: ""
+      topic: "",
+      lastUpdated: null, // Añade esta línea
+      values: Array(this.config.cantidad).fill(0),
+      previousValues: Array(this.config.cantidad).fill(0),
     };
   },
   watch: {
@@ -58,49 +73,78 @@ export default {
             "/" +
             this.config.variable +
             "/" +
-            this.config.type;
+            this.config.NameWidget;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
           //this.getData();
         }, 300);
-      }
-    }
+      },
+    },
   },
 
   mounted() {
+    for (let i = 1; i <= this.config.cantidad; i++) {
+      this.variables.push({
+        name: this.config["nombre_" + i],
+        value: null,
+        previousValue: null,
+      });
+    }
     this.getNow();
     this.getData();
   },
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
   },
+  computed: {
+    lastUpdatedTooltipText() {
+      return `Última actualización: ${this.lastUpdated}`;
+    },
+  },
 
   methods: {
     processReceivedData(data) {
       try {
-        this.value2 = data.value;
+        console.log("processReceivedData");
+        console.log(data);
+        if (data && data.value) {
+          // Revisa si data.value existe
+          this.previousValues = [...this.values];
+
+          const newValues = data.value.slice(0, this.config.cantidad); // Corta el array data.value a la cantidad deseada
+          this.values = newValues;
+        } else {
+          this.values = [];
+        }
       } catch (error) {
         console.log(error);
       }
     },
+
     async getData() {
       try {
         const axiosHeaders = {
           headers: {
-            token: this.$store.state.auth.token
+            token: this.$store.state.auth.token,
           },
           params: {
             dId: this.config.selectedDevice.dId,
-            variable: this.config.variable
-          }
+            variable: this.config.variable,
+            Widget: this.config.NameWidget,
+          },
         };
         const res = await this.$axios.get("/get-last-data", axiosHeaders);
         const data = res.data.data;
-        this.value2=data[0];
-        //data.forEach(element => {
-        //  this.value = element.variableData;
-        //  this.value2 = element.variableData;
-        //  console.log("valur ", this.value);
-        //});
+        console.log("Simple getData");
+        console.log(data);
+        if (data && data.length > 0) {
+          // Extraer los valores y asignarlos a `this.values`
+          this.values = data.map((item) => item.value);
+          this.lastUpdated = moment(data[0].timestamp).format(
+            "DD-MM-YYYY HH:mm"
+          );
+        } else {
+          console.log("data[0].value no está definido");
+        }
       } catch (e) {
         console.log(e);
       }
@@ -111,38 +155,25 @@ export default {
         this.getNow();
       }, 1000);
     },
-
-    getTimeAgo(seconds) {
-      if (seconds < 0) {
-        seconds = 0;
-      }
-
-      if (seconds < 59) {
-        return seconds.toFixed() + " secs";
-      }
-
-      if (seconds > 59 && seconds <= 3600) {
-        seconds = seconds / 60;
-        return seconds.toFixed() + " min";
-      }
-
-      if (seconds > 3600 && seconds <= 86400) {
-        seconds = seconds / 3600;
-        return seconds.toFixed() + " hour";
-      }
-
-      if (seconds > 86400) {
-        seconds = seconds / 86400;
-        return seconds.toFixed() + " day";
-      }
-    }
-  }
+  },
 };
 </script>
 
 
 <style scoped>
-  .simple-widget {
-    margin-top: 2rem;
-  }
+.card {
+  /* define las dimensiones de la tarjeta */
+  width: 230px;
+  height: 105px;
+}
+
+.small-text {
+  font-size: 10px;
+  margin-top: 0;
+}
+
+.card-title {
+  font-size: 12px;
+  margin-top: 0;
+}
 </style>

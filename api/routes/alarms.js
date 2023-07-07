@@ -156,7 +156,7 @@ async function createAlarmRule(newAlarm) {
         emqxRuleId: emqxRuleId,
         status: newAlarm.status,
         variable: newAlarm.variable,
-        variableFullName: newAlarm.variableFullName,
+        NameWidget: newAlarm.NameWidget,
         value: newAlarm.value,
         condition: newAlarm.condition,
         triggerTime: newAlarm.triggerTime,
@@ -180,8 +180,8 @@ async function createAlarmRule(newAlarm) {
         newAlarm.condition +
         '","variable":"' +
         newAlarm.variable +
-        '","variableFullName":"' +
-        newAlarm.variableFullName +
+        '","NameWidget":"' +
+        newAlarm.NameWidget +
         '","triggerTime":' +
         newAlarm.triggerTime +
         "}";

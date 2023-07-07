@@ -60,7 +60,7 @@
             <b style="color:orangered">{{ unixToDate(notification.time) }}</b>
             <div style="margin-left:50px">
               <b>Device: </b> {{ notification.deviceName }} <br />
-              <b>Variable: </b> {{ notification.variableFullName }} <br />
+              <b>Variable: </b> {{ notification.NameWidget }} <br />
               <b>Condition: </b> {{ notification.condition }} <br />
               <b>Limit: </b> {{ notification.value }} <br />
               <b>Value: </b> {{ notification.payload.value }}

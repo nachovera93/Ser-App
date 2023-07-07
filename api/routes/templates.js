@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkAuth } = require('../middlewares/authentication.js');
-
+const mongoose = require("mongoose");
 //models import
 import Template from '../models/template.js';
 import Device from '../models/device.js';
@@ -28,6 +28,36 @@ router.get('/template', checkAuth, async (req, res) => {
 
     }
 
+});
+
+router.post('/updatetemplate', checkAuth, async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    console.log(req.body);
+    console.log(userId);
+  
+    const { templateName, widget } = req.body;
+  
+    // Buscar y actualizar el template en la base de datos
+    await Template.findOneAndUpdate(
+      { name: templateName, userId: userId },
+      { $push: { widgets: widget } },  // Añade el nuevo widget al array de widgets
+      { new: true, useFindAndModify: false }  // Opciones: retorna el documento actualizado y utiliza el método más reciente para buscar y modificar
+    );
+  
+    const response = {
+      status: "success",
+    };
+    return res.json(response)
+  
+  } catch (error) {
+    console.log(error);
+    const response = {
+      status: "error",
+      error: error
+    };
+    return res.status(500).json(response);
+  }
 });
 
 

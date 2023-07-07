@@ -102,9 +102,9 @@ export default {
     },
     addNewWidget() {
       
-        this.ncConfig.variableFullName="hola"
-        console.log(this.ncConfig.variableFullName)
-        this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig.variableFullName)));
+        this.ncConfig.NameWidget="hola"
+        console.log(this.ncConfig.NameWidget)
+        this.widgets.push(JSON.parse(JSON.stringify(this.ncConfig.NameWidget)));
       
     }
   }

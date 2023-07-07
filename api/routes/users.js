@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
 
       const token = jwt.sign({ userData: user }, "securePasswordHere", {
         expiresIn: 60 * 60 * 24 * 30
-      }); 
+      });
       console.log(token)
       const response = {
         status: "success",
@@ -134,27 +134,31 @@ router.post(
   async (req, res) => {
     try {
       const userId = req.userData._id;
-      const credentials = await getWebUserMqttCredentialsForReconnection(
-        userId
-      );
+      const credentials = await getWebUserMqttCredentialsForReconnection(userId);
 
-      const response = {
-        status: "success",
-        username: credentials.username,
-        password: credentials.password
-      };
+      if (credentials) {
+        const response = {
+          status: "success",
+          username: credentials.username,
+          password: credentials.password
+        };
 
-      console.log(response);
-      res.json(response);
+        console.log(response);
+        res.json(response);
+      } else {
+        res.status(500).json({ status: "error", message: "No credentials found." });
+      }
 
       setTimeout(() => {
         getWebUserMqttCredentials(userId);
       }, 15000);
     } catch (error) {
       console.log(error);
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 );
+
 
 //**********************
 //**** FUNCTIONS *******
@@ -228,10 +232,12 @@ async function getWebUserMqttCredentialsForReconnection(userId) {
         password: rule[0].password
       };
       return toReturn;
+    } else {
+      throw new Error("No rule found for user");
     }
   } catch (error) {
     console.log(error);
-    return false;
+    throw error;
   }
 }
 

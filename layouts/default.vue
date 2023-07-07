@@ -12,7 +12,7 @@
           :link="{
             name: 'Reportes',
             icon: 'tim-icons icon-laptop',
-            path: '/dashboard'
+            path: '/dashboard',
           }"
         >
         </sidebar-item>
@@ -20,7 +20,7 @@
           :link="{
             name: 'Historicos',
             icon: 'tim-icons icon-calendar-60',
-            path: '/historical'
+            path: '/historical',
           }"
         >
         </sidebar-item>
@@ -63,12 +63,7 @@
 
       <div :class="{ content: !isFullScreenRoute }" @click="toggleSidebar">
         <zoom-center-transition :duration="1000" mode="out-in">
-          <!-- your content here -->
-          <!-- <ion-app> -->
           <nuxt></nuxt>
-
-          <!-- <ion-router-outlet /> -->
-          <!-- </ion-app> -->
         </zoom-center-transition>
       </div>
       <content-footer v-if="!isFullScreenRoute"></content-footer>
@@ -109,7 +104,7 @@ export default {
     DashboardContent,
     SlideYDownTransition,
     ZoomCenterTransition,
-    SidebarShare
+    SidebarShare,
   },
   data() {
     return {
@@ -130,14 +125,14 @@ export default {
           "_" +
           Math.floor(Math.random() * 1000000 + 1),
         username: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   computed: {
     isFullScreenRoute() {
       return this.$route.path === "/maps/full-screen";
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("getNotifications");
@@ -155,8 +150,8 @@ export default {
       try {
         const axiosHeaders = {
           headers: {
-            token: this.$store.state.auth.token
-          }
+            token: this.$store.state.auth.token,
+          },
         };
 
         const credentials = await this.$axios.post(
@@ -189,8 +184,8 @@ export default {
       try {
         const axiosHeaders = {
           headers: {
-            token: this.$store.state.auth.token
-          }
+            token: this.$store.state.auth.token,
+          },
         };
 
         const credentials = await this.$axios.post(
@@ -248,7 +243,7 @@ export default {
         console.log("Connection succeeded!");
 
         //SDATA SUBSCRIBE
-        this.client.subscribe(deviceSubscribeTopic, { qos: 0 }, err => {
+        this.client.subscribe(deviceSubscribeTopic, { qos: 0 }, (err) => {
           if (err) {
             console.log("Error in DeviceSubscription");
             return;
@@ -258,7 +253,7 @@ export default {
         });
 
         //NOTIF SUBSCRIBE
-        this.client.subscribe(notifSubscribeTopic, { qos: 0 }, err => {
+        this.client.subscribe(notifSubscribeTopic, { qos: 0 }, (err) => {
           if (err) {
             console.log("Error in NotifSubscription");
             return;
@@ -268,98 +263,51 @@ export default {
         });
       });
 
-      this.client.on("error", error => {
+      this.client.on("error", (error) => {
         console.log("Connection failed", error);
       });
 
-      this.client.on("reconnect", error => {
+      this.client.on("reconnect", (error) => {
         console.log("reconnecting:", error);
         this.getMqttCredentialsForReconnection();
       });
 
-      this.client.on("disconnect", error => {
+      this.client.on("disconnect", (error) => {
         console.log("MQTT disconnect EVENT FIRED:", error);
       });
 
       this.client.on("message", (topic, message) => {
-        //console.log("Message from topic " + topic + " -> ");
-        //console.log(message.toString());
+      console.log("Message from topic " + topic + " -> ");
+      console.log(message.toString());
 
         try {
           const splittedTopic = topic.split("/");
           const msgType = splittedTopic[4];
           const userId = splittedTopic[0];
           const deviceId = splittedTopic[1];
-          let Types = [];
-          if (splittedTopic[3]) {
-            if (splittedTopic[3].indexOf(",") > -1) {
-              Types = splittedTopic[3].split(",");
-            } else {
-              Types = [splittedTopic[3]];
-            }
-          }
 
-          if (msgType == "notif") {
-            this.$notify({
-              type: "danger",
-              icon: "tim-icons icon-alert-circle-exc",
-              message: message.toString()
-            });
-            this.$store.dispatch("getNotifications");
-            return;
-          } else if (msgType == "sdata") {
+
+          if (msgType == "sdata") {
             const variable = splittedTopic[2];
-            if (variable.length === 10) {
-              console.log("variable.length === 10");
-              for (const Type of Types) {
-                const topicI = `${userId}/${deviceId}/${variable}/${Type}/sdata`;
-                const data = {};
-                data[Type] = JSON.parse(message.toString());
-                $nuxt.$emit(topicI, data);
-              }
-            } else {
-              const parsedMessage = JSON.parse(message.toString());
-              const save = parsedMessage.save;
+            const parsedMessage = JSON.parse(message.toString());
+            const save = parsedMessage.save;
+            const valueKeys = Object.keys(parsedMessage).filter((key) =>
+              key.startsWith("value")
+            );
+            const values = valueKeys.map((key) => parsedMessage[key]);
 
-              const valueKeys = Object.keys(parsedMessage).filter(key =>
-                key.startsWith("value")
-              );
-              const values = valueKeys.map(key => parsedMessage[key]);
+            const currentType = splittedTopic[3]
+            //const currentValue = values[0]; // Assumes first value is required
+            const topicI = `${userId}/${deviceId}/${variable}/${currentType}/sdata`;
+            const data = {
+              value: values,
+              currentType: currentType,
+              save: save,
+            };
+            console.log("data: ", data);
+            console.log("topicI: ", topicI);
+            $nuxt.$emit(topicI, data);
 
-              //console.log("valueKeys");
-              //console.log(valueKeys);
-              //console.log("values");
-              //console.log(values);
-              //console.log("save");
-              //console.log(save);
-
-              const varsCount = variable.length / 10;
-              for (let i = 0; i < varsCount; i++) {
-                const slice = variable.slice(i * 10, i * 10 + 10);
-
-                const currentType = Types[i] || null;
-                const currentKey = valueKeys[i];
-                const currentValue = JSON.parse(message.toString())[currentKey];
-                if (currentValue) {
-                  const topicI = `${userId}/${deviceId}/${slice}/${currentType}/sdata`;
-                  const data = {
-                    value: currentValue,
-                    currentType: currentType,
-                    save:save
-                  };
-                  //console.log(
-                  //  `Mensaje emitido: ${JSON.stringify(
-                  //    data
-                  //  )} al tópico ${topicI}`
-                  //);
-                  $nuxt.$emit(topicI, data);
-                  //console.log("data");
-                  //console.log(data);
-                  //console.log("topicI");
-                  //console.log(topicI);
-                }
-              }
-            }
             return;
           }
         } catch (error) {
@@ -367,7 +315,7 @@ export default {
         }
       });
 
-      $nuxt.$on("mqtt-sender", toSend => {
+      $nuxt.$on("mqtt-sender", (toSend) => {
         this.client.publish(toSend.topic, JSON.stringify(toSend.msg));
       });
     },
@@ -390,8 +338,8 @@ export default {
       } else {
         docClasses.add("perfect-scrollbar-off");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

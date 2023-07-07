@@ -37,13 +37,13 @@
           >
             Entrar
           </base-button>
-          <div class="pull-left">
+          <!-- <div class="pull-left">
             <h6>
               <nuxt-link class="link footer-link" to="/register">
                 Crear cuenta
               </nuxt-link>
             </h6>
-          </div>
+          </div> -->
 
           <div class="pull-right">
             <h6><a href="/home" class="link footer-link">Home</a></h6>

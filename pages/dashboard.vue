@@ -1,16 +1,11 @@
 <template>
-
-
-
   <div class="row" v-if="$store.state.devices.length > 0">
-
     <div
-      v-for="(widget, index) in $store.state.selectedDevice.template.widgets"
+      v-for="(widget, index) in sortedWidgets"
       :key="index"
       :class="getResponsiveClass(widget)"
-
     >
-          <!-- <h5>{{widget}}</h5> -->
+      <!-- <h5>{{widget}}</h5> -->
       <Rtnumberchart
         v-if="widget.widget == 'numberchart'"
         :config="fixWidget(widget)"
@@ -22,10 +17,9 @@
       ></RtChartHistoric>
 
       <EnergyChart
-        v-if="widget.widget == 'energychart'"
+        v-if="widget.widget == 'multiple_chart'"
         :config="fixWidget(widget)"
       ></EnergyChart>
-
 
       <RTDoblechart
         v-if="widget.widget == 'doblechart'"
@@ -61,81 +55,86 @@
         v-if="widget.widget == 'TableSimple'"
         :config="fixWidget(widget)"
       ></SimpleTable>
-
-
-
     </div>
-    <!-- <Wheater></Wheater> -->
-      <!-- <div><PhotoFile /></div> -->
-
+    <Wheater></Wheater>
+    <!-- <div><PhotoFile /></div> -->
   </div>
 
-  <div v-else>
-    Select a Device...
-  </div>
-
-
+  <div v-else>Select a Device...</div>
 </template>
 <script>
-
-
 //import PhotoFile from "./components/widgets/PhotoFile";
 export default {
-  middleware: 'authenticated',
-  name: 'Dashboard',
+  middleware: "authenticated",
+  name: "Dashboard",
   //components: {
   //  PhotoFile
   //},
   data() {
-    return {
-
-
-    }
+    return {};
   },
 
-  mounted() {
-
-
+  mounted() {},
+  computed: {
+    sortedWidgets() {
+      if (
+        this.$store.state.selectedDevice &&
+        this.$store.state.selectedDevice.template
+      ) {
+        return [...this.$store.state.selectedDevice.template.widgets].sort(
+          (a, b) => a.order - b.order
+        );
+      }
+      return [];
+    },
   },
 
   methods: {
+    sortWidgets() {
+      if (
+        this.$store.state.selectedDevice &&
+        this.$store.state.selectedDevice.template
+      ) {
+        this.$store.state.selectedDevice.template.widgets.sort(
+          (a, b) => a.order - b.order
+        );
+      }
+    },
 
-    fixWidget(widget){
+    fixWidget(widget) {
       var widgetCopy = JSON.parse(JSON.stringify(widget));
       widgetCopy.selectedDevice.dId = this.$store.state.selectedDevice.dId;
       widgetCopy.selectedDevice.name = this.$store.state.selectedDevice.name;
       widgetCopy.userId = this.$store.state.selectedDevice.userId;
 
-      if (widget.widget =="numberchart"){
+      if (widget.widget == "numberchart") {
         widgetCopy.demo = false;
-         widgetCopy.historical = 'false';
+        widgetCopy.historical = "false";
       }
-      if (widget.widget =="charthistoric"){
+      if (widget.widget == "charthistoric") {
         widgetCopy.demo = false;
-         widgetCopy.historical = 'false';
+        widgetCopy.historical = "false";
       }
-      if (widget.widget =="energychart"){
+      if (widget.widget == "multiple_chart") {
         widgetCopy.demo = false;
-         widgetCopy.historical = 'false';
+        widgetCopy.historical = "false";
       }
-      if (widget.widget =="doblechart"){
+      if (widget.widget == "doblechart") {
         widgetCopy.demo = false;
-         widgetCopy.historical = 'false';
+        widgetCopy.historical = "false";
       }
 
       return widgetCopy;
     },
     getResponsiveClass(widget) {
-    if (widget.widget === 'simple') {
-      const originalSize = parseInt(widget.column.match(/\d+/)[0]);
-      return `col-12 col-md-${originalSize}`;
-    } else {
-      // Retorna las clases originales para los demás widgets
-      return widget.column;
-    }
-  }
-
-  }
-
+      if (widget.widget === "simple") {
+        const originalSize = parseInt(widget.column.match(/\d+/)[0]);
+        return `col-12 col-md-${originalSize}`;
+      } else {
+        // Retorna las clases originales para los demás widgets
+        return widget.column;
+      }
+    },
+  },
 };
 </script>

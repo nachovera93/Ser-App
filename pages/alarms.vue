@@ -25,7 +25,7 @@
                   :key="index"
                   class="text-dark"
                   :value="index"
-                  :label="widget.variableFullName"
+                  :label="widget.NameWidget"
                 ></el-option>
               </el-select>
             </div>
@@ -106,7 +106,7 @@
             </el-table-column>
 
             <el-table-column
-              prop="variableFullName"
+              prop="NameWidget"
               label="Var Name"
             ></el-table-column>
 
@@ -196,7 +196,7 @@ export default {
         dId: null,
         deviceName: null,
         status: true,
-        variableFullName: null,
+        NameWidget: null,
         variable: null,
         value: null,
         condition: null,
@@ -321,9 +321,9 @@ export default {
       
       this.newRule.dId = this.$store.state.selectedDevice.dId;
       this.newRule.deviceName = this.$store.state.selectedDevice.name;
-      this.newRule.variableFullName = this.$store.state.selectedDevice.template.widgets[
+      this.newRule.NameWidget = this.$store.state.selectedDevice.template.widgets[
         this.selectedWidgetIndex
-      ].variableFullName;
+      ].NameWidget;
       this.newRule.variable = this.$store.state.selectedDevice.template.widgets[
         this.selectedWidgetIndex
       ].variable;

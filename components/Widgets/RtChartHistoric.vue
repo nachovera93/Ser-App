@@ -204,7 +204,7 @@ export default {
           this.chartOptions.xAxis.categories = [];
           this.getChartData();
           this.chartOptions.series[0].name =
-            this.config.variableFullName + " " + this.config.unit;
+            this.config.NameWidget + " " + this.config.unit;
           //this.updateTipo();
           window.dispatchEvent(new Event("resize"));
         }, 300);
@@ -553,7 +553,7 @@ export default {
         this.chartOptioncolor = "#fd5d93";
       }
       this.chartOptions.series[0].name =
-        this.config.variableFullName + " " + this.config.unit;
+        this.config.NameWidget + " " + this.config.unit;
     },
     getLastData() {
       const axiosHeaders = {
