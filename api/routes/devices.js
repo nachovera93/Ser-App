@@ -88,7 +88,7 @@ router.post("/device", checkAuth, async (req, res) => {
 
     newDevice.password = makeid(10);
 
-    await createSaverRule(userId, newDevice.dId, true);
+    //await createSaverRule(userId, newDevice.dId, true);
 
     const device = await Device.create(newDevice);
 
@@ -279,7 +279,7 @@ async function createSaverRule(userId, dId, status) {
 
 
   try {
-    const url = "http://"+process.env.EMQX_API_HOST+":8085/api/v4/rules";
+    const url = "http://" + process.env.EMQX_API_HOST + ":8085/api/v4/rules";
 
     const topic = userId + "/" + dId + "/+/+/sdata";
 
@@ -330,7 +330,7 @@ async function createSaverRule(userId, dId, status) {
 //update saver rule
 async function updateSaverRuleStatus(emqxRuleId, status) {
   try {
-    const url = "http://"+process.env.EMQX_API_HOST+":8085/api/v4/rules/" + emqxRuleId;
+    const url = "http://" + process.env.EMQX_API_HOST + ":8085/api/v4/rules/" + emqxRuleId;
 
     const newRule = {
       enabled: status
@@ -355,7 +355,7 @@ async function deleteSaverRule(dId) {
   try {
     const mongoRule = await SaverRule.findOne({ dId: dId });
 
-    const url = "http://"+process.env.EMQX_API_HOST+":8085/api/v4/rules/" + mongoRule.emqxRuleId;
+    const url = "http://" + process.env.EMQX_API_HOST + ":8085/api/v4/rules/" + mongoRule.emqxRuleId;
 
     const emqxRule = await axios.delete(url, auth);
 
@@ -376,7 +376,7 @@ async function deleteAllAlarmRules(userId, dId) {
 
     if (rules.length > 0) {
       asyncForEach(rules, async rule => {
-        const url = "http://"+process.env.EMQX_API_HOST+":8085/api/v4/rules/" + rule.emqxRuleId;
+        const url = "http://" + process.env.EMQX_API_HOST + ":8085/api/v4/rules/" + rule.emqxRuleId;
         const res = await axios.delete(url, auth);
       });
 

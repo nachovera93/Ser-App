@@ -1,47 +1,6 @@
 <template>
   <b-card type="chart">
     <template slot="header">
-      <div
-        class="col-sm-2
-      "
-      >
-        <base-button
-          @click="getDataBetween()"
-          type="primary"
-          class="mb-2"
-          size="lg-2"
-          >Filtrar</base-button
-        >
-      </div>
-      <h5>{{ this.selected_radious }}</h5>
-      <div>
-        <b-form-group label="Individual radios" v-slot="{ ariaDescribedby }">
-          <b-form-radio
-            v-model="selected_radious"
-            :aria-describedby="ariaDescribedby"
-            name="some-radios"
-            value="A"
-            >Option A</b-form-radio
-          >
-          <b-form-radio
-            v-model="selected_radious"
-            :aria-describedby="ariaDescribedby"
-            name="some-radios"
-            value="B"
-            >Option B</b-form-radio
-          >
-        </b-form-group>
-
-        <div class="mt-3">
-          Selected: <strong>{{ selected_radious }}</strong>
-        </div>
-      </div>
-      <div v-if="this.selected_radious == 'A'">
-        <h1>Si</h1>
-      </div>
-      <div v-else>
-        <h1>No</h1>
-      </div>
       <div class="card-category pull-right px-2">
         <label>Color</label>
         <b-form-select v-model="selected2" :options="colores" />
@@ -52,9 +11,13 @@
       </div>
       <h5>{{ getTimeAgo((nowTime - time) / 1000) }} ago</h5>
 
-      <h4>
-        {{ config.nombre }}
-      </h4>
+      <div class="col-sm-3 d-flex align-items-center">
+        <b-form-checkbox
+          v-model="isCheckboxChecked"
+          size="sm"
+        ></b-form-checkbox>
+        <h4 class="mb-0">{{ config.nombre }}</h4>
+      </div>
 
       <div class="col-sm-3 pull-right">
         <base-input>
@@ -80,10 +43,10 @@
 
       <h3 class="card-title">
         <i
-          class="fa "
+          class="fa"
           :class="[config.icon, getIconColorClass()]"
           aria-hidden="true"
-          style="font-size: 30px;"
+          style="font-size: 30px"
         ></i>
         <span
           >{{ Number(value).toFixed(config.decimalPlaces) }}
@@ -102,7 +65,8 @@
         :update="watchers"
       />
     </div>
-    <h5>{{ config }}</h5>
+    <!-- <h5>{{ config }}</h5> -->
+    <h5 v-if="isCheckboxChecked">{{ topic }}</h5>
   </b-card>
 </template>
 
@@ -114,7 +78,7 @@ export default {
   props: ["config"],
   components: {
     [DatePicker.name]: DatePicker,
-    [TimeSelect.name]: TimeSelect
+    [TimeSelect.name]: TimeSelect,
   },
   data() {
     return {
@@ -125,6 +89,7 @@ export default {
       watchers: undefined,
       selected: 60,
       selected2: this.config.class,
+      isCheckboxChecked: false,
       options: [
         { value: 5, text: "5 minutos atrás" },
         { value: 10, text: "10 minutos atrás" },
@@ -133,7 +98,7 @@ export default {
         { value: 120, text: "2 horas atrás" },
         { value: 180, text: "3 horas atrás" },
         { value: 720, text: "12 horas atrás" },
-        { value: 1440, text: "1 día atrás" }
+        { value: 1440, text: "1 día atrás" },
         //Semanal
         //Mensual
         //Anual
@@ -149,65 +114,65 @@ export default {
       topic: "",
       chartOptions: {
         credits: {
-          enabled: false
+          enabled: false,
         },
         chart: {
           renderTo: "container",
           defaultSeriesType: "areaspline",
-          backgroundColor: "rgba(0,0,0,0)"
+          backgroundColor: "rgba(0,0,0,0)",
         },
         title: {
-          text: ""
+          text: "",
         },
         xAxis: {
           categories: [],
           //type: "datetime",
           labels: {
             style: {
-              color: "#d4d2d2"
-            }
-          }
+              color: "#d4d2d2",
+            },
+          },
         },
         yAxis: {
           title: {
-            text: ""
+            text: "",
           },
           labels: {
             style: {
               color: "#d4d2d2",
-              font: "11px Trebuchet MS, Verdana, sans-serif"
-            }
-          }
+              font: "11px Trebuchet MS, Verdana, sans-serif",
+            },
+          },
         },
         series: [
           {
             name: "",
             data: [],
-            color: "#e14eca"
-          }
+            color: "#e14eca",
+          },
         ],
         legend: {
           itemStyle: {
-            color: "#d4d2d2"
-          }
+            color: "#d4d2d2",
+          },
         },
         responsive: {
           rules: [
             {
               condition: {
-                maxWidth: 500
+                maxWidth: 500,
               },
               chartOptions: {
                 legend: {
                   layout: "horizontal",
                   align: "center",
-                  verticalAlign: "bottom"
-                }
-              }
-            }
-          ]
-        }
-      }
+                  verticalAlign: "bottom",
+                },
+              },
+            },
+          ],
+        },
+      },
     };
   },
   watch: {
@@ -247,8 +212,8 @@ export default {
           this.updateColorClass();
           window.dispatchEvent(new Event("resize"));
         }, 300);
-      }
-    }
+      },
+    },
   },
 
   mounted() {
@@ -303,24 +268,24 @@ export default {
     getLastData() {
       const axiosHeaders = {
         headers: {
-          token: $nuxt.$store.state.auth.token
+          token: $nuxt.$store.state.auth.token,
         },
         params: {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
-          chartTimeAgo: this.config.chartTimeAgo
-        }
+          chartTimeAgo: this.config.chartTimeAgo,
+        },
       };
       this.$axios
         .get("/get-last-data", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           const data = res.data.data;
-          data.forEach(element => {
+          data.forEach((element) => {
             this.values = element.value;
           });
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           return;
         });
@@ -331,24 +296,24 @@ export default {
       this.timestamp_end = new Date(this.timestamp_end).getTime();
       const axiosHeaders = {
         headers: {
-          token: $nuxt.$store.state.auth.token
+          token: $nuxt.$store.state.auth.token,
         },
         params: {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
           timestamp_init: this.timestamp_init,
-          timestamp_end: this.timestamp_end
-        }
+          timestamp_end: this.timestamp_end,
+        },
       };
       this.$axios
         .get("/get-data-between", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           this.chartOptions.series[0].data = [];
           this.chartOptions.xAxis.categories = [];
           const data = res.data.data;
           console.log(data[0].energia_fase_2_consumocliente_mensual);
           console.log(this.chartOptions.xAxis.categories);
-          data.forEach(element => {
+          data.forEach((element) => {
             var aux2 = [];
             var dateFormat = new Date(element.time * 1000);
             aux2.push(
@@ -369,20 +334,20 @@ export default {
           this.isMounted = true;
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           return;
         });
       this.$axios
         .get("/get-last-data", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           const data = res.data.data;
-          data.forEach(element => {
+          data.forEach((element) => {
             this.value = element.value;
           });
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           return;
         });
@@ -393,7 +358,7 @@ export default {
           [1606659071668, 22],
           [1606659072668, 27],
           [1606659073668, 32],
-          [1606659074668, 7]
+          [1606659074668, 7],
         ];
         this.isMounted = true;
         return;
@@ -401,21 +366,21 @@ export default {
 
       const axiosHeaders = {
         headers: {
-          token: $nuxt.$store.state.auth.token
+          token: $nuxt.$store.state.auth.token,
         },
         params: {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
-          chartTimeAgo: this.config.chartTimeAgo
-        }
+          chartTimeAgo: this.config.chartTimeAgo,
+        },
       };
       this.$axios
         .get("/get-small-charts-data", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           this.chartOptions.series[0].data = [];
           const data = res.data.data;
           //console.log(res.data);
-          data.forEach(element => {
+          data.forEach((element) => {
             var aux = [];
             aux.push(
               element.time + new Date().getTimezoneOffset() * 60 * 1000 * -1
@@ -426,20 +391,20 @@ export default {
           this.isMounted = true;
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           return;
         });
       this.$axios
         .get("/get-last-data", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           const data = res.data.data;
-          data.forEach(element => {
+          data.forEach((element) => {
             this.value = element.value;
           });
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           return;
         });
@@ -496,8 +461,8 @@ export default {
         seconds = seconds / 86400;
         return seconds.toFixed() + " day";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>

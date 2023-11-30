@@ -21,9 +21,9 @@ var client;
 
 function checkToken(req, res, next) {
   if (req.headers.token != process.env.EMQX_API_TOKEN) {
-      res.status(404).json();
+    res.status(404).json();
   } else {
-      next();
+    next();
   }
 }
 
@@ -140,84 +140,6 @@ router.post("/saver-webhook", checkToken, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-//SAVER WEBHOOK
-//router.post("/saver-webhook", async (req, res) => {
-//  try {
-//    //console.log("Estamos en Try con emqx api token ");
-//    if (req.headers.token != process.env.EMQX_API_TOKEN) {
-//      res.status(404).json();
-//      return;
-//    }
-//
-//    const data = req.body;
-//    console.log("Saver-Webhook");
-//    console.log(data);
-//    const splittedTopic = data.topic.split("/");
-//    console.log(splittedTopic);
-//    const dId = splittedTopic[1];
-//    const variable = splittedTopic[2];
-//
-//    if (variable.length === 10) {
-//      var firstTen = variable.slice(0, 10);
-//    } else if (variable.length === 20) {
-//      var firstTen = variable.slice(0, 10);
-//      var secondHalf = variable.slice(10, 20);
-//    } else if (variable.length === 30) {
-//      var firstTen = variable.slice(0, 10);
-//      var secondHalf = variable.slice(10, 20);
-//      var thirdThird = variable.slice(20, 30);
-//    }
-//
-//    var result = await Device.find({ dId: dId, userId: data.userId });
-//    //console.log("Estamos en Saver-Webhook")
-//    if (result.length == 1) {
-//      const timeSaveData = Date.now()
-//      Data.create({
-//        userId: data.userId,
-//        dId: dId,
-//        variable: firstTen,
-//        value: data.payload.value,
-//        time: timeSaveData
-//      });
-//      if (data.payload.value2 !== undefined) {
-//        console.log("value2 Create");
-//        Data.create({
-//          userId: data.userId,
-//          dId: dId,
-//          variable: secondHalf,
-//          value: data.payload.value2,
-//          time: timeSaveData
-//        });
-//      }
-//      if (data.payload.value3 !== undefined) {
-//        console.log("value3 Create");
-//        Data.create({
-//          userId: data.userId,
-//          dId: dId,
-//          variable: thirdThird,
-//          value: data.payload.value3,
-//          time: timeSaveData
-//        });
-//      }
-//      console.log("Data created ");
-//    } else {
-//      console.log("No creo data");
-//    }
-//
-//    return res.status(200).json();
-//  } catch (error) {
-//    console.log(error);
-//    return res.status(500).json();
-//  }
-//});
-//
 
 //ALARMS WEBHOOK
 router.post("/alarm-webhook", async (req, res) => {
@@ -400,7 +322,7 @@ function startMqttClient() {
 
   client = mqtt.connect("mqtt://" + process.env.EMQX_API_HOST, options);
 
-  client.on("connect", function() {
+  client.on("connect", function () {
     console.log("MQTT CONNECTION -> SUCCESS;".green);
     console.log("\n");
   });

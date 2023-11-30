@@ -50,11 +50,7 @@
                 label="Boolean Indicator INPUT <-"
               >
               </el-option>
-              <el-option
-                class="text-dark"
-                value="map"
-                label="Map INPUT <-"
-              ></el-option>
+
               <el-option
                 class="text-dark"
                 value="switch"
@@ -82,6 +78,12 @@
                 class="text-dark"
                 value="TableSimple"
                 label="TableSimple <-"
+              ></el-option>
+
+              <el-option
+                class="text-dark"
+                value="ImgConfig"
+                label="Imagen Card <-"
               ></el-option>
             </el-select>
 
@@ -451,7 +453,7 @@
                 <el-option value="8" label="8"></el-option>
                 <el-option value="9" label="9"></el-option>
               </el-select>
-              <br /><br /><br />
+              <br /><br />
 
               <div v-for="i in parseInt(MultipleChartConfig.cantidad)" :key="i">
                 <base-input
@@ -460,10 +462,9 @@
                   type="text"
                 >
                 </base-input>
-                <br />
-
-                <br />
               </div>
+
+              <br />
 
               <base-input
                 v-model.number="MultipleChartConfig.unit_1"
@@ -472,11 +473,14 @@
               >
               </base-input>
 
+              <br />
+              <label for="Variables">Variables</label>
               <el-select
                 v-model="MultipleChartConfig.variable"
                 class="select-success"
                 placeholder="Select Class"
                 style="width: 100%"
+                id="Variables"
               >
                 <el-option
                   v-for="(value, key) in variables"
@@ -486,7 +490,7 @@
                 ></el-option>
               </el-select>
 
-              <br /><br /><br />
+              <br /><br />
 
               <el-select
                 v-if="variables[MultipleChartConfig.variable]"
@@ -505,7 +509,7 @@
                 ></el-option>
               </el-select>
 
-              <br /><br /><br />
+              <br />
 
               <base-input
                 v-model.number="MultipleChartConfig.decimalPlaces"
@@ -513,18 +517,11 @@
                 type="number"
               >
               </base-input>
-
-              <base-input
-                v-model="MultipleChartConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
               <br />
 
               <base-input
                 v-model.number="MultipleChartConfig.variableSendFreq"
-                label="Send Freq"
+                label="Frecuencia de envio"
                 type="number"
               ></base-input>
 
@@ -532,15 +529,16 @@
 
               <base-input
                 v-model.number="MultipleChartConfig.chartTimeAgo"
-                label="Chart Back Time (mins)"
+                label="Tiempo atrás (mins)"
                 type="number"
               ></base-input>
 
               <br />
-
+              <label for="tipo-color">Tipo Golor Live</label>
               <el-select
                 v-model="MultipleChartConfig.class"
                 class="select-success"
+                id="tipo-color"
                 placeholder="Select Class"
                 style="width: 100%"
               >
@@ -566,13 +564,14 @@
                 ></el-option>
               </el-select>
 
-              <br /><br /><br />
+              <br /><br />
 
+              <label for="tipo-grafico">Tipo Grafico Live</label>
               <el-select
+                id="tipo-grafico"
                 v-model="MultipleChartConfig.TipoGrafico"
-                label="Tipo Grafico Live"
                 class="select-success"
-                placeholder="Select type "
+                placeholder="Select type"
                 style="width: 100%"
               >
                 <el-option value="column" label="Tipo Columna"></el-option>
@@ -583,28 +582,30 @@
                 <el-option value="area" label="Tipo Linea Area"></el-option>
               </el-select>
 
-              <br /><br /><br />
+              <br /><br />
 
-              <el-select
-                v-model="MultipleChartConfig.animacion"
-                label="Tipo Grafico"
-                class="select-success"
-                placeholder="Select Animation Duration"
-                style="width: 100%"
-              >
-                <el-option value="0" label="0"></el-option>
-                <el-option value="500" label="500"></el-option>
+              <!-- <el-select -->
+              <!-- v-model="MultipleChartConfig.animacion" -->
+              <!-- label="Tipo Grafico" -->
+              <!-- class="select-success" -->
+              <!-- placeholder="Select Animation Duration" -->
+              <!-- style="width: 100%" -->
+              <!-- > -->
+              <!-- <el-option value="0" label="0"></el-option> -->
+              <!-- <el-option value="500" label="500"></el-option> -->
+              <!--  -->
+              <!-- <el-option value="1000" label="1000"></el-option> -->
+              <!--  -->
+              <!-- <el-option value="2000" label="2000"></el-option> -->
+              <!-- </el-select> -->
+              <!--  -->
+              <!-- <br /><br /> -->
 
-                <el-option value="1000" label="1000"></el-option>
-
-                <el-option value="2000" label="2000"></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
+              <label for="Ancho-columna">Ancho columna</label>
               <el-select
                 v-model="MultipleChartConfig.column"
                 class="select-success"
+                id="Ancho-columna"
                 placeholder="Select Column Width"
                 style="width: 100%"
               >
@@ -659,8 +660,6 @@
                   label="col-12"
                 ></el-option>
               </el-select>
-
-              <br /><br />
             </div>
 
             <!-- FORMS NUMBER CHART TYPE -->
@@ -805,7 +804,6 @@
             <!-- FORM SIMPLE NUMBER TYPE -->
 
             <div v-if="widgetType == 'simple'">
-
               <base-input
                 v-model.number="iotSimpleConfig.decimalPlaces"
                 label="Decimal Places"
@@ -815,20 +813,36 @@
 
               <br />
 
+              <input type="file" @change="handleImageUpload" accept="image/*" />
+
+              <!-- Mostrar la imagen cargada si existe -->
+              <div v-if="iotSimpleConfig.loadedImageUrl">
+                <img
+                  :src="iotSimpleConfig.loadedImageUrl"
+                  alt="Imagen Cargada"
+                  style="max-width: 100%; height: auto"
+                />
+              </div>
+
               <base-input
                 v-model.number="iotSimpleConfig.variableSendFreq"
                 label="Send Freq"
                 type="number"
               ></base-input>
 
-              <el-select
-                           v-model="iotSimpleConfig.cantidad"
-               class="select-success"
-               placeholder="Select Quantity"
-               style="width: 100%"
-               @change="updateMatriz"
-             >
+              <base-input
+                v-model="iotSimpleConfig.img"
+                label="Select image"
+                type="number"
+              ></base-input>
 
+              <el-select
+                v-model="iotSimpleConfig.cantidad"
+                class="select-success"
+                placeholder="Select Quantity"
+                style="width: 100%"
+                @change="updateMatriz"
+              >
                 <el-option value="1" label="1"></el-option>
                 <el-option value="2" label="2"></el-option>
                 <el-option value="3" label="3"></el-option>
@@ -850,7 +864,6 @@
                 </base-input>
                 <br />
               </div>
-
 
               <br />
 
@@ -888,14 +901,12 @@
                 style="width: 100%"
               >
                 <el-option
-                  v-for="option in variables[iotSimpleConfig.variable]
-                    .options"
+                  v-for="option in variables[iotSimpleConfig.variable].options"
                   :key="option"
                   :value="option"
                   :label="option"
                 ></el-option>
               </el-select>
-
 
               <br />
 
@@ -919,71 +930,62 @@
               </el-select>
 
               <br />
-
+              <label for="Ancho-columna">Ancho columnas</label>
               <el-select
                 v-model="iotSimpleConfig.column"
+                id="Ancho-columna"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%"
               >
                 <el-option
+                  v-for="col in 11"
+                  :key="col"
                   class="text-dark"
-                  value="col-2"
-                  label="col-2"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
+                  :value="`col-${col + 2}`"
+                  :label="`col-${col + 2}`"
                 ></el-option>
               </el-select>
 
               <br /><br />
+            </div>
+
+            <!-- FORM SIMPLE IMG TYPE -->
+
+            <div v-if="widgetType == 'ImgConfig'">
+              <label for="Ancho-columna">Ancho columnas</label>
+              <el-select
+                v-model="ImgConfig.column"
+                id="Ancho-columna"
+                class="select-success"
+                placeholder="Select Column Width"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="col in 11"
+                  :key="col"
+                  class="text-dark"
+                  :value="`col-${col + 2}`"
+                  :label="`col-${col + 2}`"
+                ></el-option>
+              </el-select>
+
+              <br />
+              <label for="image-select">Elegir Imagen</label>
+              <el-select
+                v-model="ImgConfig.selectedImage"
+                id="image-select"
+                class="select-success"
+                placeholder="Select Image"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="image in imageOptions"
+                  :key="image.value"
+                  :value="image.value"
+                  :label="image.label"
+                ></el-option>
+              </el-select>
             </div>
 
             <!-- FORM SWITCH TYPE -->
@@ -1377,15 +1379,13 @@
             </div>
 
             <div v-if="widgetType == 'TableSimple'">
-
-
               <el-select
-                  v-model="TableSimpleConfig.cantidad_columnas"
-                  placeholder="Select Cantidad de columnas"
-                  class="select-success"
-                  style="width: 100%"
-                  @change="updateMatriz"
-                >
+                v-model="TableSimpleConfig.cantidad_columnas"
+                placeholder="Select Cantidad de columnas"
+                class="select-success"
+                style="width: 100%"
+                @change="updateMatriz"
+              >
                 <el-option value="1" label="1"></el-option>
                 <el-option value="2" label="2"></el-option>
                 <el-option value="3" label="3"></el-option>
@@ -1398,7 +1398,10 @@
               </el-select>
               <br /><br /><br />
 
-              <div v-for="i in parseInt(TableSimpleConfig.cantidad_columnas)" :key="i">
+              <div
+                v-for="i in parseInt(TableSimpleConfig.cantidad_columnas)"
+                :key="i"
+              >
                 <base-input
                   v-model="TableSimpleConfig['nombre_columna_' + i]"
                   :label="'Nombre columna' + i + ' a mostrar'"
@@ -1409,13 +1412,12 @@
               </div>
 
               <el-select
-                           v-model="TableSimpleConfig.cantidad"
-               class="select-success"
-               placeholder="Select Quantity"
-               style="width: 100%"
-               @change="updateMatriz"
-             >
-
+                v-model="TableSimpleConfig.cantidad"
+                class="select-success"
+                placeholder="Select Quantity"
+                style="width: 100%"
+                @change="updateMatriz"
+              >
                 <el-option value="1" label="1"></el-option>
                 <el-option value="2" label="2"></el-option>
                 <el-option value="3" label="3"></el-option>
@@ -1437,7 +1439,6 @@
                 </base-input>
                 <br />
               </div>
-
 
               <br />
 
@@ -1562,6 +1563,11 @@
               v-if="widgetType == 'TableSimple'"
               :config="TableSimpleConfig"
             ></SimpleTable>
+
+            <CardImage
+              v-if="widgetType == 'ImgConfig'"
+              :config="ImgConfig"
+            ></CardImage>
           </div>
         </div>
 
@@ -1674,6 +1680,11 @@
           v-if="widget.widget == 'TableSimple'"
           :config="widget"
         ></SimpleTable>
+
+        <CardImage
+          v-if="widget.widget == 'ImgConfig'"
+          :config="widget"
+        ></CardImage>
 
         <Simple v-if="widget.widget == 'simple'" :config="widget"> </Simple>
       </div>
@@ -2033,6 +2044,7 @@ export default {
           name: "Home",
           dId: "8888",
         },
+        loadedImageUrl: null,
         nombre_1: "Voltaje",
         cantidad: 1,
         NameWidget: "temperature",
@@ -2046,7 +2058,27 @@ export default {
         textvariant: "white",
         header: "Primary",
         variable: "Voltage",
+        img: "",
       },
+      ImgConfig: {
+        userId: "userid",
+        selectedDevice: {
+          name: "Home",
+          dId: "8888",
+        },
+        column: "col-4",
+        selectedImage: "",
+        variable: "Voltage",
+      },
+      // Opciones de imágenes para seleccionar
+      imageOptions: [
+        { value: "Voltaje_image.svg", label: "Imagen Voltaje" },
+        { value: "Corriente_image.svg", label: "Imagen Corriente" },
+        { value: "Paneles_image.svg", label: "Imagen Paneles" },
+        { value: "Energia_image.svg", label: "Imagen Energia" },
+        { value: "Sistema_image.svg", label: "Imagen Sistema Paneles" },
+        // ... añade más opciones según las imágenes disponibles
+      ],
 
       TableSimpleConfig: {
         userId: "sampleuserid",
@@ -2071,7 +2103,7 @@ export default {
         TipoGrafico: "",
         animacion: 2000,
         cantidad_columnas: 1,
-        Matriz: "2,2"
+        Matriz: "2,2",
       },
     };
   },
@@ -2134,13 +2166,32 @@ export default {
         }
       }
     },
-
   },
 
   methods: {
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        if (!file.type.startsWith("image/")) {
+          alert("Por favor, selecciona un archivo de imagen."); // Mensaje de error simple
+          return;
+        }
 
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.iotSimpleConfig.loadedImageUrl = e.target.result;
+        };
+        reader.onerror = () => {
+          alert("Error al leer el archivo."); // Manejo de error de FileReader
+        };
+        reader.readAsDataURL(file);
+      }
+    },
     updateMatriz() {
-    this.TableSimpleConfig.Matriz = this.TableSimpleConfig.cantidad + ',' + this.TableSimpleConfig.cantidad_columnas;
+      this.TableSimpleConfig.Matriz =
+        this.TableSimpleConfig.cantidad +
+        "," +
+        this.TableSimpleConfig.cantidad_columnas;
     },
 
     updateNameWidget() {
@@ -2332,6 +2383,12 @@ export default {
         this.TableSimpleConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.TableSimpleConfig)));
       }
+
+      if (this.widgetType == "ImgConfig") {
+        this.ImgConfig.variable = this.makeid(10);
+        this.widgets.push(JSON.parse(JSON.stringify(this.ImgConfig)));
+        console.log("ImgConfig :", this.widgets);
+      }
     },
 
     async addNewWidgetToTemplate() {
@@ -2352,7 +2409,6 @@ export default {
       }
 
       if (this.widgetType == "TableSimple") {
-
         UpdateObject = JSON.parse(JSON.stringify(this.TableSimpleConfig));
       }
       const axiosHeaders = {

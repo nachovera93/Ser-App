@@ -5,7 +5,7 @@
       :key="index"
       :class="getResponsiveClass(widget)"
     >
-      <!-- <h5>{{widget}}</h5> -->
+      <!-- <h5>{{ widget.widget }}</h5> -->
       <Rtnumberchart
         v-if="widget.widget == 'numberchart'"
         :config="fixWidget(widget)"
@@ -55,8 +55,12 @@
         v-if="widget.widget == 'TableSimple'"
         :config="fixWidget(widget)"
       ></SimpleTable>
+      <CardImage
+        v-if="widget.widget == 'ImageConfig'"
+        :config="fixWidget(widget)"
+      ></CardImage>
     </div>
-    <Wheater></Wheater>
+    <!-- <Wheater></Wheater> -->
     <!-- <div><PhotoFile /></div> -->
   </div>
 

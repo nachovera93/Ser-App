@@ -1,6 +1,7 @@
 <template>
   <b-card type="chart" class="custom-card">
     <!-- <h5>{{ this.Dia }}</h5> -->
+    <h5>{{ this.valorExtraido }}</h5>
     <div class="header-container d-flex justify-content-center">
       <div class="values-container">
         <div
@@ -105,6 +106,7 @@ export default {
         { value: 1440, label: "1440 min" },
       ],
       seriesColor: "",
+      valorExtraido: 0,
       colorInputIsSupported: null,
       chartTypes: [],
       watchers: undefined,
@@ -128,8 +130,7 @@ export default {
     selected_minutes(select) {
       console.log("select: ", select);
       this.timeago = select;
-      this.config.chartTimeAgo = select,
-      this.getChartData();
+      (this.config.chartTimeAgo = select), this.getChartData();
     },
     seriesColor(newVal2) {
       this.seriesColor = newVal2;
@@ -198,8 +199,8 @@ export default {
         legend: {
           enabled: false,
           itemStyle: {
-            color: "#ffffff"
-          }
+            color: "#ffffff",
+          },
         },
         series: this.chartOptionsLiveData.map((dataSeries, index) => {
           const variableName = "nombre_" + (index + 1);
@@ -258,7 +259,6 @@ export default {
     this.$nuxt.$off(this.topic + "/sdata");
   },
   methods: {
-
     async getChartData() {
       try {
         const axiosHeaders = {
@@ -279,12 +279,14 @@ export default {
         if (res.data.status == "success") {
           // Limpiar el array que almacenará las series de datos.
           this.chartOptionsLiveData = [];
-          this.datetime_real_time=[];
+          this.datetime_real_time = [];
           console.log("a Graficar");
-          console.log(res.data.data);
+          console.log(res.data);
           // Crear un objeto para almacenar los datos de cada serie.
           const seriesData = {};
-          res.data.data.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+          res.data.data.sort(
+            (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+          );
           const nameWidgets = this.config.NameWidget.split(",");
           nameWidgets.forEach((item) => {
             seriesData[item] = [];
@@ -298,8 +300,6 @@ export default {
             });
             this.datetime_real_time.push(date);
 
-
-
             nameWidgets.forEach((nameWidget) => {
               if (element[nameWidget] !== undefined) {
                 seriesData[nameWidget].push(element[nameWidget]);
@@ -307,14 +307,13 @@ export default {
             });
           });
           this.datetime_real_time = [...new Set(this.datetime_real_time)];
-          console.log("this.datetime_real_time: ", this.datetime_real_time)
+          console.log("this.datetime_real_time: ", this.datetime_real_time);
           // Convertir el objeto de series de datos en un array.
           for (let key in seriesData) {
             this.chartOptionsLiveData.push(seriesData[key]);
           }
           this.isMounted = true;
         }
-
       } catch (error) {
         console.log(error);
         this.errorMessage =
@@ -325,9 +324,10 @@ export default {
 
     procesReceivedData(data) {
       console.log("ProcessReceived: ", data);
+      this.valorExtraido = data.value[0];
+      console.log(this.valorExtraido); // Esto imprimirá 22
+
       try {
-
-
         setTimeout(() => {
           //if (data.save == 1) {
           this.getChartData();

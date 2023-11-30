@@ -1,166 +1,474 @@
 <template>
-  <div class="container-fluid login-page">
-    <Navbar class="w-100"></Navbar>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">
+      You are using an <strong>outdated</strong> browser. Please <a
+      href="https://browsehappy.com/">upgrade your browser</a> to improve your
+      experience and security.
+    </p>
+  <![endif]-->
+  <div>
+    <!-- Preloader -->
+    <!-- <div class="preloader"> -->
+    <!-- <div class="preloader-inner"> -->
+    <!-- <div class="preloader-icon"> -->
+    <!-- <span></span> -->
+    <!-- <span></span> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- /End Preloader -->
 
-    <div class="w-100" v-if="windowWidth > 800">
-      <!-- Carousel para las imágenes en móvil-->
-      <img
-        :src="require('@/assets/IOTSEr_transparente.svg')"
-        alt="Descripción de la imagen"
-        style="width: 100%"
-      />
-    </div>
-    <div v-else>
-      <img
-        :src="require('@/assets/FondoPhone.svg')"
-        alt="Descripción de la imagen"
-        style="width: 100%"
-      />
-    </div>
+    <!-- Start Header Area -->
 
-    <div v-if="windowWidth > 800">
-      <!-- Carousel para las imágenes en móvil-->
-      <img
-        :src="require('@/assets/Portada_2.svg')"
-        alt="Descripción de la imagen"
-        style="width: 100%"
-      />
-    </div>
-    <div v-else>
-      <img
-        :src="require('@/assets/1.svg')"
-        alt="Descripción de la imagen"
-        style="width: 100%"
-      />
-      <img
-        :src="require('@/assets/2__.svg')"
-        alt="Descripción de la imagen"
-        style="width: 100%"
-      />
-    </div>
-    <br />
-    <br />
-    <br />
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7 col-sm-12">
-          <h1>
-            Medidor | Analizador de Calidad de Energía | Transmisor de Datos
-          </h1>
-          <p>
-            Cada unidad de nuestro proyecto integra un medidor de variables
-            eléctricas, un analizador de calidad de energía y un transmisor de
-            datos. Esta poderosa combinación te permite medir, analizar y
-            transmitir datos directamente desde el dispositivo hacia una base de
-            datos remota. No solo calcula la potencia y el consumo de carga,
-            sino también la generación de energía en los paneles solares, el
-            consumo de la red eléctrica, y realiza Transformada Rápida de
-            Fourier (FFT) para determinar el factor de potencia y los armónicos.
-            A diferencia de otros sistemas, nuestro dispositivo no guarda las
-            variables localmente, sino que las envía en tiempo real a una base
-            de datos accesible en la nube. Esto garantiza que los datos estén
-            siempre disponibles y actualizados, pudiendo ser accedidos desde
-            cualquier lugar con conexión a internet. La interfaz de usuario
-            intuitiva, accesible a través de internet desde una computadora,
-            tableta o smartphone, te proporciona visualizaciones en tiempo real
-            y te permite interactuar con los datos históricos y en vivo. Una vez
-            conectado, tienes acceso a valores en tiempo real, informes a largo
-            plazo, una interfaz gráfica interactiva y muchas otras herramientas.
-            Lo mejor de todo es que la interfaz de usuario es completamente
-            gratuita. Recuperas los datos directamente de tu propia base de
-            datos en la nube, asegurando la privacidad y el control total de tus
-            datos.
-          </p>
-          <br />
-          <br />
-          <h2>Especificaciones Destacadas</h2>
-
-          <ul>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Medición de Variables Eléctricas para Determinar el Consumo de
-              Carga
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Generación de Energía en los Paneles Solares
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Consumo de la Red Eléctrica
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Análisis de FFT para el Factor de Potencia y Armónicos
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Transmisión en Tiempo Real a Base de Datos en la Nube
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              Visualización Web en Tiempo Real Accesible desde Cualquier Lugar
-              con Conexión a Internet
-            </li>
-            <!-- el resto de tus elementos de la lista -->
-          </ul>
+    <header class="header navbar-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-12">
+            <div class="nav-inner">
+              <!-- Start Navbar -->
+              <nav class="navbar navbar-expand-lg custom-navbar">
+                <a class="navbar-brand" href="#">
+                  <img src="../assets/images/logo/2.png" alt="Logo" />
+                </a>
+                <button
+                  class="navbar-toggler mobile-menu-btn"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="toggler-icon"></span>
+                  <span class="toggler-icon"></span>
+                  <span class="toggler-icon"></span>
+                </button>
+                <div
+                  class="collapse navbar-collapse sub-menu-bar"
+                  id="navbarSupportedContent"
+                >
+                  <ul id="nav" class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                      <a href="#" class="active" aria-label="Toggle navigation"
+                        >Home</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" aria-label="Toggle navigation">About</a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="dd-menu collapsed"
+                        href="javascript:void(0)"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#submenu-1-1"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        >Pages</a
+                      >
+                      <ul class="sub-menu collapse" id="submenu-1-1">
+                        <li class="nav-item">
+                          <a href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="m#">Mail Success</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#">404 Error</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="dd-menu collapsed"
+                        href="javascript:void(0)"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#submenu-1-2"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        >Blog</a
+                      >
+                      <ul class="sub-menu collapse" id="submenu-1-2">
+                        <li class="nav-item">
+                          <a href="#">Blog Grid</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="#">Blog Single</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" aria-label="Toggle navigation">Contact</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- navbar collapse -->
+                <div>
+                  <b-button pill variant="success" to="/login"
+                    >Get Started</b-button
+                  >
+                </div>
+              </nav>
+              <!-- End Navbar -->
+            </div>
+          </div>
         </div>
+        <!-- row -->
+      </div>
+      <!-- container -->
+    </header>
 
-        <div class="col-md-5 col-sm-12 d-flex align-items-center">
-          <img
-            src="@/assets/Medidor_2.svg"
-            alt="Descripción de la imagen"
-            class="img-fluid"
-          />
+    <!-- End Header Area -->
+
+    <!-- Start Hero Area -->
+    <section class="hero-area">
+      <img
+        class="hero-shape"
+        src="../assets/images/hero/hero-shape.svg"
+        alt="#"
+      />
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-5 col-md-12 col-12">
+            <div class="hero-content">
+              <h4 class="wow fadeInUp" data-wow-delay=".2s">
+                Descubre el Poder de la Automatización Inteligente
+              </h4>
+              <h1 class="wow fadeInUp" data-wow-delay=".4s">
+                Datos que trabajan <br />
+                <span>
+                  <img
+                    class="text-shape"
+                    src="../assets/images/hero/text-shape.svg"
+                    alt="#"
+                  />
+                  para ti.
+                </span>
+              </h1>
+              <p class="wow fadeInUp" data-wow-delay=".6s">
+                Maximiza la eficiencia con análisis en tiempo real y toma de
+                decisiones ágiles
+              </p>
+              <div class="button wow fadeInUp" data-wow-delay=".8s">
+                <a href="about-us.html" class="btn">Descubre más</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 col-12">
+            <div class="hero-image">
+              <img
+                class="main-image"
+                src="../assets/images/hero/6.png"
+                alt="#"
+              />
+              <img
+                class="h2-move-1"
+                src="../assets/images/hero/MQTT.png"
+                alt="#"
+                width="50%"
+                height="auto"
+                style="margin-left: 110px"
+              />
+              <img
+                class="h2-move-2"
+                src="../assets/images/hero/MQTT-2.png"
+                alt="#"
+                width="30%"
+                height="auto"
+                style="margin-top: 50px"
+              />
+              <img
+                class="h2-move-3"
+                src="../assets/images/hero/MQTT-3.png"
+                alt="#"
+                width="20%"
+                height="auto"
+                style="margin-right: 100px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Hero Area -->
+
+    <!-- Start Feature Area -->
+    <div class="feature section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title">
+              <h3 class="wow zoomIn" data-wow-delay=".2s">Porque Nosotros</h3>
+              <h2 class="wow fadeInUp" data-wow-delay=".4s">
+                Nuentras caracteristicas
+              </h2>
+              <p
+                class="wow fadeInUp"
+                data-wow-delay=".6s"
+                style="color: #424242; font-weight: bold"
+              >
+                Opta por una solución de monitoreo avanzada que integra sin
+                esfuerzo los dispositivos IoT en tu infraestructura existente.
+                Nuestra plataforma flexible y adaptable es perfecta para el
+                sector energético y más allá, con una interfaz de usuario
+                intuitiva y almacenamiento de datos escalable para una visión y
+                control completos de tus operaciones
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="col-lg-4 col-md-6 col-12 wow fadeInUp"
+            data-wow-delay=".2s"
+          >
+            <div class="feature-box">
+              <div class="tumb">
+                <img
+                  src="../assets/images/features/feature-icon-1.png"
+                  alt=""
+                />
+              </div>
+              <h4 class="text-title">Conectividad Total</h4>
+              <p style="color: #424242; font-weight: bold">
+                Implementa IoT para recopilación de datos precisa. Experimenta
+                la integración perfecta y la recopilación de datos en tiempo
+                real.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-lg-4 col-md-6 col-12 wow fadeInUp"
+            data-wow-delay=".4s"
+          >
+            <div class="feature-box">
+              <div class="tumb">
+                <img
+                  src="../assets/images/features/feature-icon-2.png"
+                  alt=""
+                />
+              </div>
+              <h4 class="text-title">Seguridad Avanzada</h4>
+              <p style="color: #424242; font-weight: bold">
+                Garantiza la integridad de tus datos y procesamiento en la nube.
+                Confía en la seguridad y escalabilidad que tu infraestructura
+                demanda.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-lg-4 col-md-6 col-12 wow fadeInUp"
+            data-wow-delay=".6s"
+          >
+            <div class="feature-box">
+              <div class="tumb">
+                <img
+                  src="../assets/images/features/feature-icon-3.png"
+                  alt=""
+                />
+              </div>
+              <h4 class="text-title">Análisis Inteligente</h4>
+              <p style="color: #424242; font-weight: bold">
+                Transforma datos en decisiones. Accede a análisis poderosos y
+                almacenamiento persistente para una gestión de datos superior.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-     <br>
-     <br>
-    <div :class="windowWidth > 800 ? 'flex-row' : 'flex-column'">
-      <img
-        :src="require('@/assets/12.svg')"
-        alt="Descripción de la imagen"
-        class="responsive-image2 mt-small"
-      />
-      <img
-        :src="require('@/assets/13.svg')"
-        alt="Descripción de la imagen"
-        class="responsive-image2"
-      />
-      <img
-        :src="require('@/assets/14.svg')"
-        alt="Descripción de la imagen"
-        class="responsive-image2"
-      />
-      <img
-        :src="require('@/assets/15.svg')"
-        alt="Descripción de la imagen"
-        class="responsive-image2"
-      />
-    </div>
+    <!-- End Features Area -->
 
-    <br />
-    <Footer></Footer>
+    <!-- Start Call Action Area -->
+    <section class="call-action">
+      <div class="container">
+        <div class="inner-content">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-7 col-12">
+              <div class="text">
+                <h2>
+                  You are using free <br />
+                  <span>Lite version of CryptoLand.</span>
+                </h2>
+                <p style="display: block; margin-top: 10px">
+                  Please, purchase full version of the template to get all
+                  pages, features and commercial license.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-5 col-12">
+              <div class="button">
+                <a href="#" class="btn">Buy Pro Version </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Call Action Area -->
+
+    <!-- Start Footer Area -->
+    <footer class="footer section">
+      <div class="footer-top">
+        <div class="container">
+          <div class="inner-content">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-12">
+                <div class="single-footer f-about">
+                  <div class="logo">
+                    <a href="index.html">
+                      <img
+                        src="../assets/images/logo/2.png"
+                        alt="IoT Vision Logo"
+                        width="50%"
+                        height="auto"
+                      />
+                    </a>
+                  </div>
+                  <p>
+                    Innovación en tiempo real a tu alcance. Transforma datos en
+                    acción de manera eficiente y segura.
+                  </p>
+                  <!-- <h4 class="social-title">Síguenos en:</h4> -->
+                  <!-- <ul class="social"> -->
+                  <!-- Actualiza los enlaces de las redes sociales aquí -->
+                  <!-- <li> -->
+                  <!-- <a href="#"><i class="lni lni-facebook-filled"></i></a> -->
+                  <!-- </li> -->
+                  <!-- <li> -->
+                  <!-- <a href="#"><i class="lni lni-instagram"></i></a> -->
+                  <!-- </li> -->
+                  <!-- <li> -->
+                  <!-- <a href="#"><i class="lni lni-twitter-original"></i></a> -->
+                  <!-- </li> -->
+                  <!-- <li> -->
+                  <!-- <a href="#"><i class="lni lni-linkedin-original"></i></a> -->
+                  <!-- </li> -->
+                  <!-- Considera remover los iconos de redes sociales no utilizados -->
+                  <!-- </ul> -->
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-12">
+                <div class="single-footer f-link">
+                  <h3>Soluciones</h3>
+                  <ul>
+                    <li><a href="#">Monitoreo Energético</a></li>
+                    <li><a href="#">Gestión de Dispositivos</a></li>
+                    <li><a href="#">Análisis Predictivo</a></li>
+                    <li><a href="#">Automatización Inteligente</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-12">
+                <div class="single-footer f-link">
+                  <h3>Soporte</h3>
+                  <ul>
+                    <li><a href="#">Precios</a></li>
+                    <li><a href="#">Documentación</a></li>
+                    <li><a href="#">Guías de Usuario</a></li>
+                    <li><a href="#">Soporte</a></li>
+                    <!-- <li><a href="#">Estado del API</a></li> -->
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12">
+                <div class="single-footer newsletter">
+                  <h3>Suscríbete</h3>
+                  <p>
+                    Suscríbete a nuestro boletín para obtener las últimas
+                    actualizaciones en soluciones IoT e IA.
+                  </p>
+                  <form
+                    action="#"
+                    method="get"
+                    target="_blank"
+                    class="newsletter-form"
+                  >
+                    <input
+                      name="EMAIL"
+                      placeholder="Dirección de correo"
+                      required="required"
+                      type="email"
+                    />
+                    <div class="button">
+                      <button class="sub-btn">
+                        <i class="lni lni-envelope"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright-area">
+        <div class="container">
+          <div class="inner-content">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-12">
+                <p class="copyright-text">
+                  © 2023 IoTSER - Todos los Derechos Reservados
+                </p>
+              </div>
+              <div class="col-lg-6 col-md-6 col-12">
+                <!-- Asegúrate de reemplazar con tu información o la de tu empresa -->
+                <p class="copyright-owner">
+                  Diseñado y Desarrollado por
+                  <a
+                    href="https://app.iotser.com/"
+                    rel="nofollow"
+                    target="_blank"
+                    >IoTSER</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!--/ End Footer Area -->
+
+    <!-- ========================= scroll-top ========================= -->
+    <a href="#" class="scroll-top">
+      <i class="lni lni-chevron-up"></i>
+    </a>
+
+    <!-- ========================= JS here ========================= -->
   </div>
 </template>
 
-
-
-
 <script>
+import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Navbar from "@/components/Navbar/NavbarFront.vue";
-import Footer from "@/components/Layout/Footer.vue";
+import "swiper/css/swiper.css";
 const Cookie = process.client ? require("js-cookie") : undefined;
+
 export default {
   components: {
-    Navbar, // esto registra tu componente Navbar para que puedas usarlo en tu template
+    swiper,
+    swiperSlide,
+    Navbar,
   },
   middleware: "notAuthenticated",
   name: "login-page",
   layout: "authhome",
   data() {
     return {
+      isSmallScreen: false,
       user: {
         email: "",
         password: "",
@@ -168,20 +476,17 @@ export default {
       windowWidth: process.client ? window.innerWidth : 0,
     };
   },
-
   mounted() {
-    if (process.client) {
-      window.addEventListener("resize", this.updateWindowWidth);
-    }
+    this.adjustNavbar();
+    window.addEventListener("resize", this.adjustNavbar);
   },
   beforeDestroy() {
-    if (process.client) {
-      window.removeEventListener("resize", this.updateWindowWidth);
-    }
+    window.removeEventListener("resize", this.adjustNavbar);
   },
+
   methods: {
-    updateWindowWidth() {
-      this.windowWidth = window.innerWidth;
+    adjustNavbar() {
+      this.isSmallScreen = window.innerWidth < 992;
     },
     login() {
       this.$axios
@@ -244,63 +549,26 @@ export default {
 };
 </script>
 
-<style scoped>
-.flex-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+<style>
+/* Asegúrate de que las rutas de importación sean correctas */
+/* Por ejemplo, si los estilos y fuentes están en la carpeta assets/css y assets/fonts respectivamente */
+@import "../assets/css2/bootstrap.min.css";
+@import "../assets/css2/LineIcons.css";
+@import "../assets/css2/animate.css";
+@import "../assets/css2/tiny-slider.css";
+@import "../assets/css2/glightbox.min.css";
+@import "../assets/css2/main.css";
+.custom-navbar {
+  background: transparent;
+  box-shadow: none;
 }
 
-.block-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
+.custom-navbar.collapsed {
+  background: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
 }
-
-.responsive-image {
-  width: 800px;
-  height: 350px;
-}
-.navbar {
-  margin-top: 0 !important;
-}
-
-.img-small {
-  width: 50%;
-  height: auto;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.responsive-image2 {
-  width: 30%;
-}
-
-@media screen and (min-width: 800px) {
-  .responsive-image2 {
-    width: 20%;
-  }
-}
-@media screen and (max-width: 800px) {
-  .mt-small {
-    margin-top: 180px; /* Ajusta este valor al que necesites */
-  }
-  .responsive-image2 {
-    width: 60%;
-  }
+/* Opcional: Estilo para el menú desplegable en móviles */
+.navbar-toggler {
+  border-color: transparent;
 }
 </style>
+

@@ -67,7 +67,7 @@ router.get("/get-last-data", checkAuth, async (req, res) => {
         }
       }
       console.log("data");
-       console.log(data);
+      console.log(data);
       if (data.length > 0) {
         const response = {
           status: "success",
@@ -134,12 +134,13 @@ router.get("/get-small-charts-data", checkAuth, async (req, res) => {
         dId: dId,
         timestamp: { $gt: new Date(timeAgoMs) } // Se quitó el .toISOString()
       };
+      console.log("Query for widget " + nameWidget + ": ", query);
       query[nameWidget] = { $exists: true };
-
+      console.log("Query with widget field: ", query);
       const variableData = await Collection.find(query)
         .sort({ timestamp: 1 })
         .toArray();
-
+      console.log("Data found for widget " + nameWidget + ": ", variableData);
       // Si no se encontraron datos, continuar con la siguiente iteración
       if (!variableData.length) {
         console.log(`No data found for widget: ${nameWidget}`);
@@ -398,7 +399,7 @@ router.get("/get-data-between", checkAuth, async (req, res) => {
         }
       }
     ];
-    Mensual_Data.aggregate(pipeline).exec(function(err, result) {
+    Mensual_Data.aggregate(pipeline).exec(function (err, result) {
       if (err) throw err;
       console.log(result); // result es un documento con el campo promedio que contiene el promedio del campo energia_fase_1_redcompañia_mensual para los documentos que cumplen la condición
       const response = {
@@ -591,7 +592,7 @@ router.get("/get-tipo", checkAuth, async (req, res) => {
     });
 
     if (templates) {
-      console.log("Templates: ", templates);
+      //console.log("Templates: ", templates);
 
       // Encuentra el objeto con los widgets
       const templateWithWidgets = templates.find(t =>

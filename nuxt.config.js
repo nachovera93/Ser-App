@@ -11,7 +11,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/logoSER.png' },
+      { rel: 'icon', type: 'image/x-icon', href: '/assets/images/hero/logoIA-SER.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css' }
     ],
@@ -29,28 +29,28 @@ export default {
   /*
    ** Global CSS
    */
-   css: [
+  css: [
     'assets/css/demo.css',
     'assets/css/nucleo-icons.css',
     'assets/sass/black-dashboard.scss',
     'bootstrap/dist/css/bootstrap.css',  // Agrega esta línea
     'bootstrap-vue/dist/bootstrap-vue.css',
-],
+  ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/dashboard-plugin.js',
-    {src: '~/plugins/vue-image-upload.js', mode: 'client'},
+    { src: '~/plugins/vue-image-upload.js', mode: 'client' },
     '~/plugins/bootstrap-vue.js'  // Asegúrate de crear este archivo en la carpeta de plugins
-],
+  ],
   //autoimport
   components: [
     {
       path: '~/components',
-      pathPrefix:false,
-      extensions: ['vue','jsx'],
+      pathPrefix: false,
+      extensions: ['vue', 'jsx'],
     }
   ],
 
@@ -74,10 +74,10 @@ export default {
   axios: {
     baseURL: process.env.AXIOS_BASE_URL
   },
-  env:{
-   mqtt_prefix: process.env.MQTT_PREFIX,
-   mqtt_host: process.env.MQTT_HOST,
-   mqtt_port: process.env.MQTT_PORT
+  env: {
+    mqtt_prefix: process.env.MQTT_PREFIX,
+    mqtt_host: process.env.MQTT_HOST,
+    mqtt_port: process.env.MQTT_PORT
   },
 
   server: {

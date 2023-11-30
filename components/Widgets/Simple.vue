@@ -1,9 +1,10 @@
 <template>
   <div>
+    <b-form-checkbox v-model="isCheckboxChecked" size="sm"> </b-form-checkbox>
     <b-card
-      :title="config.nombre"
+      :title="config.nombre_1"
       class="card-title"
-      img-src="../../static/img/light.svg"
+      :img-src="`/img/${config.img}`"
       :bg-variant="config.class"
       img-alt="Card image"
       img-left
@@ -13,6 +14,7 @@
           v-for="(value, index) in values"
           :key="index"
           v-b-tooltip.hover="lastUpdatedTooltipText"
+          class="value-text"
         >
           <i
             v-if="value > previousValues[index]"
@@ -30,9 +32,10 @@
         </p>
       </b-card-text>
     </b-card>
-
-    <h5>{{ this.config }}</h5>
-    <h5>Tópico actual: {{ topic }}</h5>
+    <h5 v-if="isCheckboxChecked" class="title-text">
+      <!-- Clase CSS para título -->
+      Tópico actual: {{ topic }}
+    </h5>
   </div>
 </template>
 
@@ -47,6 +50,7 @@ export default {
   props: ["config"],
   data() {
     return {
+      isCheckboxChecked: false,
       receivedTime: 0,
       variables: [],
       time: Date.now(),
@@ -89,6 +93,7 @@ export default {
         previousValue: null,
       });
     }
+    console.log("Variables Simple: ", this.variables);
     this.getNow();
     this.getData();
   },
@@ -129,7 +134,7 @@ export default {
           params: {
             dId: this.config.selectedDevice.dId,
             variable: this.config.variable,
-            Widget: this.config.NameWidget,
+            NameWidget: this.config.NameWidget,
           },
         };
         const res = await this.$axios.get("/get-last-data", axiosHeaders);
@@ -173,7 +178,17 @@ export default {
 }
 
 .card-title {
-  font-size: 12px;
+  font-size: 15px;
   margin-top: 0;
+  font-weight: bold;
+}
+
+.title-text {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.value-text {
+  font-weight: bold;
 }
 </style>
