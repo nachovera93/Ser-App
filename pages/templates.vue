@@ -813,17 +813,6 @@
 
               <br />
 
-              <input type="file" @change="handleImageUpload" accept="image/*" />
-
-              <!-- Mostrar la imagen cargada si existe -->
-              <div v-if="iotSimpleConfig.loadedImageUrl">
-                <img
-                  :src="iotSimpleConfig.loadedImageUrl"
-                  alt="Imagen Cargada"
-                  style="max-width: 100%; height: auto"
-                />
-              </div>
-
               <base-input
                 v-model.number="iotSimpleConfig.variableSendFreq"
                 label="Send Freq"
@@ -833,14 +822,16 @@
               <base-input
                 v-model="iotSimpleConfig.img"
                 label="Select image"
-                type="number"
+                type="text"
               ></base-input>
 
+              <label for="Cantidad_variables">Cantidad variables</label>
               <el-select
                 v-model="iotSimpleConfig.cantidad"
                 class="select-success"
                 placeholder="Select Quantity"
                 style="width: 100%"
+                id="Cantidad_variables"
                 @change="updateMatriz"
               >
                 <el-option value="1" label="1"></el-option>
@@ -853,7 +844,7 @@
                 <el-option value="8" label="8"></el-option>
                 <el-option value="9" label="9"></el-option>
               </el-select>
-              <br /><br /><br />
+              <br />
 
               <div v-for="i in parseInt(iotSimpleConfig.cantidad)" :key="i">
                 <base-input
@@ -862,10 +853,7 @@
                   type="text"
                 >
                 </base-input>
-                <br />
               </div>
-
-              <br />
 
               <base-input
                 v-model.number="iotSimpleConfig.unit_1"
@@ -875,12 +863,13 @@
               </base-input>
 
               <br />
-
+              <label for="Tipo_variables">Tipo variables</label>
               <el-select
                 v-model="iotSimpleConfig.variable"
                 class="select-success"
                 placeholder="Select Class"
                 style="width: 100%"
+                id="Tipo_variables"
               >
                 <el-option
                   v-for="(value, key) in variables"
@@ -892,6 +881,7 @@
 
               <br />
 
+              <label for="Color_fondo">Color fondo</label>
               <el-select
                 v-if="variables[iotSimpleConfig.variable]"
                 v-model="iotSimpleConfig.subVariable"
@@ -899,6 +889,7 @@
                 placeholder="Select SubVariable"
                 multiple
                 style="width: 100%"
+                id="Color_fondo"
               >
                 <el-option
                   v-for="option in variables[iotSimpleConfig.variable].options"
@@ -907,8 +898,6 @@
                   :label="option"
                 ></el-option>
               </el-select>
-
-              <br />
 
               <el-select
                 v-model="iotSimpleConfig.class"

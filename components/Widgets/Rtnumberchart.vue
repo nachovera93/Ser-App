@@ -202,7 +202,9 @@ export default {
             "/" +
             this.config.selectedDevice.dId +
             "/" +
-            this.config.variable;
+            this.config.variable +
+            "/" +
+            this.config.NameWidget;
           this.$nuxt.$on(this.topic + "/sdata", this.procesReceivedData);
           this.chartOptions.series[0].data = [];
           this.chartOptions.xAxis.categories = [];
@@ -372,6 +374,7 @@ export default {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
           chartTimeAgo: this.config.chartTimeAgo,
+          NameWidget: this.config.NameWidget,
         },
       };
       this.$axios

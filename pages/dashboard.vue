@@ -1,5 +1,17 @@
 <template>
   <div class="row" v-if="$store.state.devices.length > 0">
+    <div class="col-4">
+      <h3>Hola Ricardo</h3>
+
+      <!-- Esto aplica el ancho de la columna -->
+      <h4>Energia acumulada de <code>hoy</code>: X KWh</h4>
+      <b-img
+        :src="`/img/Paneles_card.png`"
+        fluid
+        alt="Responsive image"
+      ></b-img>
+      <!-- <h1>{{ config.selectedImage }}</h1> -->
+    </div>
     <div
       v-for="(widget, index) in sortedWidgets"
       :key="index"
