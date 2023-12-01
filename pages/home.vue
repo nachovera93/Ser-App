@@ -291,31 +291,31 @@
     <!-- End Features Area -->
 
     <!-- Start Call Action Area -->
-    <section class="call-action">
-      <div class="container">
-        <div class="inner-content">
-          <div class="row align-items-center">
-            <div class="col-lg-6 col-md-7 col-12">
-              <div class="text">
-                <h2>
-                  You are using free <br />
-                  <span>Lite version of CryptoLand.</span>
-                </h2>
-                <p style="display: block; margin-top: 10px">
-                  Please, purchase full version of the template to get all
-                  pages, features and commercial license.
-                </p>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-5 col-12">
-              <div class="button">
-                <a href="#" class="btn">Buy Pro Version </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- <section class="call-action"> -->
+    <!-- <div class="container"> -->
+    <!-- <div class="inner-content"> -->
+    <!-- <div class="row align-items-center"> -->
+    <!-- <div class="col-lg-6 col-md-7 col-12"> -->
+    <!-- <div class="text"> -->
+    <!-- <h2> -->
+    <!-- You are using free <br /> -->
+    <!-- <span>Lite version of CryptoLand.</span> -->
+    <!-- </h2> -->
+    <!-- <p style="display: block; margin-top: 10px"> -->
+    <!-- Please, purchase full version of the template to get all -->
+    <!-- pages, features and commercial license. -->
+    <!-- </p> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="col-lg-6 col-md-5 col-12"> -->
+    <!-- <div class="button"> -->
+    <!-- <a href="#" class="btn">Buy Pro Version </a> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </section> -->
     <!-- End Call Action Area -->
 
     <!-- Start Footer Area -->
@@ -452,15 +452,15 @@
 </template>
 
 <script>
-import { swiper, swiperSlide } from "vue-awesome-swiper";
+//import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Navbar from "@/components/Navbar/NavbarFront.vue";
-import "swiper/css/swiper.css";
+//import "swiper/css/swiper.css";
 const Cookie = process.client ? require("js-cookie") : undefined;
 
 export default {
   components: {
-    swiper,
-    swiperSlide,
+    //swiper,
+    //swiperSlide,
     Navbar,
   },
   middleware: "notAuthenticated",

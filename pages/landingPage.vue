@@ -450,15 +450,15 @@
 </template>
 
 <script>
-import { swiper, swiperSlide } from "vue-awesome-swiper";
+//import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Navbar from "@/components/Navbar/NavbarFront.vue";
-import "swiper/css/swiper.css";
+//import "swiper/css/swiper.css";
 const Cookie = process.client ? require("js-cookie") : undefined;
 
 export default {
   components: {
-    swiper,
-    swiperSlide,
+    //swiper,
+    //swiperSlide,
     Navbar,
   },
   middleware: "notAuthenticated",
