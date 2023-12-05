@@ -20,8 +20,12 @@ app.use(
     extended: true
   })
 );
-app.use(cors());
+const corsOptions = {
+  origin: 'http://18.230.91.89:3000',
+  optionsSuccessStatus: 200 // necesario para navegadores antiguos
+};
 
+app.use(cors(corsOptions));
 //express routes
 app.use("/api", require("./routes/devices.js"));
 app.use("/api", require("./routes/users.js"));

@@ -17,14 +17,17 @@ import EmqxAuthRule from "../models/emqx_auth.js";
 
 //LOGIN
 router.post("/login", async (req, res) => {
+  console.log("Login request received"); // Nuevo log
   try {
     const email = req.body.email;
     const password = req.body.password;
 
+    console.log(`Attempting to find user by email: ${email}`); // Nuevo log
     var user = await User.findOne({ email: email });
 
     //if no email
     if (!user) {
+      console.log(`No user found with email: ${email}`); // Nuevo log
       const response = {
         status: "error",
         error: "Invalid Credentials"
@@ -34,12 +37,13 @@ router.post("/login", async (req, res) => {
 
     //if email and email ok
     if (bcrypt.compareSync(password, user.password)) {
+      console.log("Password matches, generating token..."); // Nuevo log
       user.set("password", undefined, { strict: false });
 
       const token = jwt.sign({ userData: user }, "securePasswordHere", {
         expiresIn: 60 * 60 * 24 * 30
       });
-      console.log(token)
+      console.log(`Token generated: ${token}`); // Nuevo log
       const response = {
         status: "success",
         token: token,
@@ -48,6 +52,7 @@ router.post("/login", async (req, res) => {
 
       return res.json(response);
     } else {
+      console.log("Password does not match"); // Nuevo log
       const response = {
         status: "error",
         error: "Invalid Credentials"
@@ -55,13 +60,15 @@ router.post("/login", async (req, res) => {
       return res.status(401).json(response);
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error during login process", error); // Nuevo log
+    return res.status(500).json({ status: "error", error: "Server Error" });
   }
 });
 
 //REGISTER
 router.post("/register", async (req, res) => {
   try {
+    console.log("Register request received"); // Nuevo log
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;

@@ -552,12 +552,12 @@ export default {
 <style>
 /* Asegúrate de que las rutas de importación sean correctas */
 /* Por ejemplo, si los estilos y fuentes están en la carpeta assets/css y assets/fonts respectivamente */
-@import "../assets/css2/bootstrap.min.css";
-@import "../assets/css2/LineIcons.css";
-@import "../assets/css2/animate.css";
-@import "../assets/css2/tiny-slider.css";
-@import "../assets/css2/glightbox.min.css";
-@import "../assets/css2/main.css";
+@import "../static/css2/bootstrap.min.css";
+@import "../static/css2/LineIcons.css";
+@import "../static/css2/animate.css";
+@import "../static/css2/tiny-slider.css";
+@import "../static/css2/glightbox.min.css";
+@import "../static/css2/main.css";
 .custom-navbar {
   background: transparent;
   box-shadow: none;
