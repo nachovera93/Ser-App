@@ -1,14 +1,14 @@
 <template>
   <div class="row">
     <!-- Asegúrate de que los elementos estén dentro de una fila -->
-    <div class="col-6">
+    <div :class="[config.column]">
       <!-- Esto aplica el ancho de la columna -->
       <b-img
         :src="`/img/${config.selectedImage}`"
         fluid
         alt="Responsive image"
       ></b-img>
-      <h1>{{ config }}</h1>
+      <!-- <h1>{{ config }}</h1> -->
     </div>
   </div>
 </template>
