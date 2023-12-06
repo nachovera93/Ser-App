@@ -1,20 +1,30 @@
 <template>
-  <card>
-    <h5>{{ config }}</h5>
-    <div slot="header">
-      <h4 class="card-title">
-        {{ config.selectedDevice.name }} - {{ config.NameWidget }}
-      </h4>
+  <div class="row">
+    <!-- Asegúrate de tener un contenedor de fila -->
+    <div :class="[config.column]">
+      <!-- Contenedor con clase col-12 -->
+      <card>
+        <div slot="header">
+          <h4 class="card-title">
+            {{ config.selectedDevice.name }} - {{ config.NameWidget }}
+          </h4>
+        </div>
+
+        <h5>{{ config }}</h5>
+        <i
+          :class="[config.icon, getIconColorClass()]"
+          style="font-size: 40px"
+        ></i>
+
+        <p v-if="value !== null && value !== false" class="status">
+          Bomba encendida
+        </p>
+        <p v-else class="status">Bomba apagada</p>
+      </card>
     </div>
-
-    <i :class="[config.icon, getIconColorClass()]" style="font-size: 40px"></i>
-
-    <p v-if="value !== null && value !== false" class="status">
-      Bomba encendida
-    </p>
-    <p v-else class="status">Bomba apagada</p>
-  </card>
+  </div>
 </template>
+
 
 <script>
 export default {
@@ -23,7 +33,7 @@ export default {
     //en data las variables del widget
     return {
       value: null,
-      topic: ""
+      topic: "",
     };
   },
   watch: {
@@ -46,8 +56,8 @@ export default {
             "/sdata";
           this.$nuxt.$on(topic, this.processReceivedData);
         }, 300);
-      }
-    }
+      },
+    },
   },
   mounted() {
     // this.$nuxt.on es un listener que se puede suscribir a un topico interno de nuxt
@@ -97,14 +107,14 @@ export default {
       console.log("update State" + value);
       const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.token
-        }
+          token: this.$store.state.auth.token,
+        },
       };
       const toSend = {
         dId: this.config.selectedDevice.dId,
         variable: this.config.variable,
         nameTemplate: this.config.selectedDevice.name,
-        status: value
+        status: value,
       };
 
       try {
@@ -121,13 +131,13 @@ export default {
         this.$notify({
           type: "danger",
           icon: "tim-icons icon-alert-circle-exc",
-          message: "Error Updating Status..."
+          message: "Error Updating Status...",
         });
         console.log(error);
         return;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

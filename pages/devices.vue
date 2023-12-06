@@ -37,7 +37,7 @@
               v-model="selectedIndexTemplate"
               placeholder="Select Template"
               class="select-primary"
-              style="width:100%"
+              style="width: 100%"
             >
               <el-option
                 v-for="(template, index) in templates"
@@ -66,75 +66,61 @@
 
     <!-- DEVICES TABLE -->
     <div class="row">
-      <card>
+      <b-card class="my-3">
         <div slot="header">
           <h4 class="card-title">Devices</h4>
         </div>
+        <b-table
+          striped
+          hover
+          :items="devices"
+          :fields="deviceFields"
+          class="my-4"
+        >
+          <!-- Index of device -->
+          <template v-slot:cell(index)="{ index }">
+            {{ index + 1 }}
+          </template>
 
-        <el-table :data="$store.state.devices">
-          <!-- imprimir el indice del device -->
-          <el-table-column label="#" min-width="50" align="center">
-            <div slot-scope="{ row, $index }">
-              {{ $index + 1 }}
-            </div>
-          </el-table-column>
+          <!-- Device Name -->
+          <template v-slot:cell(name)="{ item }">
+            {{ item.name }}
+          </template>
 
-          <el-table-column prop="name" label="Name"></el-table-column>
+          <!-- Template Name -->
+          <template v-slot:cell(templateName)="{ item }">
+            {{ item.templateName }}
+          </template>
 
-          <el-table-column prop="dId" label="Device Id"></el-table-column>
+          <template v-slot:cell(dId)="{ item }">
+            {{ item.dId }}
+          </template>
 
-          <el-table-column prop="password" label="Password"></el-table-column>
+          <!-- Password -->
+          <template v-slot:cell(password)="{ item }">
+            {{ item.password }}
+          </template>
 
-          <el-table-column prop="templateName" label="Template"></el-table-column>
+          <!-- Rule Engine Switch -->
+          <template v-slot:cell(ruleEngine)="data">
+            <base-switch
+              v-if="data.item.saverRule"
+              :value="data.item.saverRule.status"
+              @click.native="updateSaverRuleStatus(data.item)"
+              type="primary"
+              on-text="On"
+              off-text="Off"
+            ></base-switch>
+          </template>
 
-          <el-table-column label="Actions">
-            <div slot-scope="{ row, $index }">
-              <!-- El tooltip sirve para guardar todo el contenido en una celda, 
-              row trae toda el objeto y el index es el indice, se pueden imprimir {{row}} {{$index}}   -->
-             <!-- content es el cartelito que aparece -->
-              <el-tooltip                            
-                content="Saver Status Indicator"
-                style="margin-right:10px"
-              >
-                <i
-                  class="fas fa-database "
-                  :class="{
-                    'text-success': row.saverRule.status,
-                    'text-dark': !row.saverRule.status
-                  }"
-                ></i>
-              </el-tooltip>
-
-              <el-tooltip content="Database Saver">
-                <base-switch
-                  @click="updateSaverRuleStatus(row.saverRule)"
-                  :value="row.saverRule.status"
-                  type="primary"
-                  on-text="On"
-                  off-text="Off"
-                ></base-switch>
-              </el-tooltip>
-
-              <el-tooltip
-                content="Delete"
-                effect="light"
-                :open-delay="300"
-                placement="top"
-              >
-                <base-button
-                  type="danger"
-                  icon
-                  size="sm"
-                  class="btn-link"
-                  @click="deleteDevice(row)"
-                >
-                  <i class="tim-icons icon-simple-remove "></i>
-                </base-button>
-              </el-tooltip>
-            </div>
-          </el-table-column>
-        </el-table>
-      </card>
+          <!-- Delete Button -->
+          <template v-slot:cell(actions)="{ item }">
+            <b-button size="sm" variant="danger" @click="deleteDevice(item)">
+              <i class="tim-icons icon-simple-remove"></i>
+            </b-button>
+          </template>
+        </b-table>
+      </b-card>
     </div>
   </div>
 </template>
@@ -148,173 +134,204 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     [Option.name]: Option,
-    [Select.name]: Select
+    [Select.name]: Select,
   },
   data() {
     return {
+      deviceFields: [
+        { key: "index", label: "#", sortable: true },
+        { key: "name", label: "Name", sortable: true },
+        { key: "dId", label: "dId", sortable: true }, // Agregar columna de Device ID
+        { key: "password", label: "Password", sortable: true }, // Agregar columna de Password
+        { key: "templateName", label: "Template", sortable: true },
+        { key: "ruleEngine", label: "Rule Engine" },
+        { key: "actions", label: "Actions" },
+      ],
       templates: [],
+      devices: [],
       selectedIndexTemplate: null,
       newDevice: {
         name: "",
         dId: "",
         templateId: "",
-        templateName: ""
-      }
+        templateName: "",
+      },
     };
   },
   mounted() {
-    
     this.getTemplates();
+    this.getDevices();
   },
   methods: {
-    updateSaverRuleStatus(rule) {
-      
-      var ruleCopy = JSON.parse(JSON.stringify(rule));
-      ruleCopy.status = !ruleCopy.status;
-      const toSend = { 
-        rule: ruleCopy 
+    updateSaverRuleStatus(device) {
+      if (!device.saverRule) {
+        console.error("Saver rule is not defined for device", device);
+        // Notificar al usuario que la regla no existe
+        this.$notify({
+          type: "warning",
+          icon: "tim-icons icon-alert-circle-exc",
+          message: "Saver rule not defined for this device.",
+        });
+        return;
+      }
+
+      // Hacer una copia de la regla para actualizar su estado
+      var ruleCopy = JSON.parse(JSON.stringify(device.saverRule));
+      ruleCopy.status = !ruleCopy.status; // Cambiar el estado
+
+      const toSend = {
+        rule: ruleCopy,
       };
       const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.token
-        }
+          token: this.$store.state.auth.token,
+        },
       };
+
       this.$axios
         .put("/saver-rule", toSend, axiosHeaders)
-        .then(res => {
-          if (res.data.status == "success") {
+        .then((res) => {
+          if (res.data.status === "success") {
             this.$store.dispatch("getDevices");
             this.$notify({
               type: "success",
               icon: "tim-icons icon-check-2",
-              message: " Device Saver Status Updated"
+              message: "Device Saver Status Updated",
+            });
+          } else {
+            // Manejar casos donde la respuesta no es de éxito
+            this.$notify({
+              type: "warning",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Failed to update saver rule status.",
             });
           }
-          return;
         })
-        .catch(e => {
-          console.log(e);
+        .catch((error) => {
+          console.error(error);
           this.$notify({
             type: "danger",
             icon: "tim-icons icon-alert-circle-exc",
-            message: " Error updating saver rule status"
+            message: "Error updating saver rule status",
           });
-          return;
         });
     },
+
     deleteDevice(device) {
       const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.accessToken
+          token: this.$store.state.auth.accessToken,
         },
         params: {
-          dId: device.dId
-        }
+          dId: device.dId,
+        },
       };
       this.$axios
         .delete("/device", axiosHeaders)
-        .then(res => {
+        .then((res) => {
           if (res.data.status == "success") {
             this.$notify({
               type: "success",
               icon: "tim-icons icon-check-2",
-              message: device.name + " deleted!"
+              message: device.name + " deleted!",
             });
           }
           $nuxt.$emit("time-to-get-devices");
           return;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.$notify({
             type: "danger",
             icon: "tim-icons icon-alert-circle-exc",
-            message: " Error deleting " + device.name
+            message: " Error deleting " + device.name,
           });
           return;
         });
     },
     //new device
     createNewDevice() {
-      if (this.newDevice.name == "") {
+      if (this.newDevice.name === "") {
         this.$notify({
           type: "warning",
           icon: "tim-icons icon-alert-circle-exc",
-          message: " Device Name is Empty :("
+          message: "Device Name is Empty :(",
         });
         return;
       }
-      if (this.newDevice.dId == "") {
+      if (this.newDevice.dId === "") {
         this.$notify({
           type: "warning",
           icon: "tim-icons icon-alert-circle-exc",
-          message: " Device ID is Empty :("
+          message: "Device ID is Empty :(",
         });
         return;
       }
-      if (this.selectedIndexTemplate == null) {
+      if (this.selectedIndexTemplate === null) {
         this.$notify({
           type: "warning",
           icon: "tim-icons icon-alert-circle-exc",
-          message: " Template must be selected"
+          message: "Template must be selected",
         });
         return;
       }
+
       const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.token
-        }
+          token: this.$store.state.auth.token,
+        },
       };
-      //ESCRIBIMOS EL NOMBRE Y EL ID DEL TEMPLATE SELECCIONADO EN EL OBJETO newDevice
-      this.newDevice.templateId = this.templates[
-        this.selectedIndexTemplate
-      ]._id;
-      this.newDevice.templateName = this.templates[
-        this.selectedIndexTemplate
-      ].name;
+      this.newDevice.templateId =
+        this.templates[this.selectedIndexTemplate]._id;
+      this.newDevice.templateName =
+        this.templates[this.selectedIndexTemplate].name;
+
       const toSend = {
-        newDevice: this.newDevice
+        newDevice: this.newDevice,
       };
+
       this.$axios
         .post("/device", toSend, axiosHeaders)
-        .then(res => {
-          if (res.data.status == "success") {
-            this.$store.dispatch("getDevices");
-            this.newDevice.name = "";
-            this.newDevice.dId = "";
-            this.selectedIndexTemplate = null;
-            this.$notify({
-              type: "success",
-              icon: "tim-icons icon-check-2",
-              message: "Success! Device was added"
-            });
-            return;
-          }
-        })
-        .catch(e => {
+        .then((res) => {
           if (
-            e.response.data.status == "error" &&
-            e.response.data.error.errors.dId.kind == "unique"
+            res.data.status === "success" ||
+            res.data.status === "partial_success"
           ) {
+            this.getDevices(); // Actualizar la lista de dispositivos
+            this.resetNewDeviceForm(); // Limpiar el formulario
+            let message = "Device created successfully.";
+            if (res.data.status === "partial_success") {
+              message +=
+                " However, there was an issue creating the saver rule.";
+            }
+            this.$notify({
+              type: res.data.status === "success" ? "success" : "warning",
+              icon: "tim-icons icon-check-2",
+              message: message,
+            });
+          } else {
             this.$notify({
               type: "warning",
               icon: "tim-icons icon-alert-circle-exc",
               message:
-                "The device is already registered in the system. Try another device"
+                res.data.error || "Error creating device. Please try again.",
             });
-            return;
-          } else {
-            this.showNotify("danger", "Error");
-            return;
           }
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "danger",
+            icon: "tim-icons icon-alert-circle-exc",
+            message: "Error creating device. Please try again.",
+          });
         });
     },
     //Get Templates
     async getTemplates() {
       const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.token
-        }
+          token: this.$store.state.auth.token,
+        },
       };
       try {
         const res = await this.$axios.get("/template", axiosHeaders);
@@ -326,42 +343,108 @@ export default {
         this.$notify({
           type: "danger",
           icon: "tim-icons icon-alert-circle-exc",
-          message: "Error getting templates..."
+          message: "Error getting templates...",
         });
         console.log(error);
         return;
       }
     },
-    deleteDevice(device) {
-      const axiosHeader = {
+    getDevices() {
+      const axiosHeaders = {
         headers: {
-          token: this.$store.state.auth.token
+          token: this.$store.state.auth.token, // Asegúrate de usar el token correcto
         },
-        params: {
-          dId: device.dId
-        }
       };
+
       this.$axios
-        .delete("/device", axiosHeader)
-        .then(res => {
-          if (res.data.status == "success") {
+        .get("/device", axiosHeaders)
+        .then((res) => {
+          if (res.data.status === "success") {
+            // Actualiza el estado de devices con los datos recién obtenidos
+            this.devices = res.data.data.map((device) => ({
+              ...device,
+              saverRule: device.saverRule || { status: false },
+            }));
+          } else {
+            // Manejar caso en que la respuesta no sea de éxito
             this.$notify({
-              type: "success",
-              icon: "tim-icons icon-check-2",
-              message: device.name + " deleted!"
+              type: "warning",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: "Failed to fetch devices.",
             });
-            this.$store.dispatch("getDevices");
           }
         })
-        .catch(e => {
-          console.log(e);
+        .catch((error) => {
+          // Manejar errores de llamada API
+          console.error("Error fetching devices:", error);
           this.$notify({
             type: "danger",
             icon: "tim-icons icon-alert-circle-exc",
-            message: " Error deleting " + device.name
+            message: "Error fetching devices. Please try again.",
           });
         });
     },
-  }
+
+    deleteDevice(deviceToDelete) {
+      const axiosHeaders = {
+        headers: {
+          token: this.$store.state.auth.token,
+        },
+        params: {
+          dId: deviceToDelete.dId,
+        },
+      };
+
+      this.$axios
+        .delete("/device", axiosHeaders)
+        .then((res) => {
+          if (res.data.status === "success") {
+            // Eliminar el dispositivo de la lista local sin necesidad de recargar desde el servidor
+            this.devices = this.devices.filter(
+              (device) => device.dId !== deviceToDelete.dId
+            );
+
+            this.$notify({
+              type: "success",
+              icon: "tim-icons icon-check-2",
+              message: `${deviceToDelete.name} deleted!`,
+            });
+          } else {
+            // Manejar casos donde la respuesta no es de éxito
+            this.$notify({
+              type: "warning",
+              icon: "tim-icons icon-alert-circle-exc",
+              message: `Error deleting ${deviceToDelete.name}. Please try again.`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$notify({
+            type: "danger",
+            icon: "tim-icons icon-alert-circle-exc",
+            message: `Error deleting ${deviceToDelete.name}. Please try again.`,
+          });
+        });
+    },
+
+    resetNewDeviceForm() {
+      this.newDevice.name = "";
+      this.newDevice.dId = "";
+      this.selectedIndexTemplate = null;
+    },
+    handlePartialSuccess(data) {
+      this.$store.dispatch("getDevices");
+      let message = "Device created successfully.";
+      if (!data.saverRuleCreated) {
+        message += " However, there was an error creating the saver rule.";
+      }
+      this.$notify({
+        type: "warning",
+        icon: "tim-icons icon-alert-circle-exc",
+        message: message,
+      });
+    },
+  },
 };
 </script>

@@ -26,33 +26,6 @@
 
               <el-option
                 class="text-dark"
-                value="multiple_chart"
-                label="Energy Chart INPUT <-"
-              >
-              </el-option>
-
-              <el-option
-                class="text-dark"
-                value="smoothchart"
-                label="Smooth Chart INPUT <-"
-              >
-              </el-option>
-
-              <el-option
-                class="text-dark"
-                value="costcomponent"
-                label="Cost Component INPUT <-"
-              >
-              </el-option>
-              <el-option
-                class="text-dark"
-                value="indicator"
-                label="Boolean Indicator INPUT <-"
-              >
-              </el-option>
-
-              <el-option
-                class="text-dark"
                 value="switch"
                 label="Switch OUTPUT ->"
               ></el-option>
@@ -70,19 +43,7 @@
 
               <el-option
                 class="text-dark"
-                value="DataBetween"
-                label="DataBetween <-"
-              ></el-option>
-
-              <el-option
-                class="text-dark"
-                value="TableSimple"
-                label="TableSimple <-"
-              ></el-option>
-
-              <el-option
-                class="text-dark"
-                value="ImgConfig"
+                value="image"
                 label="Imagen Card <-"
               ></el-option>
             </el-select>
@@ -275,27 +236,6 @@
 
               <br />
 
-              <el-select
-                v-model="ncConfig.historical"
-                label="Historical"
-                class="select-success"
-                placeholder="Select true/false "
-                style="width: 100%"
-              >
-                <el-option value="false" label="False"></el-option>
-                <el-option value="true" label="True"></el-option>
-              </el-select>
-
-              <br />
-
-              <base-input
-                v-model="ncConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
               <base-input
                 v-model.number="ncConfig.variableSendFreq"
                 label="Send Freq"
@@ -344,7 +284,7 @@
 
               <el-select
                 v-model="ncConfig.tipo"
-                label="Animacion"
+                label="Tipo Grafico"
                 class="select-success"
                 placeholder="Select type "
                 style="width: 100%"
@@ -358,25 +298,9 @@
               </el-select>
 
               <br /><br /><br />
-
-              <el-select
-                v-model="ncConfig.animacion"
-                label="Tipo Grafico"
-                class="select-success"
-                placeholder="Select Animation Duration"
-                style="width: 100%"
-              >
-                <el-option value="0" label="0"></el-option>
-                <el-option value="500" label="500"></el-option>
-
-                <el-option value="1000" label="1000"></el-option>
-
-                <el-option value="2000" label="2000"></el-option>
-              </el-select>
-
-              <br /><br /><br />
               <el-select
                 v-model="ncConfig.column"
+                label="Ancho Widget"
                 class="select-success"
                 placeholder="Select Column Width"
                 style="width: 100%"
@@ -662,145 +586,6 @@
               </el-select>
             </div>
 
-            <!-- FORMS NUMBER CHART TYPE -->
-            <div v-if="widgetType == 'smoothchart'">
-              <base-input
-                v-model="SmoothChartConfig.NameWidget"
-                label="Var Name"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model="SmoothChartConfig.unit"
-                label="Unit"
-                type="text"
-              >
-              </base-input>
-
-              <base-input
-                v-model.number="SmoothChartConfig.decimalPlaces"
-                label="Decimal Places"
-                type="number"
-              >
-              </base-input>
-              <br />
-
-              <base-input
-                v-model="SmoothChartConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="SmoothChartConfig.variableSendFreq"
-                label="Send Freq"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <base-input
-                v-model.number="SmoothChartConfig.chartTimeAgo"
-                label="Chart Back Time (mins)"
-                type="number"
-              ></base-input>
-
-              <br />
-
-              <el-select
-                v-model="SmoothChartConfig.class"
-                class="select-success"
-                placeholder="Select Class"
-                style="width: 100%"
-              >
-                <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
-                ></el-option>
-              </el-select>
-
-              <br /><br /><br />
-
-              <el-select
-                v-model="SmoothChartConfig.column"
-                class="select-success"
-                placeholder="Select Column Width"
-                style="width: 100%"
-              >
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-6"
-                  label="col-6"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-7"
-                  label="col-7"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-8"
-                  label="col-8"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-9"
-                  label="col-9"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-10"
-                  label="col-10"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-11"
-                  label="col-11"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-12"
-                  label="col-12"
-                ></el-option>
-              </el-select>
-
-              <br /><br />
-            </div>
-
             <!-- FORM SIMPLE NUMBER TYPE -->
 
             <div v-if="widgetType == 'simple'">
@@ -819,41 +604,51 @@
                 type="number"
               ></base-input>
 
-              <base-input
-                v-model="iotSimpleConfig.img"
-                label="Select image"
-                type="text"
-              ></base-input>
-
-              <label for="Cantidad_variables">Cantidad variables</label>
+              <label for="image-select">Elegir Imagen</label>
               <el-select
-                v-model="iotSimpleConfig.cantidad"
+                v-model="iotSimpleConfig.selectedImage"
+                id="image-select"
                 class="select-success"
-                placeholder="Select Quantity"
+                placeholder="Select Image"
                 style="width: 100%"
-                id="Cantidad_variables"
-                @change="updateMatriz"
               >
-                <el-option value="1" label="1"></el-option>
-                <el-option value="2" label="2"></el-option>
-                <el-option value="3" label="3"></el-option>
-                <el-option value="4" label="4"></el-option>
-                <el-option value="5" label="5"></el-option>
-                <el-option value="6" label="6"></el-option>
-                <el-option value="7" label="7"></el-option>
-                <el-option value="8" label="8"></el-option>
-                <el-option value="9" label="9"></el-option>
+                <el-option
+                  v-for="image in imageOptions"
+                  :key="image.value"
+                  :value="image.value"
+                  :label="image.label"
+                ></el-option>
               </el-select>
+
+              <!-- <label for="Cantidad_variables">Cantidad variables</label> -->
+              <!-- <el-select -->
+              <!-- v-model="iotSimpleConfig.cantidad" -->
+              <!-- class="select-success" -->
+              <!-- placeholder="Select Quantity" -->
+              <!-- style="width: 100%" -->
+              <!-- id="Cantidad_variables" -->
+              <!-- @change="updateMatriz" -->
+              <!-- > -->
+              <!-- <el-option value="1" label="1"></el-option> -->
+              <!-- <el-option value="2" label="2"></el-option> -->
+              <!-- <el-option value="3" label="3"></el-option> -->
+              <!-- <el-option value="4" label="4"></el-option> -->
+              <!-- <el-option value="5" label="5"></el-option> -->
+              <!-- <el-option value="6" label="6"></el-option> -->
+              <!-- <el-option value="7" label="7"></el-option> -->
+              <!-- <el-option value="8" label="8"></el-option> -->
+              <!-- <el-option value="9" label="9"></el-option> -->
+              <!-- </el-select> -->
               <br />
 
-              <div v-for="i in parseInt(iotSimpleConfig.cantidad)" :key="i">
-                <base-input
-                  v-model="iotSimpleConfig['nombre_' + i]"
-                  :label="'Nombre ' + i + ' a mostrar'"
-                  type="text"
-                >
-                </base-input>
-              </div>
+              <!-- <div v-for="i in parseInt(iotSimpleConfig.cantidad)" :key="i"> -->
+              <!-- <base-input -->
+              <!-- v-model="iotSimpleConfig['nombre_' + i]" -->
+              <!-- :label="'Nombre ' + i + ' a mostrar'" -->
+              <!-- type="text" -->
+              <!-- > -->
+              <!-- </base-input> -->
+              <!-- </div> -->
 
               <base-input
                 v-model.number="iotSimpleConfig.unit_1"
@@ -863,24 +658,24 @@
               </base-input>
 
               <br />
-              <label for="Tipo_variables">Tipo variables</label>
-              <el-select
-                v-model="iotSimpleConfig.variable"
-                class="select-success"
-                placeholder="Select Class"
-                style="width: 100%"
-                id="Tipo_variables"
-              >
-                <el-option
-                  v-for="(value, key) in variables"
-                  :key="key"
-                  :value="key"
-                  :label="value.label"
-                ></el-option>
-              </el-select>
-
-              <br />
-
+              <!-- <label for="Tipo_variables">Tipo variables</label> -->
+              <!-- <el-select -->
+              <!-- v-model="iotSimpleConfig.variable" -->
+              <!-- class="select-success" -->
+              <!-- placeholder="Select Class" -->
+              <!-- style="width: 100%" -->
+              <!-- id="Tipo_variables" -->
+              <!-- > -->
+              <!-- <el-option -->
+              <!-- v-for="(value, key) in variables" -->
+              <!-- :key="key" -->
+              <!-- :value="key" -->
+              <!-- :label="value.label" -->
+              <!-- ></el-option> -->
+              <!-- </el-select> -->
+              <!--  -->
+              <!-- <br /> -->
+              <!--  -->
               <label for="Color_fondo">Color fondo</label>
               <el-select
                 v-if="variables[iotSimpleConfig.variable]"
@@ -941,7 +736,7 @@
 
             <!-- FORM SIMPLE IMG TYPE -->
 
-            <div v-if="widgetType == 'ImgConfig'">
+            <div v-if="widgetType == 'image'">
               <label for="Ancho-columna">Ancho columnas</label>
               <el-select
                 v-model="ImgConfig.column"
@@ -959,7 +754,7 @@
                 ></el-option>
               </el-select>
 
-              <br />
+              <br /><br />
               <label for="image-select">Elegir Imagen</label>
               <el-select
                 v-model="ImgConfig.selectedImage"
@@ -980,61 +775,44 @@
             <!-- FORM SWITCH TYPE -->
             <div v-if="widgetType == 'switch'">
               <base-input
+                v-model="iotSwitchConfig.variable"
+                label="Variable MQTT"
+                type="text"
+              >
+              </base-input>
+
+              <base-input
                 v-model="iotSwitchConfig.NameWidget"
-                label="Var Name"
+                label="Card Name"
                 type="text"
               >
               </base-input>
 
-              <base-input
-                v-model="iotSwitchConfig.nombre"
-                label="Nombre a mostrar"
-                type="text"
-              >
-              </base-input>
               <br />
 
-              <base-input
-                v-model="iotSwitchConfig.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
+              <label for="image-select">Elegir Imagen</label>
               <el-select
-                v-model="iotSwitchConfig.class"
+                v-model="iotSwitchConfig.selectedImage"
+                id="image-select"
                 class="select-success"
-                placeholder="Select Class"
+                placeholder="Select Image"
                 style="width: 100%"
               >
                 <el-option
-                  class="text-success"
-                  value="success"
-                  label="Success"
-                ></el-option>
-                <el-option
-                  class="text-primary"
-                  value="primary"
-                  label="Primary"
-                ></el-option>
-                <el-option
-                  class="text-warning"
-                  value="warning"
-                  label="Warning"
-                ></el-option>
-                <el-option
-                  class="text-danger"
-                  value="danger"
-                  label="Danger"
+                  v-for="image in imageOptions"
+                  :key="image.value"
+                  :value="image.value"
+                  :label="image.label"
                 ></el-option>
               </el-select>
 
-              <br /><br /><br />
+              <br /><br />
 
+              <label for="switch-image">Elegir ancho widget</label>
               <el-select
                 v-model="iotSwitchConfig.column"
                 class="select-success"
+                id="switch-image"
                 placeholder="Select Column Width"
                 style="width: 100%"
               >
@@ -1096,7 +874,7 @@
             <!-- FORM BUTTON TYPE -->
             <div v-if="widgetType == 'button'">
               <base-input
-                v-model="configButton.NameWidget"
+                v-model="configButton.variable"
                 label="Var Name"
                 type="text"
               >
@@ -1104,7 +882,7 @@
               <br />
 
               <base-input
-                v-model="configButton.nombre"
+                v-model="configButton.NameWidget"
                 label="Nombre a mostrar"
                 type="text"
               >
@@ -1113,7 +891,7 @@
 
               <base-input
                 v-model="configButton.message"
-                label="Message to send"
+                label="Mensaje Json"
                 type="text"
               >
               </base-input>
@@ -1121,23 +899,17 @@
 
               <base-input
                 v-model="configButton.text"
-                label="Button Text"
+                label="Texto Botón"
                 type="text"
               >
               </base-input>
               <br />
 
-              <base-input
-                v-model="configButton.icon"
-                label="Icon"
-                type="text"
-              ></base-input>
-
-              <br />
-
+              <label for="color-select">Color</label>
               <el-select
                 v-model="configButton.class"
                 class="select-success"
+                id="color-select"
                 placeholder="Select Class"
                 style="width: 100%"
               >
@@ -1164,28 +936,14 @@
               </el-select>
 
               <br /><br /><br />
-
+              <label for="column-select">Ancho Widget</label>
               <el-select
                 v-model="configButton.column"
                 class="select-success"
+                id="column-select"
                 placeholder="Select Column Width"
                 style="width: 100%"
               >
-                <el-option
-                  class="text-dark"
-                  value="col-3"
-                  label="col-3"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-4"
-                  label="col-4"
-                ></el-option>
-                <el-option
-                  class="text-dark"
-                  value="col-5"
-                  label="col-5"
-                ></el-option>
                 <el-option
                   class="text-dark"
                   value="col-6"
@@ -1514,23 +1272,23 @@
               v-if="widgetType == 'numberchart'"
               :config="ncConfig"
             ></Rtnumberchart>
-            <DataBetween
-              v-if="widgetType == 'DataBetween'"
-              :config="DataBetweenConfig"
-            ></DataBetween>
-            <EnergyChart
-              v-if="widgetType == 'multiple_chart'"
-              :config="MultipleChartConfig"
-            ></EnergyChart>
-            <CostComponent
-              v-if="widgetType == 'costcomponent'"
-              :config="CostComponentConfig"
-            ></CostComponent>
-
-            <SmoothChart
-              v-if="widgetType == 'smoothchart'"
-              :config="SmoothChartConfig"
-            ></SmoothChart>
+            <!-- <DataBetween -->
+            <!-- v-if="widgetType == 'DataBetween'" -->
+            <!-- :config="DataBetweenConfig" -->
+            <!-- ></DataBetween> -->
+            <!-- <EnergyChart -->
+            <!-- v-if="widgetType == 'multiple_chart'" -->
+            <!-- :config="MultipleChartConfig" -->
+            <!-- ></EnergyChart> -->
+            <!-- <CostComponent -->
+            <!-- v-if="widgetType == 'costcomponent'" -->
+            <!-- :config="CostComponentConfig" -->
+            <!-- ></CostComponent> -->
+            <!--  -->
+            <!-- <SmoothChart -->
+            <!-- v-if="widgetType == 'smoothchart'" -->
+            <!-- :config="SmoothChartConfig" -->
+            <!-- ></SmoothChart> -->
             <Iotswitch
               v-if="widgetType == 'switch'"
               :config="iotSwitchConfig"
@@ -1548,13 +1306,13 @@
               :config="iotSimpleConfig"
             ></Simple>
 
-            <SimpleTable
-              v-if="widgetType == 'TableSimple'"
-              :config="TableSimpleConfig"
-            ></SimpleTable>
+            <!-- <SimpleTable -->
+            <!-- v-if="widgetType == 'TableSimple'" -->
+            <!-- :config="TableSimpleConfig" -->
+            <!-- ></SimpleTable> -->
 
             <CardImage
-              v-if="widgetType == 'ImgConfig'"
+              v-if="widgetType == 'image'"
               :config="ImgConfig"
             ></CardImage>
           </div>
@@ -1564,32 +1322,6 @@
 
         <div class="row pull-right">
           <div class="col-12">
-            <div class="row">
-              <el-select
-                v-model="selectedTemplate"
-                class="select-success"
-                placeholder="Select Template"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="item in templates"
-                  :key="item._id"
-                  :label="item.name"
-                  :value="item"
-                  class="text-dark"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <base-button
-              native-type="submit"
-              type="primary"
-              class="mb-3"
-              size="lg"
-              @click="addNewWidgetToTemplate()"
-            >
-              Confirm Template Selection
-            </base-button>
             <base-button
               native-type="submit"
               type="primary"
@@ -1621,34 +1353,6 @@
           v-if="widget.widget == 'numberchart'"
           :config="widget"
         ></Rtnumberchart>
-        <DataBetween
-          v-if="widget.widget == 'DataBetween'"
-          :config="widget"
-        ></DataBetween>
-        <RtChartHistoric
-          v-if="widget.widget == 'charthistoric'"
-          :config="widget"
-        ></RtChartHistoric>
-        <RTDoblechart
-          v-if="widget.widget == 'doblechart'"
-          :config="widget"
-        ></RTDoblechart>
-        <EnergyChart
-          v-if="widget.widget == 'multiple_chart'"
-          :config="widget"
-        ></EnergyChart>
-        <DobleValue
-          v-if="widget.widget == 'doblevalue'"
-          :config="widget"
-        ></DobleValue>
-        <CostComponent
-          v-if="widget.widget == 'costcomponent'"
-          :config="widget"
-        ></CostComponent>
-        <SmoothChart
-          v-if="widget.widget == 'smoothchart'"
-          :config="widget"
-        ></SmoothChart>
 
         <Iotswitch
           v-if="widget.widget == 'switch'"
@@ -1665,15 +1369,12 @@
           :config="widget"
         ></Iotindicator>
 
-        <SimpleTable
-          v-if="widget.widget == 'TableSimple'"
-          :config="widget"
-        ></SimpleTable>
+        <!-- <SimpleTable -->
+        <!-- v-if="widget.widget == 'TableSimple'" -->
+        <!-- :config="widget" -->
+        <!-- ></SimpleTable> -->
 
-        <CardImage
-          v-if="widget.widget == 'ImgConfig'"
-          :config="widget"
-        ></CardImage>
+        <CardImage v-if="widget.widget == 'image'" :config="widget"></CardImage>
 
         <Simple v-if="widget.widget == 'simple'" :config="widget"> </Simple>
       </div>
@@ -1718,16 +1419,16 @@
             >
               Save Template
             </base-button>
-            <base-button
-              native-type="submit"
-              type="primary"
-              class="mb-3 pull-right"
-              size="lg"
-              @click="saveTemplateHistorical()"
-              :disabled="widgets.length == 0"
-            >
-              Save Template Historical
-            </base-button>
+            <!-- <base-button -->
+            <!-- native-type="submit" -->
+            <!-- type="primary" -->
+            <!-- class="mb-3 pull-right" -->
+            <!-- size="lg" -->
+            <!-- @click="saveTemplateHistorical()" -->
+            <!-- :disabled="widgets.length == 0" -->
+            <!-- > -->
+            <!-- Save Template Historical -->
+            <!-- </base-button> -->
           </div>
         </div>
       </card>
@@ -1735,56 +1436,30 @@
 
     <!-- TEMPLATES TABLE -->
     <div class="row">
-      <b-card>
-        <div slot="header">
-          <h4 class="card-title">Templates</h4>
-        </div>
+      <b-card header="Templates" class="my-3">
+        <b-table striped hover :items="templates" :fields="fields" class="my-4">
+          <!-- Number of widgets -->
+          <template v-slot:cell(widgets)="{ item }">
+            {{ item.widgets.length }}
+          </template>
 
-        <div class="row">
-          <el-table :data="templates">
-            <el-table-column min-width="50" label="#" align="center">
-              <div class="photo" slot-scope="{ row, $index }">
-                {{ $index + 1 }}
-              </div>
-            </el-table-column>
+          <!-- Template Name -->
+          <template v-slot:cell(name)="{ item }">
+            {{ item.name }}
+          </template>
 
-            <el-table-column prop="name" label="Name"></el-table-column>
+          <!-- Template Description -->
+          <template v-slot:cell(description)="{ item }">
+            {{ item.description }}
+          </template>
 
-            <el-table-column
-              prop="description"
-              label="Description"
-            ></el-table-column>
-
-            <el-table-column
-              prop="widgets.length"
-              label="Widgets"
-            ></el-table-column>
-
-            <el-table-column header-align="right" align="right" label="Actions">
-              <div
-                slot-scope="{ row, $index }"
-                class="text-right table-actions"
-              >
-                <el-tooltip
-                  content="Delete"
-                  effect="light"
-                  :open-delay="300"
-                  placement="top"
-                >
-                  <base-button
-                    @click="deleteTemplate(row)"
-                    type="danger"
-                    icon
-                    size="sm"
-                    class="btn-link"
-                  >
-                    <i class="tim-icons icon-simple-remove"></i>
-                  </base-button>
-                </el-tooltip>
-              </div>
-            </el-table-column>
-          </el-table>
-        </div>
+          <!-- Delete Button -->
+          <template v-slot:cell(actions)="{ item }">
+            <b-button size="sm" variant="danger" @click="deleteTemplate(item)">
+              <i class="tim-icons icon-simple-remove"></i>
+            </b-button>
+          </template>
+        </b-table>
       </b-card>
     </div>
   </div>
@@ -1804,6 +1479,12 @@ export default {
   },
   data() {
     return {
+      fields: [
+        { key: "widgets", label: "Widgets", sortable: true },
+        { key: "name", label: "Name", sortable: true },
+        { key: "description", label: "Description", sortable: true },
+        { key: "actions", label: "Actions" },
+      ],
       TableSimpleConfig: {
         variable: "",
         subVariable: [],
@@ -1880,73 +1561,73 @@ export default {
         historical: "",
       },
 
-      DataBetweenConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888",
-        },
-        NameWidget: "temperature",
-        nombre: "Voltaje",
-        variable: "varname", //variable es la var name interna
-        variableType: "input",
-        unit: "Watts",
-        class: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "DataBetween",
-        icon: "",
-        demo: true,
-        tipo: "",
-        animacion: 2000,
-      },
+      // DataBetweenConfig: {
+      //   userId: "sampleuserid",
+      //   selectedDevice: {
+      //     name: "Home",
+      //     dId: "8888",
+      //   },
+      //   NameWidget: "temperature",
+      //   nombre: "Voltaje",
+      //   variable: "varname", //variable es la var name interna
+      //   variableType: "input",
+      //   unit: "Watts",
+      //   class: "success",
+      //   column: "col-12",
+      //   decimalPlaces: 2,
+      //   widget: "DataBetween",
+      //   icon: "",
+      //   demo: true,
+      //   tipo: "",
+      //   animacion: 2000,
+      // },
 
-      MultipleChartConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888",
-        },
-        nombre_1: "Voltaje",
-        cantidad: 1,
-        NameWidget: "Voltaje",
-        variable: "varname", //variable es la var name interna
-        variableType: "input",
-        variableSendFreq: "30",
-        unit_1: "C",
-        class: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "multiple_chart",
-        icon: "",
-        chartTimeAgo: 60,
-        demo: true,
-        TipoGrafico: "",
-        animacion: 2000,
-      },
+      //   MultipleChartConfig: {
+      //     userId: "sampleuserid",
+      //     selectedDevice: {
+      //       name: "Home",
+      //       dId: "8888",
+      //     },
+      //     nombre_1: "Voltaje",
+      //     cantidad: 1,
+      //     NameWidget: "Voltaje",
+      //     variable: "varname", //variable es la var name interna
+      //     variableType: "input",
+      //     variableSendFreq: "30",
+      //     unit_1: "C",
+      //     class: "success",
+      //     column: "col-12",
+      //     decimalPlaces: 2,
+      //     widget: "multiple_chart",
+      //     icon: "",
+      //     chartTimeAgo: 60,
+      //     demo: true,
+      //     TipoGrafico: "",
+      //     animacion: 2000,
+      //   },
 
-      SmoothChartConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888",
-        },
-        nombre: "Voltaje",
-        NameWidget: "temperature",
-        variable: "varname", //variable es la var name interna
-        variableType: "input",
-        variableSendFreq: "30",
-        unit: "C",
-        unit2: "%",
-        class: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "smoothchart",
-        icon: "",
-        chartTimeAgo: 60,
-        demo: true,
-        historical: true,
-      },
+      //  SmoothChartConfig: {
+      //    userId: "sampleuserid",
+      //    selectedDevice: {
+      //      name: "Home",
+      //      dId: "8888",
+      //    },
+      //    nombre: "Voltaje",
+      //    NameWidget: "temperature",
+      //    variable: "varname", //variable es la var name interna
+      //    variableType: "input",
+      //    variableSendFreq: "30",
+      //    unit: "C",
+      //    unit2: "%",
+      //    class: "success",
+      //    column: "col-12",
+      //    decimalPlaces: 2,
+      //    widget: "smoothchart",
+      //    icon: "",
+      //    chartTimeAgo: 60,
+      //    demo: true,
+      //    historical: true,
+      //  },
 
       iotSwitchConfig: {
         userId: "userid",
@@ -1954,14 +1635,14 @@ export default {
           name: "Home",
           dId: "8888",
         },
-        nombre: "Voltaje",
-        NameWidget: "Luz",
-        variable: "varname",
+        NameWidget: "Voltaje",
+        variable: "Luz",
         variableType: "output",
         class: "danger",
         widget: "switch",
         icon: "",
         column: "col-6",
+        selectedImage: "",
         historical: false,
       },
 
@@ -1994,37 +1675,37 @@ export default {
           saverRule: false,
         },
         nombre: "Voltaje",
-        NameWidget: "Pump",
+        NameWidget: "Bomba",
         variable: "var1",
         variableType: "output",
         icon: "",
-        column: "col-4",
+        column: "col-6",
         widget: "button",
         class: "danger",
         message: "{'fanstatus': 'stop'}",
       },
 
-      CostComponentConfig: {
-        //mio
-        userId: "userid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888",
-        },
-        nombre: "Voltaje",
-        NameWidget: "temperature",
-        unit: "Watts",
-        variableType: "input",
-        variableSendFreq: "30",
-        decimalPlaces: 2,
-        class: "info",
-        widget: "simple",
-        column: "col-4",
-        textvariant: "white",
-        header: "Primary",
-        type: "Voltage_Phase_2",
-        variable: "Voltage",
-      },
+      // CostComponentConfig: {
+      // //mio
+      // userId: "userid",
+      // selectedDevice: {
+      // name: "Home",
+      // dId: "8888",
+      // },
+      // nombre: "Voltaje",
+      // NameWidget: "temperature",
+      // unit: "Watts",
+      // variableType: "input",
+      // variableSendFreq: "30",
+      // decimalPlaces: 2,
+      // class: "info",
+      // widget: "simple",
+      // column: "col-4",
+      // textvariant: "white",
+      // header: "Primary",
+      // type: "Voltage_Phase_2",
+      // variable: "Voltage",
+      // },
 
       iotSimpleConfig: {
         //mio
@@ -2061,39 +1742,42 @@ export default {
       },
       // Opciones de imágenes para seleccionar
       imageOptions: [
-        { value: "Voltaje_image.svg", label: "Imagen Voltaje" },
+        { value: "Voltaje_image.png", label: "Imagen Voltaje" },
         { value: "Corriente_image.svg", label: "Imagen Corriente" },
         { value: "Paneles_image.svg", label: "Imagen Paneles" },
-        { value: "Energia_image.svg", label: "Imagen Energia" },
+        { value: "Energia_image.png", label: "Imagen Energia" },
         { value: "Sistema_image.svg", label: "Imagen Sistema Paneles" },
+        { value: "Solenoide.png", label: "Actuador Solenoide" },
+        { value: "Valvula.png", label: "Actuador Valvula" },
+        { value: "Reles.png", label: "Actuador Relé" },
         // ... añade más opciones según las imágenes disponibles
       ],
 
-      TableSimpleConfig: {
-        userId: "sampleuserid",
-        selectedDevice: {
-          name: "Home",
-          dId: "8888",
-        },
-        nombre_1: "Voltaje",
-        cantidad: 1,
-        NameWidget: "Voltaje",
-        variable: "varname", //variable es la var name interna
-        variableType: "input",
-        variableSendFreq: "30",
-        unit_1: "C",
-        class: "success",
-        column: "col-12",
-        decimalPlaces: 2,
-        widget: "TableSimple",
-        icon: "",
-        chartTimeAgo: 60,
-        demo: true,
-        TipoGrafico: "",
-        animacion: 2000,
-        cantidad_columnas: 1,
-        Matriz: "2,2",
-      },
+      // TableSimpleConfig: {
+      // userId: "sampleuserid",
+      // selectedDevice: {
+      // name: "Home",
+      // dId: "8888",
+      // },
+      // nombre_1: "Voltaje",
+      // cantidad: 1,
+      // NameWidget: "Voltaje",
+      // variable: "varname", //variable es la var name interna
+      // variableType: "input",
+      // variableSendFreq: "30",
+      // unit_1: "C",
+      // class: "success",
+      // column: "col-12",
+      // decimalPlaces: 2,
+      // widget: "TableSimple",
+      // icon: "",
+      // chartTimeAgo: 60,
+      // demo: true,
+      // TipoGrafico: "",
+      // animacion: 2000,
+      // cantidad_columnas: 1,
+      // Matriz: "2,2",
+      // },
     };
   },
 
@@ -2373,9 +2057,10 @@ export default {
         this.widgets.push(JSON.parse(JSON.stringify(this.TableSimpleConfig)));
       }
 
-      if (this.widgetType == "ImgConfig") {
+      if (this.widgetType == "image") {
         this.ImgConfig.variable = this.makeid(10);
         this.widgets.push(JSON.parse(JSON.stringify(this.ImgConfig)));
+        console.log("ImgConfig :", this.ImgConfig);
         console.log("ImgConfig :", this.widgets);
       }
     },

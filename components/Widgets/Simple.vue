@@ -4,7 +4,7 @@
     <b-card
       :title="config.nombre_1"
       class="card-title"
-      :img-src="`/img/${config.img}`"
+      :img-src="`/img/${config.selectedImage}`"
       :bg-variant="config.class"
       img-alt="Card image"
       img-left
@@ -34,8 +34,9 @@
     </b-card>
     <h5 v-if="isCheckboxChecked" class="title-text">
       <!-- Clase CSS para título -->
-      Tópico actual: {{ topic }}
+      Tópico actual: {{ topic + "/sdata" }}
     </h5>
+    <!-- {{ config }} -->
   </div>
 </template>
 
@@ -75,9 +76,9 @@ export default {
             "/" +
             this.config.selectedDevice.dId +
             "/" +
-            this.config.variable +
-            "/" +
-            this.config.NameWidget;
+            this.config.variable;
+          //"/" +
+          //this.config.NameWidget;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
           //this.getData();
         }, 300);

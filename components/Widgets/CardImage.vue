@@ -8,7 +8,7 @@
         fluid
         alt="Responsive image"
       ></b-img>
-      <!-- <h1>{{ config.selectedImage }}</h1> -->
+      <h1>{{ config }}</h1>
     </div>
   </div>
 </template>

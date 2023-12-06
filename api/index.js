@@ -25,7 +25,7 @@ const corsOptions = {
   optionsSuccessStatus: 200 // necesario para navegadores antiguos
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 //express routes
 app.use("/api", require("./routes/devices.js"));
 app.use("/api", require("./routes/users.js"));

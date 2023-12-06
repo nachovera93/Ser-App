@@ -79,23 +79,25 @@ router.get("/device", checkAuth, async (req, res) => {
 router.post("/device", checkAuth, async (req, res) => {
   try {
     const userId = req.userData._id;
-
     var newDevice = req.body.newDevice;
 
     newDevice.userId = userId;
-
     newDevice.createdTime = Date.now();
+    newDevice.password = makeid(10); // Genera una contraseña aleatoria
 
-    newDevice.password = makeid(10);
-
-    //await createSaverRule(userId, newDevice.dId, true);
-
+    // Crea el dispositivo en la base de datos
     const device = await Device.create(newDevice);
 
+    // Intenta crear la saver rule
+    const saverRuleCreationSuccess = await createSaverRule(userId, newDevice.dId, true);
+
+    // Selecciona el dispositivo recién creado como activo
     await selectDevice(userId, newDevice.dId);
 
     const response = {
-      status: "success"
+      status: saverRuleCreationSuccess ? "success" : "partial_success",
+      device: device,
+      saverRuleCreated: saverRuleCreationSuccess
     };
 
     return res.json(response);
@@ -105,12 +107,15 @@ router.post("/device", checkAuth, async (req, res) => {
 
     const response = {
       status: "error",
-      error: error
+      error: error.message
     };
 
     return res.status(500).json(response);
   }
 });
+
+
+
 
 //DELETE DEVICE
 router.delete("/device", checkAuth, async (req, res) => {

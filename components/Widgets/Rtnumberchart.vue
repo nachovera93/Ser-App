@@ -66,7 +66,7 @@
       />
     </div>
     <!-- <h5>{{ config }}</h5> -->
-    <h5 v-if="isCheckboxChecked">{{ topic }}</h5>
+    <h5 v-if="isCheckboxChecked">{{ topic + "/sdata" }}</h5>
   </b-card>
 </template>
 

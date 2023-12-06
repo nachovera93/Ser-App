@@ -1,36 +1,62 @@
 <template>
-  <card>
-    <div slot="header">
-      <h4 class="card-title">
-        {{ config.selectedDevice.name }} - {{ config.NameWidget }}
-      </h4>
-    </div>
+  <div :class="[config.column]">
+    <b-card>
+      >
+      <b-form-checkbox v-model="isCheckboxChecked" size="sm"></b-form-checkbox>
+      <div slot="header">
+        <h4 class="card-title">
+          {{ config.NameWidget }}
+        </h4>
+      </div>
 
-    <i
-      class="fa "
-      :class="[config.icon, getIconColorClass()]"
-      style="font-size: 30px"
-    ></i>
+      <i
+        class="fa"
+        :class="[config.icon, getIconColorClass()]"
+        style="font-size: 30px"
+      ></i>
 
-    <base-button
-      @click="sendValue()"
-      :type="config.class"
-      class="mb-3 pull-right"
-      size="lg"
-      >{{ config.text }}</base-button
-    >
-    <h5>{{ config }}</h5>
-    <!-- <h5>Tópico actual: {{ topic }}</h5> -->
-  </card>
+      <base-button
+        @click="sendValue()"
+        :type="config.class"
+        class="mb-3 pull-right"
+        size="lg"
+        >{{ config.text }}</base-button
+      >
+
+      <h5 v-if="isCheckboxChecked" class="title-text">
+        Tópico actual: {{ topic + "/sdata" }}
+        <!-- {{ config }} -->
+      </h5>
+    </b-card>
+  </div>
 </template>
 
 <script>
 export default {
+  inheritAttrs: false,
   props: ["config"],
   data() {
     return {
-      sending: false
+      sending: false,
+      isCheckboxChecked: false,
     };
+  },
+  watch: {
+    config: {
+      immediate: true,
+      deep: true,
+      handler() {
+        setTimeout(() => {
+          this.topic =
+            this.config.userId +
+            "/" +
+            this.config.selectedDevice.dId +
+            "/" +
+            this.config.variable +
+            "/actdata";
+        }, 300);
+      },
+    },
   },
   mounted() {},
   methods: {
@@ -50,8 +76,8 @@ export default {
           this.config.variable +
           "/actdata",
         msg: {
-          value: this.config.message
-        }
+          value: this.config.message,
+        },
       };
 
       console.log(toSend);
@@ -75,7 +101,7 @@ export default {
       if (this.config.class == "danger") {
         return "text-danger";
       }
-    }
-  }
+    },
+  },
 };
 </script>
