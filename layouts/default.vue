@@ -24,12 +24,12 @@
           }"
         >
         </sidebar-item>
-        <!--
+
         <sidebar-item
           :link="{
             name: 'Devices',
             icon: 'tim-icons icon-light-3',
-            path: '/devices'
+            path: '/devices',
           }"
         >
         </sidebar-item>
@@ -38,7 +38,7 @@
           :link="{
             name: 'Alarms',
             icon: 'tim-icons icon-bell-55',
-            path: '/alarms'
+            path: '/alarms',
           }"
         >
         </sidebar-item>
@@ -47,10 +47,10 @@
           :link="{
             name: 'Templates',
             icon: 'tim-icons icon-atom',
-            path: '/templates'
+            path: '/templates',
           }"
         >
-        </sidebar-item> -->
+        </sidebar-item>
       </template>
     </side-bar>
 
@@ -277,15 +277,14 @@ export default {
       });
 
       this.client.on("message", (topic, message) => {
-      console.log("Message from topic " + topic + " -> ");
-      console.log(message.toString());
+        console.log("Message from topic " + topic + " -> ");
+        console.log(message.toString());
 
         try {
           const splittedTopic = topic.split("/");
           const msgType = splittedTopic[4];
           const userId = splittedTopic[0];
           const deviceId = splittedTopic[1];
-
 
           if (msgType == "sdata") {
             const variable = splittedTopic[2];
@@ -296,7 +295,7 @@ export default {
             );
             const values = valueKeys.map((key) => parsedMessage[key]);
 
-            const currentType = splittedTopic[3]
+            const currentType = splittedTopic[3];
             //const currentValue = values[0]; // Assumes first value is required
             const topicI = `${userId}/${deviceId}/${variable}/${currentType}/sdata`;
             const data = {
