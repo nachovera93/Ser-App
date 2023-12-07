@@ -28,150 +28,129 @@ const variableToCollection = {
 //{ "value":22,"value2":11,"value3":33, "save":1 }
 router.get("/get-last-data", checkAuth, async (req, res) => {
   try {
-    console.log("get-last-data");
-    console.log(req.query);
+    console.log("Start of /get-last-data endpoint");
     const userId = req.userData._id;
-    console.log(userId);
     const dId = req.query.dId;
     const variable = req.query.variable;
-    const NameWidgets = req.query.NameWidget.split(",");  // Suponiendo que los NameWidgets se pasen como una cadena separada por comas
+
+    console.log("Request data:", { userId, dId, variable });
 
     const collectionName = variableToCollection[variable];
 
+    console.log("Collection name resolved to:", collectionName);
+
     if (collectionName) {
       const Collection = mongoose.connection.collection(collectionName);
+      const query = { userId: userId, dId: dId };
+      const options = { sort: { timestamp: 1 }, limit: 1 };
 
-      let data = [];  // Variable para almacenar los datos de todas las consultas
+      console.log("Query built for MongoDB:", query);
+      console.log("Options built for MongoDB:", options);
 
-      for (const NameWidget of NameWidgets) {  // Iterar a través de todos los NameWidgets
-        let query = {
-          userId: userId,
-          dId: dId,
-        };
-        query[NameWidget] = { $exists: true };
+      const lastData = await Collection.find(query, null, options).toArray();
 
-        const variableData = await Collection.find(query)
-          .sort({ timestamp: -1 })
-          .limit(1)
-          .toArray();
+      console.log("Data retrieved from MongoDB:", lastData);
 
-        if (variableData.length > 0) {
-          data.push({  // Agregar los datos a la matriz de datos
-            variable: variable,
-            name: NameWidget,
-            value: variableData[0][NameWidget],
-            timestamp: variableData[0].timestamp
-          });
-        } else {
-          console.log(`No data found for variable: ${variable} y ${NameWidget}`);
-        }
-      }
-      console.log("data");
-      console.log(data);
-      if (data.length > 0) {
+      if (lastData.length > 0) {
         const response = {
           status: "success",
-          data: data  // Devolver todos los datos en la respuesta
+          data: {
+            variable: variable,
+            value: lastData[0].value,
+            timestamp: lastData[0].timestamp
+          }
         };
+        console.log("Data to be sent to client:", response);
         return res.json(response);
       } else {
-        const response = {
+        console.log("No data found for the provided criteria.");
+        return res.status(404).json({
           status: "error",
           error: `No data found for variable: ${variable}`
-        };
-        return res.json(response);
+        });
       }
-
     } else {
-      console.log(`No collection found for variable: ${variable}`);
-      const response = {
+      console.log("No collection found for the provided variable.");
+      return res.status(404).json({
         status: "error",
         error: `No collection found for variable: ${variable}`
-      };
-      return res.json(response);
+      });
     }
-
   } catch (error) {
-    console.log(error);
-    const response = {
+    console.error("Error caught in /get-last-data endpoint:", error);
+    return res.status(500).json({
       status: "error",
-      error: error
-    };
-    return res.json(response);
+      error: error.message
+    });
   }
 });
+
+
 
 
 
 router.get("/get-small-charts-data", checkAuth, async (req, res) => {
   try {
-    console.log("Entro get small chart data");
-    console.log(req.query)
-    const userId = req.userData._id;
-    console.log(userId);
-    const chartTimeAgo = req.query.chartTimeAgo;
+    console.log("Request received for get-small-charts-data:", req.query);
+    const userId = req.userData._id;  // Asumiendo que este es un string.
     const dId = req.query.dId;
-    const variable = req.query.variable;
-    const nameWidgets = req.query.NameWidget.split(',');
+    const chartTimeAgo = req.query.chartTimeAgo;
 
-    const timeAgoMs = Date.now() - chartTimeAgo * 60 * 1000;
+    console.log("Querying for userId:", userId, "dId:", dId, "chartTimeAgo:", chartTimeAgo);
 
-    const collectionName = variableToCollection[variable];
+    // Calcula el tiempo a partir del cual se deben recuperar los datos
+    const timeAgoDate = new Date(Date.now() - chartTimeAgo * 60 * 1000);
+    console.log("Fetching data newer than:", timeAgoDate.toISOString());
 
+    const collectionName = variableToCollection[req.query.variable];
     if (!collectionName) {
-      throw new Error(`No collection found for variable: ${variable}`);
-    }
-
-    const Collection = mongoose.connection.collection(collectionName);
-    console.log("Collection: ", collectionName);
-
-    // Variable para almacenar los datos de todas las consultas
-    let data = [];
-
-    for (const nameWidget of nameWidgets) {  // Iterar a través de todos los nameWidgets
-      let query = {
-        userId: userId,
-        dId: dId,
-        timestamp: { $gt: new Date(timeAgoMs) } // Se quitó el .toISOString()
-      };
-      console.log("Query for widget " + nameWidget + ": ", query);
-      query[nameWidget] = { $exists: true };
-      console.log("Query with widget field: ", query);
-      const variableData = await Collection.find(query)
-        .sort({ timestamp: 1 })
-        .toArray();
-      console.log("Data found for widget " + nameWidget + ": ", variableData);
-      // Si no se encontraron datos, continuar con la siguiente iteración
-      if (!variableData.length) {
-        console.log(`No data found for widget: ${nameWidget}`);
-        continue;
-      }
-
-      // Añadir los datos a la matriz de datos
-      variableData.forEach(entry => {
-        let obj = {
-          timestamp: entry.timestamp
-        };
-        obj[nameWidget] = entry[nameWidget];
-        data.push(obj);
+      console.log("No collection found for the variable:", req.query.variable);
+      return res.status(404).json({
+        status: "error",
+        error: `No collection found for variable: ${req.query.variable}`
       });
     }
 
-    console.log("data: ", data);
-    const response = {
-      status: "success",
-      data: data
+    const Collection = mongoose.connection.collection(collectionName);
+
+    // Realiza la consulta para obtener los datos
+    const query = {
+      userId: userId,  // Directamente como un string, sin conversión.
+      dId: dId,
+      timestamp: { $gte: timeAgoDate } // Utiliza $gte para obtener documentos después de este tiempo
     };
-    return res.json(response);
+    console.log("Executing query:", query);
+
+    const data = await Collection.find(query)
+      .sort({ timestamp: -1 })
+      .toArray();
+
+    console.log("Data retrieved:", data);
+
+    if (data.length) {
+      return res.json({
+        status: "success",
+        data: data
+      });
+    } else {
+      console.log("No data found for the given criteria.");
+      return res.status(404).json({
+        status: "error",
+        error: "No data found for the given criteria"
+      });
+    }
   } catch (error) {
-    console.log(error);
-    const response = {
+    console.error("Error during database query:", error);
+    return res.status(500).json({
       status: "error",
-      error: error
-    };
-    return res.json(response);
+      error: error.message
+    });
   }
 });
+
+
+
+
 
 
 

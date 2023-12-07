@@ -76,9 +76,9 @@ export default {
             "/" +
             this.config.selectedDevice.dId +
             "/" +
-            this.config.variable;
-          //"/" +
-          //this.config.NameWidget;
+            this.config.variable +
+            "/" +
+            this.config.NameWidget;
           this.$nuxt.$on(this.topic + "/sdata", this.processReceivedData);
           //this.getData();
         }, 300);

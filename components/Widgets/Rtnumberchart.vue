@@ -42,16 +42,7 @@
       </div>
 
       <h3 class="card-title">
-        <i
-          class="fa"
-          :class="[config.icon, getIconColorClass()]"
-          aria-hidden="true"
-          style="font-size: 30px"
-        ></i>
-        <span
-          >{{ Number(value).toFixed(config.decimalPlaces) }}
-          {{ config.unit }}</span
-        >
+        <span>{{ formattedValue }}</span>
       </h3>
     </template>
 
@@ -65,7 +56,7 @@
         :update="watchers"
       />
     </div>
-    <!-- <h5>{{ config }}</h5> -->
+    <h5>{{ value }}</h5>
     <h5 v-if="isCheckboxChecked">{{ topic + "/sdata" }}</h5>
   </b-card>
 </template>
@@ -217,11 +208,17 @@ export default {
       },
     },
   },
-
+  computed: {
+    formattedValue() {
+      return (
+        this.value.toFixed(this.config.decimalPlaces) + " " + this.config.unit
+      );
+    },
+  },
   mounted() {
     this.getNow();
     this.updateColorClass();
-    //this.getLastData();
+    this.getLastData();
   },
   beforeDestroy() {
     this.$nuxt.$off(this.topic + "/sdata");
@@ -268,30 +265,39 @@ export default {
         this.config.NameWidget + " " + this.config.unit;
     },
     getLastData() {
+      console.log("Starting getLastData method");
+
       const axiosHeaders = {
         headers: {
-          token: $nuxt.$store.state.auth.token,
+          token: this.$store.state.auth.token, // Asegúrate de que la ruta del token es correcta
         },
         params: {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
-          chartTimeAgo: this.config.chartTimeAgo,
         },
       };
+
+      console.log("Prepared axios headers and params:", axiosHeaders);
+
       this.$axios
         .get("/get-last-data", axiosHeaders)
         .then((res) => {
-          const data = res.data.data;
-          data.forEach((element) => {
-            this.values = element.value;
-          });
-          return;
+          console.log("Response received from /get-last-data:", res);
+
+          if (res.data && res.data.data) {
+            console.log("Data found:", res.data.data);
+            // Asumiendo que solo quieres el valor del último dato
+            this.value = res.data.data.value;
+            console.log("Updated value in component:", this.value);
+          } else {
+            console.log("No data found in response");
+          }
         })
-        .catch((e) => {
-          console.log(e);
-          return;
+        .catch((error) => {
+          console.error("Error fetching last data:", error);
         });
     },
+
     getDataBetween() {
       console.log("DATE");
       this.timestamp_init = new Date(this.timestamp_init).getTime();
@@ -368,48 +374,51 @@ export default {
 
       const axiosHeaders = {
         headers: {
-          token: $nuxt.$store.state.auth.token,
+          token: this.$store.state.auth.token, // Asegúrate de que la ruta del token es correcta.
         },
         params: {
           dId: this.config.selectedDevice.dId,
           variable: this.config.variable,
           chartTimeAgo: this.config.chartTimeAgo,
-          NameWidget: this.config.NameWidget,
         },
       };
+
       this.$axios
         .get("/get-small-charts-data", axiosHeaders)
-        .then((res) => {
-          this.chartOptions.series[0].data = [];
-          const data = res.data.data;
-          //console.log(res.data);
-          data.forEach((element) => {
-            var aux = [];
-            aux.push(
-              element.time + new Date().getTimezoneOffset() * 60 * 1000 * -1
-            );
-            aux.push(element.value);
-            this.chartOptions.series[0].data.push(aux);
-          });
-          this.isMounted = true;
-          return;
+        .then((response) => {
+          if (response.data && response.data.data) {
+            const seriesData = response.data.data.map((item) => {
+              const localTime = new Date(item.timestamp).toLocaleString();
+              return [localTime, Number(item.value)];
+            });
+
+            // Actualiza las series de Highcharts con los datos recibidos.
+            this.chartOptions.series[0].data = seriesData;
+
+            // Podrías necesitar re-renderizar el gráfico aquí si Highcharts no detecta
+            // automáticamente los cambios en las opciones del gráfico.
+            this.isMounted = true;
+          } else {
+            // Manejo del caso en que no hay datos.
+            console.log("No data available for the chart.");
+          }
         })
-        .catch((e) => {
-          console.log(e);
-          return;
+        .catch((error) => {
+          console.error("Error fetching chart data:", error);
+          // Manejo del error al obtener los datos.
         });
+
+      // Llamada para obtener el último valor y actualizarlo si es necesario.
       this.$axios
-        .get("/get-last-data", axiosHeaders)
-        .then((res) => {
-          const data = res.data.data;
-          data.forEach((element) => {
-            this.value = element.value;
-          });
-          return;
+        .get("/api/get-last-data", axiosHeaders)
+        .then((response) => {
+          if (response.data && response.data.data) {
+            // Suponiendo que solo te interesa el último valor.
+            this.value = Number(response.data.data[0].value);
+          }
         })
-        .catch((e) => {
-          console.log(e);
-          return;
+        .catch((error) => {
+          console.error("Error fetching the last data point:", error);
         });
     },
     getIconColorClass() {
