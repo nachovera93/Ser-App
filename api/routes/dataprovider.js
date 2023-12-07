@@ -42,7 +42,7 @@ router.get("/get-last-data", checkAuth, async (req, res) => {
     if (collectionName) {
       const Collection = mongoose.connection.collection(collectionName);
       const query = { userId: userId, dId: dId };
-      const options = { sort: { timestamp: 1 }, limit: 1 };
+      const options = { sort: { timestamp: -1 }, limit: 1 };
 
       console.log("Query built for MongoDB:", query);
       console.log("Options built for MongoDB:", options);
