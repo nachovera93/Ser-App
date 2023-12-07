@@ -56,7 +56,7 @@
         :update="watchers"
       />
     </div>
-    <h5>{{ value }}</h5>
+    <!-- <h5>{{ value }}</h5> -->
     <h5 v-if="isCheckboxChecked">{{ topic + "/sdata" }}</h5>
   </b-card>
 </template>
